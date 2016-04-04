@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CBA Calc</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+<script src="CalcJS.js"></script>
+<link rel="stylesheet" type="text/css" href="CalcCss.css">
+
+</head>
+
+<body ng-controller="RealEstateController" ng-app="RealEstateApp">
+
+
+    <div style='float: left' class='input'>
+
+    <fieldset>
+        <div><label for='CalcType'>Calculation Type</label></div>
+
+        <div>
+            <select id='CalcType'  name="singleSelect" ng-model="CalcType"
+                            ng-change='TypeChanged()'
+                            ng-disabled='DeterminePaymentTerms'>
+                  <option value="1">Finance Lease</option>
+                  <option value="2">Hire Purchase</option>
+                  <option value="3">Equipment Loan</option>
+                  <option value="4">Novated Finance Lease</option>
+                  <option value="5">Protected Lease</option>
+            </select>
+            <input ng-model="CalcType" type='number'/>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Details</legend>
+        
+        <div><label for='InAdvanced'>Calculation Type</label></div>
+
+        <div>
+        <select id='InAdvanced'  name="singleSelect" ng-model="InAdvanced"
+                        ng-change='ComputeFromAmountFinanced()'
+                        ng-disabled='DeterminePaymentTerms'>
+              <option value="1">In Advanced</option>
+              <option value="2">In Arears</option>
+        </select>
+        <input ng-model="InAdvanced" type='Text'/>
+        </div>
+
+        <div><label for='Frequency'>Frequency</label></div>
+        <div>
+            <select id='Frequency'  name="singleSelect" ng-model="Frequency"
+                            ng-change='FrequencyChanged()'
+                            ng-disabled='DeterminePaymentTerms'>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Quarterly">Quarterly</option>
+                  <option value="Half Yearly">Half Yearly</option>
+                  <option value="Yearly">Yearly</option>
+            </select>
+            <input ng-model="Frequency" type='Text'/>
+        </div>
+
+        <div><label for='State'>State</label></div>
+        <div>
+            <select id='State'  name="singleSelect" ng-model="State"
+                            ng-change='ComputeFromAmountFinanced()'
+                            ng-disabled='DeterminePaymentTerms'>
+                  <option value="NSW">NSW</option>
+                  <option value="QLS">QLD</option>
+                  <option value="VIC">VIC</option>
+                  <option value="SA">SA</option>
+                  <option value="TAS">TAS</option>
+                  <option value="WA">WA</option>
+                  <option value="ACT">ACT</option>
+                  <option value="NT">NT</option>
+
+            </select>
+            <input ng-model="State" type='Text'/>
+        </div>
+
+        <div><label for='InterestRatePerAnnum'>Start Date</label></div>
+        <div><input type='date' ng-model='DDateText' ng-change='ComputeFromInterestRatePerAnnum()'/></div>
+        <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromInterestRatePerAnnum()'/></div>        
+        
+
+        
+        <div><label for='AssetType'>AssetType</label></div>
+        <div>
+            <select id='AssetType'  name="singleSelect" ng-model="AssetType"
+                            ng-change='ComputeFromAmountFinanced()'
+                            ng-disabled='DeterminePaymentTerms'>
+                  <option value="Car-Luxury">Car-Luxury</option>
+                  <option value="Car-Fuel Efficient">Car-Fuel Efficient</option>
+                  <option value="All Other Assets">All Other Assets</option>
+            </select>
+            <input ng-model="AssetType" type='Text'/>
+        </div>        
+
+
+
+        <div><label for='EquipmentCost'>Equipment Cost (Inc GST_LCT)</label></div>
+        <div>
+            <input 
+            id='EquipmentCost' 
+            ng-model='EquipmentCost' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+
+        <div><label for='TradeIn'>Deposit / Trade-In</label></div>
+        <div>
+            <input 
+            id='TradeIn' 
+            ng-model='TradeIn' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+        <div><label for='MVRegoCost'>MV Rego Costs</label></div>
+        <div>
+            <input 
+            id='MVRegoCost' 
+            ng-model='MVRegoCost' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+        <div><label for='Options'>Options (incl GST)</label></div>
+        <div>
+            <input 
+            id='Options' 
+            ng-model='Options' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+        <div><label for='SupplierDelivery'>Supplier Delivery / Extras</label></div>
+        <div>
+            <input 
+            id='SupplierDelivery' 
+            ng-model='SupplierDelivery' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+        <div><label for='SupplierDiscount'>Supplier Discount</label></div>
+        <div>
+            <input 
+            id='SupplierDiscount' 
+            ng-model='SupplierDiscount' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms' type='number'/>
+        </div>
+
+        <div><label for='FeesAndChargesFinanced'>Fees & Charges Financed</label></div>
+        <div>
+            <input 
+            id='FeesAndChargesFinanced' 
+            ng-model='FeesAndChargesFinanced' 
+            ng-change='ComputeFromAmountFinanced()'
+            ng-disabled='DeterminePaymentTerms'type='number'/>
+        </div>
+
+        <div><label for='EquipmentCostExclRego'>Equip Cost excl MV Rego Cost</label></div>
+        <div>
+            <input disabled="disabled"
+            id='EquipmentCostExclRego' 
+            ng-model='EquipmentCostExclRego' 
+            ng-change='ComputeFromAmountFinanced()' type='number'
+            />
+        </div>
+
+        <div><label for='TotalEquipmentCost'>Total Equipment Cost</label></div>
+        <div>
+            <input disabled="disabled"
+            id='TotalEquipmentCost' 
+            ng-model='TotalEquipmentCost' 
+            ng-change='ComputeFromAmountFinanced()' type='number'
+            />
+        </div>
+
+        <div><label for='LessorRate'>Lessor Rate %</label></div>
+        <div>
+        <input 
+        id='LessorRate' 
+        ng-model='LessorRate' 
+        ng-change='ComputeFromAmountFinanced()' percent
+        />
+        </div>
+
+        <div><label for='TermInMonths'>Term (Months)</label></div>
+        <div>
+            <input 
+            id='TermInMonths' 
+            ng-model='TermInMonths' 
+            ng-change='ComputeFromAmountFinanced()' type='number'
+            />
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Brokerage Details</legend>
+
+        <div><label for='BrokageAmount'>Brokerage (Excl GST)</label></div>
+        <div>
+            <input 
+            id='BrokageAmount' 
+            ng-model='BrokageAmount' 
+            ng-change='ComputeFromAmountFinanced()' type='number'
+            />
+        </div>
+
+        <div><label for='BrokagePercent'>Brokerage %</label></div>
+        <div>
+            <input 
+            id='BrokagePercent' 
+            ng-model='BrokagePercent' 
+            ng-change='ComputeFromAmountFinanced()' percent
+            />
+        </div>
+
+         <div><label for='BalloonAmount'>Balloon Amount</label></div>
+        <div>
+            <input 
+            id='BalloonAmount' 
+            ng-model='BalloonAmount' 
+            ng-change='ComputeFromAmountFinanced()' type='number'
+            />
+        </div>
+
+        <div><label for='BalloonPercent'>Balloon %</label></div>
+        <div>
+            <input 
+            id='BalloonPercent' 
+            ng-model='BalloonPercent' 
+            ng-change='ComputeFromAmountFinanced()' percent
+            />
+        </div>
+
+        <div><label for='AmountFinanced'>Amount Financed</label></div>
+        <div>
+        <input 
+        id='AmountFinanced' 
+        ng-model='AmountFinanced' 
+        ng-change='ComputeFromAmountFinanced()'
+        ng-disabled='DeterminePaymentTerms'/>
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>{{CalcTypeName}} Summary</legend>
+
+
+        <div><label for='TotalAmountFinanced'>Loan Amount</label></div>
+        <div>
+        <input 
+        id='TotalAmountFinanced' 
+        ng-model='TotalAmountFinanced' 
+        
+        />
+        </div>
+
+
+        <div><label for='TotalAmountInterest'>Total Amount of Interest Payable</label></div>
+        <div>
+        <input 
+        id='TotalAmountInterest' 
+        ng-model='TotalAmountInterest' 
+    
+        />
+        </div>
+
+        <div><label for='TotalAmountRepayments'>Total Amount of Repayments </label></div>
+        <div>
+        <input 
+        id='TotalAmountRepayments' 
+        ng-model='TotalAmountRepayments' 
+        />
+        </div>
+     </fieldset>
+
+
+    <fieldset>
+        <legend>Old</legend>
+
+       
+
+        <div><label for='DownPaymentPercent'>Downpayment %</label></div>
+        <div><input 
+        id='DownpaymentPercent' ng-model='DownPaymentPercent' ng-change='ComputeFromDownPaymentPercent()' 
+        ng-disabled='DeterminePaymentTerms'
+        percent/></div>
+        
+        <div><label for='DownPayment'>Downpayment</label></div>
+        <div><input id='DownPayment' ng-model='DownPayment' ng-change='ComputeFromDownPayment()' ng-disabled='DeterminePaymentTerms' type='number'/></div>
+        
+        <div><label for='InstallmentPrincipal'>Installment Principal</label></div>
+        <div><input id='InstallmentPrincipal' ng-model='InstallmentPrincipal' ng-change='ComputeFromInstallmentPrincipal()' ng-disabled='DeterminePaymentTerms'/></div>
+    </fieldset>
+
+    <fieldset>
+
+        <legend>Payment Terms</legend>
+    
+        <div><label for='NumberOfYearsToPay'>Number of years to pay</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='NumberOfYearsToPay' ng-model='NumberOfYearsToPay' ng-change='ComputeFromYears()' type='number'/></div>
+    
+        
+        <div><label for='NumberOfMonthsToPay'>Number of months to pay</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='NumberOfMonthsToPay' ng-model='NumberOfMonthsToPay' ng-change='ComputeFromMonths()' type='number'/></div>
+        
+        <div><label for='PaymentModeInMonths'>Payment Mode(1 = Monthly, 3 = Quarterly, ..., 12 = Yearly)</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='PaymentModeInMonths' ng-model='PaymentModeInMonths' ng-change='ComputeFromPaymentModeInMonths()' type='number'/></div>
+        
+        <div><label for='InterestRatePerAnnum'>Interest Rate Per Annum</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='InterestRatePerAnnum' ng-model='InterestRatePerAnnum' ng-change='ComputeFromInterestRatePerAnnum()' percent/></div>
+        
+        
+              
+    </fieldset>
+
+    
+    <fieldset>
+        
+        <legend>Amortization</legend>
+
+
+        
+        <div><label for='AmortizationFactor'>Amortization Factor</label></div>
+        <div><b>{{AmortizationFactor}}</b></div>
+        
+        
+        <div><label for='AmortizationAmount'>Amortization Amount</label></div>
+        <div><b>{{AmortizationAmount | number:2}}</b></div>
+        
+
+        
+        <hr/>
+        <div><input type='checkbox' ng-model='DeterminePaymentTerms' ng-change='EvaluatePaymentTerms()'/>Determine Payment Terms based on your budget</div>
+        <div ng-show='DeterminePaymentTerms'>
+            <div><input ng-show='DeterminePaymentTerms' id='Budget' ng-model='Budget' ng-change='ComputeFromAmortizationAmount()'/></div>
+            <div ng-show='IsBudgetLessThanTheFirstInterest()'>Budget should be more than the first interest({{FirstInterest() | number:2}}). Significantly higher if possible, otherwise you are just wasting your money on the interest ({{InterestRatePerAnnum * 100}}%)</div>
+        </div>
+            
+        
+    </fieldset>
+    
+    
+    <fieldset><legend>Totals</legend>
+        <div style='float: left; margin-right: 5px'>Total Interest: </div>
+        <div><b>{{TotalInterest | number:2}}</b></div>
+        
+        <div style='float: left; margin-right: 5px'>Total Principal: </div>
+        <div><b>{{InstallmentPrincipal | number:2}} (aka Installment Principal)</b></div>        
+        
+        <div style='float: left; margin-right: 5px'>Total Amortization: </div>
+        <div><b>{{TotalAmortization | number:2}}</b></div>        
+
+        <div style='float: left; margin-right: 5px'>Total Amortization + Downpayment: </div>
+        <div><b>{{TotalAmortization + DownPayment | number:2}}</b></div>                        
+    </fieldset>
+    
+        
+    <fieldset>
+        <legend>Extra Payments<button ng-click="AddAdvancedPayment()">+</button></legend>
+        <div ng-repeat="adv in AdvancedPayments">
+            
+            <input ng-model="adv.MonthNumber" placeholder="Month Number" ng-change="CreateAmortizationSchedule()" type='number'>
+            <input ng-model="adv.Payment" placeholder="Payment" ng-change="CreateAmortizationSchedule()" type='number'>
+                <button ng-click="RemoveAdvancedPayment($index)">-</button>
+            
+        </div>
+    </fieldset>    
+        
+    </div>
+    
+
+    
+    <div class='amort' style='float: left'>
+    <fieldset>
+        <legend>Amortization Schedule</legend>    
+        
+        <table ng-show='Amortizations.length > 0' class='table'>
+            <thead>
+                <tr class='header'>
+                    <th>Month#</th><th>Date</th><th>Interest</th><th>Principal</th><th>Amortization</th><th>Extra Payment</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat='a in Amortizations'>
+                    <td>{{a.MonthNumber}}</td>
+                    <td style='text-align: right'>{{a.AmortizationDate | date:'MMM dd, yyyy'}}</td>
+                    <td style='text-align: right'>{{a.Interest | number:2}}</td>                    
+                    <td style='text-align: right'>{{a.Principal | number:2}}</td>
+                    <td style='text-align: right'>{{a.Amortization | number:2}}</td>                    
+                    <td style='text-align: right'>{{a.AdvancedPayment | number:2}}</td>
+                    <td style='text-align: right'>{{a.PrincipalBalance | number:2}}</td>
+                </tr>
+            </tbody>
+            <tfooter>
+                <tr>
+                    <td>Total</td><td></td>
+                    <td>{{TotalInterest | number:2}}</td>
+                    <td>{{TotalPrincipal | number:2}}</td>
+                    <td>{{TotalAmortization | number:2}}</td>
+                    <td></td>
+                </tr>
+            </tfooter>
+        </table>    
+    </fieldset>
+    </div>
+        
+</body>
+</body>
+</html>
