@@ -67,6 +67,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     //Summary 
     $scope.TotalAmountFinanced = 0;
+    $scope.TermInMonthsInstallment = 0;
 
 
     //hidden stuff from XML- Luke 
@@ -115,6 +116,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
     
     $scope.ComputeFromAmountFinanced = function() {
+        $scope.ComputeTermInMonthsInstallment();
         $scope.ComputeDetailCosts();
         $scope.ComputeAmountFinanced(); //Needs to be after ComputeDetailCosts();
         $scope.ComputeTotalAmountFinanced();
@@ -195,6 +197,17 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
 
 
+    };
+
+
+    $scope.ComputeTermInMonthsInstallment = function() {
+            
+            // Equipment Loan
+            
+            if($scope.CalcType == 3){
+                console.log('ComputeTermInMonthsInstallment $scope.CalcType :' + $scope.CalcType )
+                $scope.TermInMonthsInstallment = $scope.TermInMonths;
+            }
     };
 
     $scope.ComputeAmountFinanced = function() {
@@ -449,11 +462,23 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
                 PrincipalBalance : prevBalance});
         }
         
+
+        $scope.TotalAmountInterest = 
+            parseFloat(amort
+            .map(function(a) { return a.Interest; })
+            .reduce(function(prev,current) { return prev + current; }));
+
+            
+        $scope.TotalAmountRepayments = 
+            amort
+            .map(function(a) { return a.Amortization })
+            .reduce(function(prev,current) { return prev + current; });
         
         $scope.TotalInterest = 
             amort
             .map(function(a) { return a.Interest; })
             .reduce(function(prev,current) { return prev + current; });
+
             
         $scope.TotalPrincipal = 
             amort

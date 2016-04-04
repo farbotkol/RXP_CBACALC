@@ -1,5 +1,5 @@
 fieldset { font-size: 13px; font-family : 'Calibri'}
-div.input { width: 380px; }
+div.input { width: auto; }
 div.amort { width: auto; }
 table, th, td { font-size: 13px; font-family : 'Calibri'; }
 
@@ -15,6 +15,12 @@ fieldset {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+}
+
+label {
+    width: 200px; 
+    display:inline-block;
+
 }
 
 table.table {

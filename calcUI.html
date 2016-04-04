@@ -3,7 +3,7 @@
 <head>
 <title>CBA Calc</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 <script src="CalcJS.js"></script>
 <link rel="stylesheet" type="text/css" href="CalcCss.css">
 
@@ -15,9 +15,7 @@
     <div style='float: left' class='input'>
 
     <fieldset>
-        <div><label for='CalcType'>Calculation Type</label></div>
-
-        <div>
+        <div><label for='CalcType'>Calculation Type</label>
             <select id='CalcType'  name="singleSelect" ng-model="CalcType"
                             ng-change='TypeChanged()'
                             ng-disabled='DeterminePaymentTerms'>
@@ -34,9 +32,7 @@
     <fieldset>
         <legend>Details</legend>
         
-        <div><label for='InAdvanced'>Calculation Type</label></div>
-
-        <div>
+        <div><label for='InAdvanced'>Calculation Type</label>
         <select id='InAdvanced'  name="singleSelect" ng-model="InAdvanced"
                         ng-change='ComputeFromAmountFinanced()'
                         ng-disabled='DeterminePaymentTerms'>
@@ -46,8 +42,7 @@
         <input ng-model="InAdvanced" type='Text'/>
         </div>
 
-        <div><label for='Frequency'>Frequency</label></div>
-        <div>
+        <div><label for='Frequency'>Frequency</label>
             <select id='Frequency'  name="singleSelect" ng-model="Frequency"
                             ng-change='FrequencyChanged()'
                             ng-disabled='DeterminePaymentTerms'>
@@ -59,8 +54,7 @@
             <input ng-model="Frequency" type='Text'/>
         </div>
 
-        <div><label for='State'>State</label></div>
-        <div>
+        <div><label for='State'>State</label>
             <select id='State'  name="singleSelect" ng-model="State"
                             ng-change='ComputeFromAmountFinanced()'
                             ng-disabled='DeterminePaymentTerms'>
@@ -77,14 +71,13 @@
             <input ng-model="State" type='Text'/>
         </div>
 
-        <div><label for='InterestRatePerAnnum'>Start Date</label></div>
-        <div><input type='date' ng-model='DDateText' ng-change='ComputeFromInterestRatePerAnnum()'/></div>
+        <div><label for='InterestRatePerAnnum'>Start Date</label>
+        <input type='date' ng-model='DDateText' ng-change='ComputeFromInterestRatePerAnnum()'/></div>
         <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromInterestRatePerAnnum()'/></div>        
         
 
         
-        <div><label for='AssetType'>AssetType</label></div>
-        <div>
+        <div><label for='AssetType'>AssetType</label>
             <select id='AssetType'  name="singleSelect" ng-model="AssetType"
                             ng-change='ComputeFromAmountFinanced()'
                             ng-disabled='DeterminePaymentTerms'>
@@ -97,63 +90,62 @@
 
 
 
-        <div><label for='EquipmentCost'>Equipment Cost (Inc GST_LCT)</label></div>
-        <div>
+        <div><label for='EquipmentCost'>Equipment Cost (Inc GST_LCT)</label>
             <input 
             id='EquipmentCost' 
             ng-model='EquipmentCost' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
 
-        <div><label for='TradeIn'>Deposit / Trade-In</label></div>
-        <div>
+        <div><label for='TradeIn'>Deposit / Trade-In</label>
             <input 
             id='TradeIn' 
             ng-model='TradeIn' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
-        <div><label for='MVRegoCost'>MV Rego Costs</label></div>
-        <div>
+        <div><label for='MVRegoCost'>MV Rego Costs</label>
             <input 
             id='MVRegoCost' 
             ng-model='MVRegoCost' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
-        <div><label for='Options'>Options (incl GST)</label></div>
-        <div>
+        <div><label for='Options'>Options (incl GST)</label>
             <input 
             id='Options' 
             ng-model='Options' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
-        <div><label for='SupplierDelivery'>Supplier Delivery / Extras</label></div>
-        <div>
+        <div><label for='SupplierDelivery'>Supplier Delivery / Extras</label>
             <input 
             id='SupplierDelivery' 
             ng-model='SupplierDelivery' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
-        <div><label for='SupplierDiscount'>Supplier Discount</label></div>
-        <div>
+        <div><label for='SupplierDiscount'>Supplier Discount</label>
             <input 
             id='SupplierDiscount' 
             ng-model='SupplierDiscount' 
             ng-change='ComputeFromAmountFinanced()'
             ng-disabled='DeterminePaymentTerms' type='number'/>
+            From Tax Invoice
         </div>
 
-        <div><label for='FeesAndChargesFinanced'>Fees & Charges Financed</label></div>
-        <div>
+        <div><label for='FeesAndChargesFinanced'>Fees & Charges Financed</label>
             <input 
             id='FeesAndChargesFinanced' 
             ng-model='FeesAndChargesFinanced' 
@@ -161,8 +153,7 @@
             ng-disabled='DeterminePaymentTerms'type='number'/>
         </div>
 
-        <div><label for='EquipmentCostExclRego'>Equip Cost excl MV Rego Cost</label></div>
-        <div>
+        <div><label for='EquipmentCostExclRego'>Equip Cost excl MV Rego Cost</label>
             <input disabled="disabled"
             id='EquipmentCostExclRego' 
             ng-model='EquipmentCostExclRego' 
@@ -170,8 +161,7 @@
             />
         </div>
 
-        <div><label for='TotalEquipmentCost'>Total Equipment Cost</label></div>
-        <div>
+        <div><label for='TotalEquipmentCost'>Total Equipment Cost</label>
             <input disabled="disabled"
             id='TotalEquipmentCost' 
             ng-model='TotalEquipmentCost' 
@@ -179,8 +169,7 @@
             />
         </div>
 
-        <div><label for='LessorRate'>Lessor Rate %</label></div>
-        <div>
+        <div><label for='LessorRate'>Lessor Rate %</label>
         <input 
         id='LessorRate' 
         ng-model='LessorRate' 
@@ -188,8 +177,7 @@
         />
         </div>
 
-        <div><label for='TermInMonths'>Term (Months)</label></div>
-        <div>
+        <div><label for='TermInMonths'>Term (Months)</label>
             <input 
             id='TermInMonths' 
             ng-model='TermInMonths' 
@@ -202,8 +190,7 @@
     <fieldset>
         <legend>Brokerage Details</legend>
 
-        <div><label for='BrokageAmount'>Brokerage (Excl GST)</label></div>
-        <div>
+        <div><label for='BrokageAmount'>Brokerage (Excl GST)</label>
             <input 
             id='BrokageAmount' 
             ng-model='BrokageAmount' 
@@ -211,8 +198,7 @@
             />
         </div>
 
-        <div><label for='BrokagePercent'>Brokerage %</label></div>
-        <div>
+        <div><label for='BrokagePercent'>Brokerage %</label>
             <input 
             id='BrokagePercent' 
             ng-model='BrokagePercent' 
@@ -220,8 +206,7 @@
             />
         </div>
 
-         <div><label for='BalloonAmount'>Balloon Amount</label></div>
-        <div>
+         <div><label for='BalloonAmount'>Balloon Amount</label>
             <input 
             id='BalloonAmount' 
             ng-model='BalloonAmount' 
@@ -229,8 +214,7 @@
             />
         </div>
 
-        <div><label for='BalloonPercent'>Balloon %</label></div>
-        <div>
+        <div><label for='BalloonPercent'>Balloon %</label>
             <input 
             id='BalloonPercent' 
             ng-model='BalloonPercent' 
@@ -238,13 +222,12 @@
             />
         </div>
 
-        <div><label for='AmountFinanced'>Amount Financed</label></div>
-        <div>
-        <input 
+        <div><label for='AmountFinanced'>Amount Financed</label>
+        <input disabled="disabled"
         id='AmountFinanced' 
         ng-model='AmountFinanced' 
         ng-change='ComputeFromAmountFinanced()'
-        ng-disabled='DeterminePaymentTerms'/>
+        />
         </div>
 
     </fieldset>
@@ -253,9 +236,8 @@
         <legend>{{CalcTypeName}} Summary</legend>
 
 
-        <div><label for='TotalAmountFinanced'>Loan Amount</label></div>
-        <div>
-        <input 
+        <div><label for='TotalAmountFinanced'>Loan Amount</label>
+        <input disabled="disabled"
         id='TotalAmountFinanced' 
         ng-model='TotalAmountFinanced' 
         
@@ -263,22 +245,28 @@
         </div>
 
 
-        <div><label for='TotalAmountInterest'>Total Amount of Interest Payable</label></div>
-        <div>
-        <input 
+        <div><label for='TotalAmountInterest'>Total Amount of Interest Payable</label>
+        <input disabled="disabled"
         id='TotalAmountInterest' 
-        ng-model='TotalAmountInterest' 
-    
+        value='{{TotalAmountInterest|number:2}}'        />
+        </div>
+
+        <div><label for='TotalAmountRepayments'>Total Amount of Repayments </label>
+        <input disabled="disabled"
+        id='TotalAmountRepayments' 
+        value='{{TotalAmountRepayments|number:2}}' 
         />
         </div>
 
-        <div><label for='TotalAmountRepayments'>Total Amount of Repayments </label></div>
-        <div>
-        <input 
-        id='TotalAmountRepayments' 
-        ng-model='TotalAmountRepayments' 
+
+        <div><label for='TermInMonthsInstallment'>Term (Months)</label>
+        <input disabled="disabled"
+        id='TermInMonthsInstallment' 
+        value='{{TermInMonthsInstallment|number}}' 
         />
         </div>
+
+        <hr/>
      </fieldset>
 
 
