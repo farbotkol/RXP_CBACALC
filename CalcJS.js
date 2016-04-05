@@ -87,7 +87,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.FrequencyPerYear =  0;
     $scope.RentalPMT = 0;
     $scope.DelayedPayment = 0;
-    $scope.ResidualAmount = 0; // ASSUMING THIS WILL BE THE BALLOON AMOUNT?? 
+
 
 
     //CBACalculatorFacts salesforce config settings
@@ -127,7 +127,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     
 
 
-    $scope.InterestRatePerAnnum = 0.21;
+    $scope.LesseeRate = 0.21;
     $scope.PeriodicInterestRate = 0;
     $scope.AmortizationFactor = 0;
     $scope.AmortizationAmount = 0;
@@ -592,7 +592,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         
         $scope.DDate = new Date($scope.DDateText);
         
-        var pir = $scope.PeriodicInterestRate = $scope.InterestRatePerAnnum / (12 / $scope.FrequencyPerPeriod);
+        var pir = $scope.PeriodicInterestRate = $scope.LesseeRate / (12 / $scope.FrequencyPerPeriod);
         
         
         if ($scope.FrequencyPerPeriod == 0) {
@@ -612,7 +612,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         }
     
         if ($scope.NumberInstallments  > 0) {
-            if ($scope.InterestRatePerAnnum > 0) {
+            if ($scope.LesseeRate > 0) {
                 $scope.AmortizationFactor = pir / (1 - (1 / Math.pow( 1 + pir, compoundTerms ) ) ); 
             }
             // 0% interest
@@ -641,7 +641,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     };
     
     
-    $scope.ComputeFromInterestRatePerAnnum = function() {
+    $scope.ComputeFromLesseeRate = function() {
         $scope.ComputeAmortizationFactor();
     };
     

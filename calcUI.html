@@ -71,9 +71,9 @@
             <input ng-model="State" type='Text'/>
         </div>
 
-        <div><label for='InterestRatePerAnnum'>Start Date</label>
-        <input type='date' ng-model='DDateText' ng-change='ComputeFromInterestRatePerAnnum()'/></div>
-        <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromInterestRatePerAnnum()'/></div>        
+        <div><label for='LesseeRate'>Start Date</label>
+        <input type='date' ng-model='DDateText' ng-change='ComputeFromLesseeRate()'/></div>
+        <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromLesseeRate()'/></div>        
         
 
         
@@ -340,7 +340,7 @@
 
      </fieldset>
 
-
+     <!--
     <fieldset>
         <legend>Old</legend>
 
@@ -375,8 +375,8 @@
         <div><label for='FrequencyPerPeriod'>Payment Mode(1 = Monthly, 3 = Quarterly, ..., 12 = Yearly)</label></div>
         <div><input ng-disabled='DeterminePaymentTerms' id='FrequencyPerPeriod' ng-model='FrequencyPerPeriod' ng-change='ComputeFromFrequencyPerPeriod()' type='number'/></div>
         
-        <div><label for='InterestRatePerAnnum'>Interest Rate Per Annum</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='InterestRatePerAnnum' ng-model='InterestRatePerAnnum' ng-change='ComputeFromInterestRatePerAnnum()' percent/></div>
+        <div><label for='LesseeRate'>Interest Rate Per Annum</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='LesseeRate' ng-model='LesseeRate' ng-change='ComputeFromLesseeRate()' percent/></div>
         
         
               
@@ -402,7 +402,7 @@
         <div><input type='checkbox' ng-model='DeterminePaymentTerms' ng-change='EvaluatePaymentTerms()'/>Determine Payment Terms based on your budget</div>
         <div ng-show='DeterminePaymentTerms'>
             <div><input ng-show='DeterminePaymentTerms' id='Budget' ng-model='Budget' ng-change='ComputeFromAmortizationAmount()'/></div>
-            <div ng-show='IsBudgetLessThanTheFirstInterest()'>Budget should be more than the first interest({{FirstInterest() | number:2}}). Significantly higher if possible, otherwise you are just wasting your money on the interest ({{InterestRatePerAnnum * 100}}%)</div>
+            <div ng-show='IsBudgetLessThanTheFirstInterest()'>Budget should be more than the first interest({{FirstInterest() | number:2}}). Significantly higher if possible, otherwise you are just wasting your money on the interest ({{LesseeRate * 100}}%)</div>
         </div>
             
         
@@ -422,7 +422,7 @@
         <div style='float: left; margin-right: 5px'>Total Amortization + Downpayment: </div>
         <div><b>{{TotalAmortization + DownPayment | number:2}}</b></div>                        
     </fieldset>
-    
+    -->
         
     <fieldset>
         <legend>Extra Payments<button ng-click="AddAdvancedPayment()">+</button></legend>
