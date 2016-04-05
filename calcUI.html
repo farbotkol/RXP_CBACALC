@@ -32,14 +32,14 @@
     <fieldset>
         <legend>Details</legend>
         
-        <div><label for='InAdvanced'>Calculation Type</label>
+        <div><label for='InAdvanced'>In Arrears or In Advance</label>
         <select id='InAdvanced'  name="singleSelect" ng-model="InAdvanced"
                         ng-change='ComputeFromAmountFinanced()'
                         ng-disabled='DeterminePaymentTerms'>
-              <option value="1">In Advanced</option>
-              <option value="0">In Arears</option>
+              <option value="true">In Advanced</option>
+              <option value="false">In Arears</option>
         </select>
-        <input ng-model="InAdvanced" type='Text'/>
+        <input ng-model="InAdvanced"/>
         </div>
 
         <div><label for='Frequency'>Frequency</label>
@@ -194,7 +194,7 @@
             <input 
             id='BrokageAmount' 
             ng-model='BrokageAmount' 
-            ng-change='ComputeFromAmountFinanced()' type='number'
+            ng-change='CalculateBrokagePercent()' type='number'
             />
         </div>
 
@@ -202,7 +202,7 @@
             <input 
             id='BrokagePercent' 
             ng-model='BrokagePercent' 
-            ng-change='ComputeFromAmountFinanced()' percent
+            ng-change='CalculateBrokageAmount()' percent
             />
         </div>
 

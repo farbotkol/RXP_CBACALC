@@ -41,7 +41,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.CalcType = 3;
     
     //Details 
-    $scope.InAdvanced = 1;
+    $scope.InAdvanced = 'false';
     $scope.Frequency = 'Monthly';
     $scope.DDate = new Date('Feb 28, 2013');
     $scope.DDateText = $scope.DDate.yyyymmdd();
@@ -157,6 +157,8 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.ComputeRentalPMT();
         $scope.ComputeLesseeRate();
 
+        
+
         $scope.ComputeMorgageDuty (); // must be after the amount is calculated
         
 
@@ -166,10 +168,17 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     }
 
+    /*$scope.InAdvanceChanged = function() {
+        $scope.InAdvanced =  Boolean($scope.InAdvanced);
+
+        $scope.ComputeFromAmountFinanced();
+    }*/
+
      $scope.TypeChanged = function() {
         
 
         $scope.CalcType =  parseInt($scope.CalcType);
+
 
         switch ($scope.CalcType) {
           case 1:
@@ -193,6 +202,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         }
 
          $scope.ComputeFromAmountFinanced();
+
+         $scope.CalculateBrokagePercent();
+         $scope.CalculateResidualPercent();
     }
 
     $scope.CarGST = function() {
@@ -372,6 +384,36 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     };
 
+    $scope.CalculateBrokagePercent = function() {
+        if ($scope.AmountFinanced < 0.005)
+        {
+            return 0;
+        }
+        if ($scope.CalcType == 2)
+        {
+            $scope.BrokagePercent = Math.round($scope.BrokageAmount * 10000 / $scope.AmountFinancedHirePurchaseEquipmentLoan()) / 10000;
+        }
+        else
+        {
+            $scope.BrokagePercent = Math.round($scope.BrokageAmount * 10000 / $scope.AmountFinanced) / 10000;
+        }
+        $scope.ComputeFromAmountFinanced();
+    }
+
+    $scope.CalculateBrokageAmount = function() {
+        if (this.CalcType == 2)
+        {
+            $scope.BrokageAmount = $scope.BrokagePercent * $scope.AmountFinancedHirePurchaseEquipmentLoan() * 10000 / 10000;
+        }
+        else
+        {
+            $scope.BrokageAmount = $scope.BrokagePercent * $scope.AmountFinanced * 10000 / 10000;
+        }
+
+        $scope.ComputeFromAmountFinanced();
+        
+    }
+
     $scope.CalculateResidualPercent = function() {
         var _loc_1;
         if ($scope.CalcType == 1 || $scope.CalcType == 4)
@@ -459,7 +501,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             {
                 
                 _loc_9 = (_loc_10 + _loc_11) / 2;
-                _loc_12 = $scope.ComputePMT((Math.pow(1 + _loc_9, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, $scope.AmountFinanced * -1, $scope.ResidualAmount, $scope.InAdvanced);
+                _loc_12 = $scope.ComputePMT((Math.pow(1 + _loc_9, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, $scope.AmountFinanced * -1, $scope.ResidualAmount, JSON.parse($scope.InAdvanced));
                 _loc_14 = _loc_12 - $scope.RentalPMT;
                 if (_loc_14 < $scope.thresholdDistance && _loc_14 > -$scope.thresholdDistance)
                 {
@@ -480,7 +522,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     };
 
     $scope.ComputeRentalPMT = function() {
-        $scope.RentalPMT = $scope.ComputePMT((Math.pow(1 + $scope.LessorRate / 12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -($scope.AmountFinanced + $scope.BrokageAmount), $scope.ResidualAmount, $scope.InAdvanced);
+        $scope.RentalPMT = $scope.ComputePMT((Math.pow(1 + $scope.LessorRate / 12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -($scope.AmountFinanced + $scope.BrokageAmount), $scope.ResidualAmount, JSON.parse($scope.InAdvanced));
     }
 
     $scope.ComputePMT = function(param1, TermInMonths, FrequencyPerPeriod, DelayedPayment, AmountFinanced, ResidualAmount, InAdvanced) {
