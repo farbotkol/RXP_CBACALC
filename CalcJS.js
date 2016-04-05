@@ -2,9 +2,9 @@ var myApp = angular.module('RealEstateApp', []);
 
 Date.prototype.yyyymmdd = function() {         
     
-    var yyyy = this.getFullYear().toString();                                    
-    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
-    var dd  = this.getDate().toString();             
+    var yyyy = $scope.getFullYear().toString();                                    
+    var mm = ($scope.getMonth()+1).toString(); // getMonth() is zero-based         
+    var dd  = $scope.getDate().toString();             
     
     return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
 };  
@@ -211,7 +211,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         if ($scope.EquipmentCostExclRego < $scope.LCTLimit()){
             return $scope.EquipmentCostExclRego / $scope.GSTreciprocal;
         }
-        //added as a fix, this is not from original code
+        //added as a fix, $scope is not from original code
         /*if ( $scope.AssetType == "All Other Assets"){
             return $scope.EquipmentCostExclRego / $scope.GSTreciprocal;
         }*/
@@ -283,11 +283,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.BalloonAmount = function(){
-        if (this.CalcType == 1 || this.CalcType == 4)
+        if ($scope.CalcType == 1 || $scope.CalcType == 4)
         {
-            return this.ResidualAmount + this.GSTOnResidual;
+            return $scope.ResidualAmount + $scope.GSTOnResidual;
         }
-        return this.ResidualAmount;
+        return $scope.ResidualAmount;
     }
 
 
@@ -369,7 +369,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         {
             $scope.MortgageDuty = (Math.ceil($scope.AmountFinanced / MortgageDutyCeilFactor) * MortgageDutyCeilFactor - MortgageDutyLimit) / 100 * MortgageDutyRate + MortgageDutyBase;
         }
-        //return (Math.ceil(this.AmountFinanced / 1000) * 1000 - 16000) / 100 * .4 + 5;
+        //return (Math.ceil($scope.AmountFinanced / 1000) * 1000 - 16000) / 100 * .4 + 5;
     }
 
     $scope.ComputeDetailCosts = function() {
@@ -401,7 +401,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.CalculateBrokageAmount = function() {
-        if (this.CalcType == 2)
+        if ($scope.CalcType == 2)
         {
             $scope.BrokageAmount = $scope.BrokagePercent * $scope.AmountFinancedHirePurchaseEquipmentLoan() * 10000 / 10000;
         }
@@ -556,6 +556,56 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
                 // Not the formular
                 $scope.AmountFinanced = $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.TradeIn;
             }
+
+
+            /*var AmtFinHireEqupLoanPlusBrokageAmount;
+            var LessorRateDiv12;
+            var NumberInstallments;
+            var BalloonAmount;
+            var BalloonPercent;
+            if ($scope._CalcType == 1 || $scope.CalcType == 4)
+            {
+                $scope.AmountFinanced = Math.round($scope.AssetFinancedLease * 10000) / 10000;
+                return;
+            }
+            if ($scope._CalcType == 2)
+            {
+                if ($scope.AmountFinancedHirePurchaseEquipmentLoan < 0.005)
+                {
+                    $scope.AmountFinanced =  0;
+                    return;
+                }
+                AmtFinHireEqupLoanPlusBrokageAmount = $scope.AmountFinancedHirePurchaseEquipmentLoan + $scope.BrokageAmount;
+                LessorRateDiv12 = $scope.LessorRate / 12;
+                NumberInstallments = $scope.NumberInstallments;
+                BalloonAmount = $scope.BalloonAmount;
+                BalloonPercent = $scope.BalloonPercent;
+                $scope._compoundGSTonCreditCharges = 0;
+                $scope._$scopeRepayment = GetPMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -AmtFinHireEqupLoanPlusBrokageAmount, $scope.ResidualAmount, $scope.InAdvanced);
+                $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
+                $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
+                $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1 + $scope.BrokageAmount * 0.1;
+                $scope._compoundGSTonCreditCharges = $scope._GSTonCreditCharges;
+                while ($scope._GSTonCreditCharges > 0.01)
+                {
+                    
+                    AmtFinHireEqupLoanPlusBrokageAmount = $scope._GSTonCreditCharges;
+                    BalloonAmount = 0;
+                    $scope._$scopeRepayment = GetPMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, - AmtFinHireEqupLoanPlusBrokageAmount, BalloonAmount, $scope.InAdvanced);
+                    $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
+                    $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
+                    $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1;
+                    $scope._compoundGSTonCreditCharges = $scope._compoundGSTonCreditCharges + $scope._GSTonCreditCharges;
+                }
+                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan * 100) / 100 + $scope._compoundGSTonCreditCharges;
+                return;
+            }
+            else
+            {
+                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan * 100) / 100;
+                return;
+
+            }*/
     };
 
     $scope.ComputeTotalAmountFinanced = function() {
@@ -663,7 +713,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             }
         }
         else {
-            // nothing, this is handled by compoundTerms == 0
+            // nothing, $scope is handled by compoundTerms == 0
         }
         
         $scope.AmortizationFactor = $scope.round( $scope.AmortizationFactor, 10);
