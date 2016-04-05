@@ -37,7 +37,7 @@
                         ng-change='ComputeFromAmountFinanced()'
                         ng-disabled='DeterminePaymentTerms'>
               <option value="1">In Advanced</option>
-              <option value="2">In Arears</option>
+              <option value="0">In Arears</option>
         </select>
         <input ng-model="InAdvanced" type='Text'/>
         </div>
@@ -209,16 +209,16 @@
          <div><label for='BalloonAmount'>Balloon Amount</label>
             <input 
             id='BalloonAmount' 
-            ng-model='BalloonAmount' 
-            ng-change='ComputeFromAmountFinanced()' type='number'
+            ng-model='ResidualAmount' 
+            ng-change='CalculateResidualPercent()' type='number'
             />
         </div>
 
         <div><label for='BalloonPercent'>Balloon %</label>
             <input 
             id='BalloonPercent' 
-            ng-model='BalloonPercent' 
-            ng-change='ComputeFromAmountFinanced()' percent
+            ng-model='ResidualPercent' 
+            ng-change='CalculateResidualAmount()' percent
             />
         </div>
 
@@ -267,13 +267,86 @@
         </div>
 
         <hr/>
+
+         <div><label for='TotalInstallment'>Installment Amount</label>
+        <input disabled="disabled"
+        id='TotalInstallment' 
+        value='{{TotalInstallment|number}}' 
+        />
+
+        <div><label for='NumberInstallments'>Number of Installments</label>
+        <input disabled="disabled"
+        id='NumberInstallments' 
+        value='{{NumberInstallments|number}}' 
+        />
+        </div>
+
+
+        <div><label for='Frequency'>Frequency</label>
+        <input disabled="disabled"
+        id='Frequency' 
+        value='{{Frequency}}' 
+        />
+        </div>
+
+        <div><label for='BalloonRepayment'>Balloon Repayment</label>
+        <input disabled="disabled"
+        id='BalloonRepayment' 
+        value='{{BalloonAmount()|number}}' 
+        />
+        </div>
+
+
+        <div><label for='MortgageDuty'>Mortgage Duty</label>
+        <input disabled="disabled"
+        id='MortgageDuty' 
+        value='{{MortgageDuty|number}}' 
+        />
+        </div>
+
+        <hr/>
+
+        <div><label for='LesseeRate'>Lessee Rate</label>
+        <input disabled="disabled"
+        id='LesseeRate' 
+        ng-model='LesseeRate' 
+        percent
+        />
+        </div>
+
+        <div><label for='LessorRate2'>Lessor Rate</label>
+        <input disabled="disabled"
+        id='LessorRate2' 
+        ng-model='LessorRate' 
+        percent
+        />
+        </div>
+
+
+        <div><label for='GST'>GST</label>
+        <input disabled="disabled"
+        id='GST' 
+        value='{{GST()}}' 
+        
+        />
+        </div>
+
+        <div><label for='LCT'>LCT</label>
+        <input disabled="disabled"
+        id='LCT' 
+        value='{{LCT()}}' 
+        />
+        </div>
+
      </fieldset>
 
 
     <fieldset>
         <legend>Old</legend>
 
-       
+       RentalPMT = {{RentalPMT}} <br/>
+       CarGST = {{CarGST()}}<br/>
+       GST =  {{GST()}}
 
         <div><label for='DownPaymentPercent'>Downpayment %</label></div>
         <div><input 
@@ -296,11 +369,11 @@
         <div><input ng-disabled='DeterminePaymentTerms' id='NumberOfYearsToPay' ng-model='NumberOfYearsToPay' ng-change='ComputeFromYears()' type='number'/></div>
     
         
-        <div><label for='NumberOfMonthsToPay'>Number of months to pay</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='NumberOfMonthsToPay' ng-model='NumberOfMonthsToPay' ng-change='ComputeFromMonths()' type='number'/></div>
+        <div><label for='NumberInstallments '>Number of months to pay</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='NumberInstallments ' ng-model='NumberInstallments ' ng-change='ComputeFromMonths()' type='number'/></div>
         
-        <div><label for='PaymentModeInMonths'>Payment Mode(1 = Monthly, 3 = Quarterly, ..., 12 = Yearly)</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='PaymentModeInMonths' ng-model='PaymentModeInMonths' ng-change='ComputeFromPaymentModeInMonths()' type='number'/></div>
+        <div><label for='FrequencyPerPeriod'>Payment Mode(1 = Monthly, 3 = Quarterly, ..., 12 = Yearly)</label></div>
+        <div><input ng-disabled='DeterminePaymentTerms' id='FrequencyPerPeriod' ng-model='FrequencyPerPeriod' ng-change='ComputeFromFrequencyPerPeriod()' type='number'/></div>
         
         <div><label for='InterestRatePerAnnum'>Interest Rate Per Annum</label></div>
         <div><input ng-disabled='DeterminePaymentTerms' id='InterestRatePerAnnum' ng-model='InterestRatePerAnnum' ng-change='ComputeFromInterestRatePerAnnum()' percent/></div>
