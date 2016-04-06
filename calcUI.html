@@ -320,7 +320,59 @@
                 ng-model='FeesAndChargesFinanced' 
                 />
             </div>
-        </div>  
+
+            <div  >
+                <label for='TaxOnTheContract'>Tax on the Contract</label>
+                <input disabled="disabled"
+                id='TaxOnTheContract' 
+                value='{{TotalGST()}}' 
+                />
+            </div>
+
+            <div  >
+                <label for='InputTaxCridit'>Input Tax Cridit on purchase</label>
+                <input disabled="disabled"
+                id='InputTaxCridit' 
+                value='{{GST()}}' 
+                />
+            </div>
+
+            <div  >
+                <label for='Deposit'>Deposit (if applicable)</label>
+                <input disabled="disabled"
+                id='Deposit' 
+                value='{{TradeIn}}' 
+                />
+            </div>
+
+            <hr/>
+
+            <div>
+                <label for='TotalAmountInterest'>Total Amount of Interest (Payable under the contract)</label>
+                <input disabled="disabled"
+                id='TotalAmountInterest' 
+                value='{{TotalAmountInterest|number:2}}'        />
+            </div>
+
+            <div>
+                <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
+                <input disabled="disabled"
+                id='TotalAmountRepayments' 
+                value='{{TotalAmountRepayments|number:2}}' 
+                />
+            </div>
+
+
+            <div>
+                <label for='TermInMonthsInstallment'>Term (Months)</label>
+                <input disabled="disabled"
+                id='TermInMonthsInstallment' 
+                value='{{TermInMonthsInstallment|number}}' 
+                />
+            </div>
+
+        </div>      
+
 
         <div ng-show='!showAmountFinancedForHP' >
             <div ng-show='showTotalAmountFinanced'><label for='TotalAmountFinanced'>Loan Amount</label>

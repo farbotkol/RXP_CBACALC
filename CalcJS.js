@@ -246,7 +246,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showPayable = false;
             $scope.showHirePurchaseSummaryPart2 = false;
             $scope.showFinanceLeaseSummaryPart2 = false;
-            $scope.showITC = false;
+            $scope.showITC = true;
             $scope.showDelayedPayment = false;
             $scope.showAmountFinancedForHP = true;
             $scope.showPurchasePriceOfgoods = true;
@@ -323,6 +323,14 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
          $scope.CalculateBrokagePercent();
          $scope.CalculateResidualPercent();
+    }
+
+    $scope.TotalGST = function() {
+        if ($scope.CalcType == 2)
+        {
+            return $scope.GST() + $scope._compoundGSTonCreditCharges;
+        }
+        return $scope.GST();
     }
 
     $scope.CarGST = function() {
