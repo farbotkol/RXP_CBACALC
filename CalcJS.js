@@ -79,8 +79,8 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.LesseeRate = 0; 
 
     //$scope.GST = 0;
-    $scope.LCT = 0;
-    $scope.ITC = 0;
+    //$scope.LCT = 0;
+    //$scope.ITC = 0;
       
     //hidden stuff from XML- Luke 
     $scope.FrequencyPerPeriod = 0;
@@ -150,6 +150,13 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.showResidualValueIncGST = false;
     $scope.showTotalAmountInterest = false;
     $scope.showTotalAmountRepayments = false;
+    $scope.showNumberInstallments = false;
+    $scope.showPayable = false;
+
+    $scope.showHirePurchaseSummaryPart2 = false;
+    $scope.showFinanceLeaseSummaryPart2 = false;
+
+    $scope.showITC = false;
     
     ///////
     $scope.AdvancedPayments = [
@@ -207,6 +214,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showTotalAmountInterest = false;
             $scope.showTotalAmountRepayments = false;
             $scope.showNumberOfRentals = true;
+            $scope.showNumberInstallments = false;
+            $scope.showPayable = true;
+            $scope.showHirePurchaseSummaryPart2 = false;
+            $scope.showFinanceLeaseSummaryPart2 = true;
+            $scope.showITC = true;
             break;
           case 2:
             $scope.CalcTypeName  = 'Hire Purchase';
@@ -220,6 +232,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showTotalAmountInterest = false;
             $scope.showTotalAmountRepayments = false;
             $scope.showNumberOfRentals = false;
+            $scope.showNumberInstallments = false;
+            $scope.showPayable = false;
+            $scope.showHirePurchaseSummaryPart2 = false;
+            $scope.showFinanceLeaseSummaryPart2 = false;
+            $scope.showITC = false;
             break;
           case 3:
             $scope.CalcTypeName  = 'Equipment Loan';
@@ -233,6 +250,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showTotalAmountInterest = true;
             $scope.showTotalAmountRepayments = true;
             $scope.showNumberOfRentals = false;
+            $scope.showNumberInstallments = true;
+            $scope.showPayable = false;
+            $scope.showHirePurchaseSummaryPart2 = true;
+            $scope.showFinanceLeaseSummaryPart2 = false;
+            $scope.showITC = false;
             break;
           case 4:
             $scope.CalcTypeName  = 'Novated Lease';
@@ -246,6 +268,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showTotalAmountInterest = false;
             $scope.showTotalAmountRepayments = false;
             $scope.showNumberOfRentals = true;
+            $scope.showNumberInstallments = false;
+            $scope.showPayable = true;
+            $scope.showHirePurchaseSummaryPart2 = false;
+            $scope.showFinanceLeaseSummaryPart2 = true;
+            $scope.showITC = true;
             break;
           case 5:
             $scope.CalcTypeName  = 'Protected Lease';
@@ -259,6 +286,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showTotalAmountInterest = false;
             $scope.showTotalAmountRepayments = false;
             $scope.showNumberOfRentals = true;
+            $scope.showNumberInstallments = false;
+            $scope.showHirePurchaseSummaryPart2 = false;
+            $scope.showFinanceLeaseSummaryPart2 = true;
+            $scope.showPayable = true;
+            $scope.showITC = true;
             break;
           default:
             $scope.CalcTypeName  = '';
@@ -366,6 +398,27 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             return $scope.CarLCT();
         }
         return 0;
+    }
+
+    $scope.ITC = function() {
+        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        {
+            if ($scope.IsAssetACar)
+            {
+                return $scope.ITCLease();
+            }
+            return $scope.GST_HPEL();
+
+            //return $scope.ITC_HPEL; // ORIGINAL, CHNAGED BECAUSE ITC_HPEL SIMPLY CALLED GST_HPEL
+        }
+        else
+        {
+            if ($scope.CalcType == 3)
+            {
+                return 0;
+            }
+            return $scope.GST;
+        }
     }
 
 
@@ -690,13 +743,23 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             }
     };
 
+    $scope.GSTRentalDuty = function() {
+        //return Math.round((this.RentalInAdvanceLease + this.SARentalDuty) * this.GSTPercentRate * 100) / 100; 
+
+        //SARentalDuty in flash version siply returned 0 anyway so removing 
+
+        return Math.round(this.TotalInstallment * this.GSTPercentRate * 100) / 100;
+    }
+
 
     $scope.AssetFinancedLease = function() {
         if ($scope.IsAssetACar)
         {
             return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITCLease();
         }
-        return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITC_HPEL;
+        //return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITC_HPEL; // ORIGINAL, CHANGED BECAUSE ITC_HPEL JUST RETURNED GST_HPEL
+        return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.GST_HPEL;
+        
     }
 
     $scope.ITCLease = function() {
