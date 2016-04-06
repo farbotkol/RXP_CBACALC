@@ -2,9 +2,9 @@ var myApp = angular.module('RealEstateApp', []);
 
 Date.prototype.yyyymmdd = function() {         
     
-    var yyyy = $scope.getFullYear().toString();                                    
-    var mm = ($scope.getMonth()+1).toString(); // getMonth() is zero-based         
-    var dd  = $scope.getDate().toString();             
+    var yyyy = this.getFullYear().toString();                                    
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+    var dd  = this.getDate().toString();             
     
     return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
 };  
@@ -52,7 +52,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.Options = 200;
     $scope.SupplierDelivery = 300;
     $scope.SupplierDiscount = 500;
-    $scope.FeesAndChargesFinanced = 2;
+    $scope.FeesAndChargesFinanced = 500;
     $scope.EquipmentCostExclRego = 0;
     $scope.TotalEquipmentCost = 0;
     $scope.LessorRate = 0.07;
@@ -74,7 +74,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.TermInMonthsInstallment = 0;
 
 
-    $scope.NumberInstallments = 0 ;
+    //$scope._NumberInstallments = 0 ;
     $scope.MortgageDuty = 0;
     $scope.LesseeRate = 0; 
 
@@ -87,6 +87,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.FrequencyPerYear =  0;
     $scope.RentalPMT = 0;
     $scope.DelayedPayment = 0;
+    $scope.IsIrregular = false;
 
 
 
@@ -103,6 +104,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.MortgageDutyRateSA = 0;
     $scope.MortgageDutyCeilFactorSA = 100;
 
+    $scope.LCTCarLimit = 57466;//maybe should be added to CBACalculatorFacts 
     $scope.threshouldIteration = 5000; //maybe should be added to CBACalculatorFacts
     $scope.thresholdDistance = 0.001; //maybe should be added to CBACalculatorFacts
     $scope.LCTRate = 0.33;//maybe should be added to CBACalculatorFacts 
@@ -122,7 +124,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     
     
     $scope.NumberOfYearsToPay = 5;
-    $scope.NumberInstallments  = 0;
+    //$scope.NumberInstallments  = 0;
     $scope.FrequencyPerPeriod = 1; // monthly
     
 
@@ -136,8 +138,20 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     // determine payment terms based on budget
     $scope.DeterminePaymentTerms = false; 
     $scope.Budget = 0;
+
+
+    //UI SHOW HIDE VARS.
+    $scope.showTradeIn = false;
+    $scope.showTotalAmountFinanced = false ;
+    $scope.showCostOfGoods = false;
+    $scope.showPlusFeesAndChargesFinanced = false;
+    $scope.showGSTOnResidual = false; 
+    $scope.showResidualAmountIncGST = false;
+    $scope.showResidualValueIncGST = false;
+    $scope.showTotalAmountInterest = false;
+    $scope.showTotalAmountRepayments = false;
     
-    
+    ///////
     $scope.AdvancedPayments = [
         { MonthNumber: null, Payment: null }
     ];
@@ -183,18 +197,68 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         switch ($scope.CalcType) {
           case 1:
             $scope.CalcTypeName  = 'Finance Lease';
+            $scope.showTradeIn =  false;
+            $scope.showTotalAmountFinanced = false ;
+            $scope.showCostOfGoods = true;
+            $scope.showPlusFeesAndChargesFinanced = true;
+            $scope.showGSTOnResidual = true; 
+            $scope.showResidualAmountIncGST = true;
+            $scope.showResidualValueIncGST = true;
+            $scope.showTotalAmountInterest = false;
+            $scope.showTotalAmountRepayments = false;
+            $scope.showNumberOfRentals = true;
             break;
           case 2:
             $scope.CalcTypeName  = 'Hire Purchase';
+            $scope.showTradeIn =  true;
+            $scope.showTotalAmountFinanced = true ;
+            $scope.showCostOfGoods = false;
+            $scope.showPlusFeesAndChargesFinanced = false;
+            $scope.showGSTOnResidual = false; 
+            $scope.showResidualAmountIncGST = false;
+            $scope.showResidualValueIncGST = false;
+            $scope.showTotalAmountInterest = false;
+            $scope.showTotalAmountRepayments = false;
+            $scope.showNumberOfRentals = false;
             break;
           case 3:
             $scope.CalcTypeName  = 'Equipment Loan';
+            $scope.showTradeIn =  true;
+            $scope.showTotalAmountFinanced = true ;
+            $scope.showCostOfGoods = false;
+            $scope.showPlusFeesAndChargesFinanced = false;
+            $scope.showGSTOnResidual = false; 
+            $scope.showResidualAmountIncGST = false;
+            $scope.showResidualValueIncGST = false;
+            $scope.showTotalAmountInterest = true;
+            $scope.showTotalAmountRepayments = true;
+            $scope.showNumberOfRentals = false;
             break;
           case 4:
             $scope.CalcTypeName  = 'Novated Lease';
+            $scope.showTotalAmountFinanced = false ;
+            $scope.showTradeIn =  false;
+            $scope.showCostOfGoods = true;
+            $scope.showPlusFeesAndChargesFinanced = true;
+            $scope.showGSTOnResidual = true; 
+            $scope.showResidualAmountIncGST = true;
+            $scope.showResidualValueIncGST = true;
+            $scope.showTotalAmountInterest = false;
+            $scope.showTotalAmountRepayments = false;
+            $scope.showNumberOfRentals = true;
             break;
           case 5:
             $scope.CalcTypeName  = 'Protected Lease';
+            $scope.showTradeIn =  false;
+            $scope.showTotalAmountFinanced = false ;
+            $scope.showCostOfGoods = true;
+            $scope.showPlusFeesAndChargesFinanced = true;
+            $scope.showGSTOnResidual = true; 
+            $scope.showResidualAmountIncGST = true;
+            $scope.showResidualValueIncGST = true;
+            $scope.showTotalAmountInterest = false;
+            $scope.showTotalAmountRepayments = false;
+            $scope.showNumberOfRentals = true;
             break;
           default:
             $scope.CalcTypeName  = '';
@@ -250,6 +314,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         return $scope.LCTLimitFuelEfficient;
     }
 
+    $scope.GSTOnResidual= function(){
+    
+            return Math.round($scope.ResidualAmount * $scope.GSTPercentRate * 100) / 100;
+    }
+
 
     $scope.GST = function(){
         var gst = 0;
@@ -285,7 +354,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.BalloonAmount = function(){
         if ($scope.CalcType == 1 || $scope.CalcType == 4)
         {
-            return $scope.ResidualAmount + $scope.GSTOnResidual;
+            return $scope.ResidualAmount + $scope.GSTOnResidual();
         }
         return $scope.ResidualAmount;
     }
@@ -456,6 +525,17 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.TradeIn;
     }
 
+    $scope.NumberInstallments = function() {
+        if ($scope.IsIrregular)
+        {
+            //return $scope.NumberInstallmentsFromSchedule;
+
+            //temp 
+
+            return  $scope.TermInMostnths / $scope.FrequencyPerPeriod;
+        }
+        return $scope.TermInMonths / $scope.FrequencyPerPeriod;
+    }
 
     $scope.ComputeTermInMonthsInstallment = function() {
             
@@ -475,9 +555,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             }
 
             //calculate NumberInstallments
-            $scope.NumberInstallments = $scope.TermInMonthsInstallment / $scope.FrequencyPerPeriod;
-            console.log('$scope.NumberInstallments: ' + $scope.NumberInstallments);
+            //$scope.NumberInstallments = $scope.TermInMonthsInstallment / $scope.FrequencyPerPeriod;
+            console.log('$scope.NumberInstallments: ' + $scope.NumberInstallments());
     };
+
+
 
 
 
@@ -548,40 +630,40 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.ComputeAmountFinanced = function() {
             
             // Equipment Loan
-            if($scope.CalcType == 3){
+            /*if($scope.CalcType == 3){
                 $scope.AmountFinanced = $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.TradeIn;
             }
             else
             {
                 // Not the formular
                 $scope.AmountFinanced = $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.TradeIn;
-            }
+            }*/
 
 
-            /*var AmtFinHireEqupLoanPlusBrokageAmount;
+            var AmtFinHireEqupLoanPlusBrokageAmount;
             var LessorRateDiv12;
             var NumberInstallments;
             var BalloonAmount;
             var BalloonPercent;
-            if ($scope._CalcType == 1 || $scope.CalcType == 4)
+            if ($scope.CalcType == 1 || $scope.CalcType == 4)
             {
-                $scope.AmountFinanced = Math.round($scope.AssetFinancedLease * 10000) / 10000;
+                $scope.AmountFinanced = Math.round($scope.AssetFinancedLease() * 10000) / 10000;
                 return;
             }
-            if ($scope._CalcType == 2)
+            if ($scope.CalcType == 2)
             {
                 if ($scope.AmountFinancedHirePurchaseEquipmentLoan < 0.005)
                 {
                     $scope.AmountFinanced =  0;
                     return;
                 }
-                AmtFinHireEqupLoanPlusBrokageAmount = $scope.AmountFinancedHirePurchaseEquipmentLoan + $scope.BrokageAmount;
+                AmtFinHireEqupLoanPlusBrokageAmount = $scope.AmountFinancedHirePurchaseEquipmentLoan() + $scope.BrokageAmount;
                 LessorRateDiv12 = $scope.LessorRate / 12;
-                NumberInstallments = $scope.NumberInstallments;
+                NumberInstallments = $scope.NumberInstallments();
                 BalloonAmount = $scope.BalloonAmount;
                 BalloonPercent = $scope.BalloonPercent;
                 $scope._compoundGSTonCreditCharges = 0;
-                $scope._$scopeRepayment = GetPMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -AmtFinHireEqupLoanPlusBrokageAmount, $scope.ResidualAmount, $scope.InAdvanced);
+                $scope._$scopeRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -AmtFinHireEqupLoanPlusBrokageAmount, $scope.ResidualAmount, $scope.InAdvanced);
                 $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
                 $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
                 $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1 + $scope.BrokageAmount * 0.1;
@@ -591,22 +673,44 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
                     
                     AmtFinHireEqupLoanPlusBrokageAmount = $scope._GSTonCreditCharges;
                     BalloonAmount = 0;
-                    $scope._$scopeRepayment = GetPMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, - AmtFinHireEqupLoanPlusBrokageAmount, BalloonAmount, $scope.InAdvanced);
+                    $scope._$scopeRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, - AmtFinHireEqupLoanPlusBrokageAmount, BalloonAmount, $scope.InAdvanced);
                     $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
                     $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
                     $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1;
                     $scope._compoundGSTonCreditCharges = $scope._compoundGSTonCreditCharges + $scope._GSTonCreditCharges;
                 }
-                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan * 100) / 100 + $scope._compoundGSTonCreditCharges;
+                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan() * 100) / 100 + $scope._compoundGSTonCreditCharges;
                 return;
             }
             else
             {
-                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan * 100) / 100;
+                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan() * 100) / 100;
                 return;
 
-            }*/
+            }
     };
+
+
+    $scope.AssetFinancedLease = function() {
+        if ($scope.IsAssetACar)
+        {
+            return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITCLease();
+        }
+        return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITC_HPEL;
+    }
+
+    $scope.ITCLease = function() {
+        if ($scope.CarLuxuryTaxValue() > $scope.LCTCarLimit)
+        {
+            return $scope.MaxITCOnLease();
+        }
+        return $scope.CarGST();
+    }
+
+    $scope.MaxITCOnLease = function() {
+        //return Math.round(this.LCTCarLimit / this.GSTHireLoanNum * 100) / 100;
+        return Math.round($scope.LCTCarLimit / $scope.GSTreciprocal * 100) / 100;
+    }
 
     $scope.ComputeTotalAmountFinanced = function() {
             
@@ -694,7 +798,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             
         
         
-        var compoundTerms = $scope.NumberInstallments  /// $scope.FrequencyPerPeriod;
+        var compoundTerms = $scope.NumberInstallments();  /// $scope.FrequencyPerPeriod;
         
         var amortizationFactor = 0;
         
@@ -703,7 +807,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             return;
         }
     
-        if ($scope.NumberInstallments  > 0) {
+        if ($scope.NumberInstallments()  > 0) {
             if ($scope.LesseeRate > 0) {
                 $scope.AmortizationFactor = pir / (1 - (1 / Math.pow( 1 + pir, compoundTerms ) ) ); 
             }
@@ -761,14 +865,13 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         
         
         
-        var n = (-Math.log(1 - $scope.PeriodicInterestRate * $scope.InstallmentPrincipal / $scope.Budget)) 
-                / Math.log(1 + $scope.PeriodicInterestRate);
+        var n = (-Math.log(1 - $scope.PeriodicInterestRate * $scope.InstallmentPrincipal / $scope.Budget))  / Math.log(1 + $scope.PeriodicInterestRate);
             
         
             
         if (!isNaN(n) && n > 0) {        
             $scope.AmortizationAmount = $scope.Budget;
-            $scope.NumberInstallments  = Math.ceil(n);        
+            //$scope.NumberInstallments  = Math.ceil(n);        
             $scope.ComputeYears();
             $scope.CreateAmortizationSchedule();            
         }
@@ -897,6 +1000,6 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     //$scope.ComputeFromYears();
     $scope.ComputeAmortizationFactor();  
     $scope.ComputeFromAmountFinanced();
-
+    $scope.TypeChanged();
     
 }]);

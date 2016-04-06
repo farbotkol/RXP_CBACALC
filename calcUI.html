@@ -100,12 +100,13 @@
         </div>
 
 
-        <div><label for='TradeIn'>Deposit / Trade-In</label>
+        <div ng-show='showTradeIn'><label for='TradeIn'>Deposit / Trade-In</label>
             <input 
             id='TradeIn' 
             ng-model='TradeIn' 
             ng-change='ComputeFromAmountFinanced()'
-            ng-disabled='DeterminePaymentTerms' type='number'/>
+            type='number'
+            />
             From Tax Invoice
         </div>
 
@@ -214,11 +215,33 @@
             />
         </div>
 
+
+
+
+
         <div><label for='BalloonPercent'>Balloon %</label>
             <input 
             id='BalloonPercent' 
             ng-model='ResidualPercent' 
             ng-change='CalculateResidualAmount()' percent
+            />
+        </div>
+
+
+         <div ng-show='showGSTOnResidual'>
+            <label for='GSTOnResidual'>GST On Residual</label>
+            <input disabled="disabled"
+            id='GSTOnResidual' 
+            value='{{GSTOnResidual()}}'
+        
+            />
+        </div>
+
+        <div ng-show='showResidualAmountIncGST'>
+            <label for='ResidualAmountIncGST'>Residual Amount($) (Inc. GST)</label>
+            <input disabled="disabled"
+            id='ResidualAmountIncGST' 
+            value='{{BalloonAmount()}}' 
             />
         </div>
 
@@ -232,113 +255,7 @@
 
     </fieldset>
 
-    <fieldset>
-        <legend>{{CalcTypeName}} Summary</legend>
-
-
-        <div><label for='TotalAmountFinanced'>Loan Amount</label>
-        <input disabled="disabled"
-        id='TotalAmountFinanced' 
-        ng-model='TotalAmountFinanced' 
-        
-        />
-        </div>
-
-
-        <div><label for='TotalAmountInterest'>Total Amount of Interest Payable</label>
-        <input disabled="disabled"
-        id='TotalAmountInterest' 
-        value='{{TotalAmountInterest|number:2}}'        />
-        </div>
-
-        <div><label for='TotalAmountRepayments'>Total Amount of Repayments </label>
-        <input disabled="disabled"
-        id='TotalAmountRepayments' 
-        value='{{TotalAmountRepayments|number:2}}' 
-        />
-        </div>
-
-
-        <div><label for='TermInMonthsInstallment'>Term (Months)</label>
-        <input disabled="disabled"
-        id='TermInMonthsInstallment' 
-        value='{{TermInMonthsInstallment|number}}' 
-        />
-        </div>
-
-        <hr/>
-
-         <div><label for='TotalInstallment'>Installment Amount</label>
-        <input disabled="disabled"
-        id='TotalInstallment' 
-        value='{{TotalInstallment|number}}' 
-        />
-
-        <div><label for='NumberInstallments'>Number of Installments</label>
-        <input disabled="disabled"
-        id='NumberInstallments' 
-        value='{{NumberInstallments|number}}' 
-        />
-        </div>
-
-
-        <div><label for='Frequency'>Frequency</label>
-        <input disabled="disabled"
-        id='Frequency' 
-        value='{{Frequency}}' 
-        />
-        </div>
-
-        <div><label for='BalloonRepayment'>Balloon Repayment</label>
-        <input disabled="disabled"
-        id='BalloonRepayment' 
-        value='{{BalloonAmount()|number}}' 
-        />
-        </div>
-
-
-        <div><label for='MortgageDuty'>Mortgage Duty</label>
-        <input disabled="disabled"
-        id='MortgageDuty' 
-        value='{{MortgageDuty|number}}' 
-        />
-        </div>
-
-        <hr/>
-
-        <div><label for='LesseeRate'>Lessee Rate</label>
-        <input disabled="disabled"
-        id='LesseeRate' 
-        ng-model='LesseeRate' 
-        percent
-        />
-        </div>
-
-        <div><label for='LessorRate2'>Lessor Rate</label>
-        <input disabled="disabled"
-        id='LessorRate2' 
-        ng-model='LessorRate' 
-        percent
-        />
-        </div>
-
-
-        <div><label for='GST'>GST</label>
-        <input disabled="disabled"
-        id='GST' 
-        value='{{GST()}}' 
-        
-        />
-        </div>
-
-        <div><label for='LCT'>LCT</label>
-        <input disabled="disabled"
-        id='LCT' 
-        value='{{LCT()}}' 
-        />
-        </div>
-
-     </fieldset>
+    
 
      <!--
     <fieldset>
@@ -436,7 +353,155 @@
     </fieldset>    
         
     </div>
-    
+    <div class='amort' style='float: left'>
+    <fieldset>
+        <legend>{{CalcTypeName}} Summary</legend>
+
+
+        <div ng-show='showTotalAmountFinanced'><label for='TotalAmountFinanced'>Loan Amount</label>
+        <input disabled="disabled"
+        id='TotalAmountFinanced' 
+        ng-model='TotalAmountFinanced' 
+        
+        />
+        </div>
+
+        <div ng-show='showCostOfGoods'>
+            <label for='CostOfGoods'>Cost Of Goods  (Inc GST)</label>
+            <input disabled="disabled"
+            id='CostOfGoods' 
+            ng-model='TotalEquipmentCost' 
+            
+            />
+        </div>
+
+        <div ng-show='showPlusFeesAndChargesFinanced'><label for='PlusFeesAndChargesFinanced'>Plus Fees & Charges Financed</label>
+            <input disabled="disabled"
+            id='PlusFeesAndChargesFinanced' 
+            ng-model='FeesAndChargesFinanced' 
+            />
+        </div>
+
+        <div ng-show='showResidualValueIncGST'>
+            <label for='ResidualValueIncGST) '>Residual Value (Inc. GST) </label>
+            <input disabled="disabled"
+            id='ResidualValueIncGST' 
+            value='{{BalloonAmount()}}'
+            />
+        </div>
+
+
+        <div ng-show='showTotalAmountInterest'>
+            <label for='TotalAmountInterest'>Total Amount of Interest Payable</label>
+            <input disabled="disabled"
+            id='TotalAmountInterest' 
+            value='{{TotalAmountInterest|number:2}}'        />
+        </div>
+
+        <div ng-show='showTotalAmountRepayments'>
+            <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
+            <input disabled="disabled"
+            id='TotalAmountRepayments' 
+            value='{{TotalAmountRepayments|number:2}}' 
+            />
+        </div>
+
+
+        <div>
+            <label for='TermInMonthsInstallment'>Term (Months)</label>
+            <input disabled="disabled"
+            id='TermInMonthsInstallment' 
+            value='{{TermInMonthsInstallment|number}}' 
+            />
+        </div>
+            
+
+            <!-- ng-show='showNumberOfRentals' value='{{NumberInstallments()}}' -->
+        <div ng-show='showNumberOfRentals'>
+            <label for='NumberOfRentals'>Number Of Rentals</label>
+            <input disabled="disabled"
+            id='NumberOfRentals' 
+            value={{NumberInstallments()}}
+            />
+        </div>
+
+
+        
+
+        <hr/>
+
+         <div><label for='TotalInstallment'>Installment Amount</label>
+        <input disabled="disabled"
+        id='TotalInstallment' 
+        value='{{TotalInstallment|number}}' 
+        />
+
+        <div><label for='NumberInstallments'>Number of Installments</label>
+        <input disabled="disabled"
+        id='NumberInstallments' 
+        value='{{NumberInstallments()|number}}' 
+        />
+        </div>
+
+
+        <div><label for='Frequency'>Frequency</label>
+        <input disabled="disabled"
+        id='Frequency' 
+        value='{{Frequency}}' 
+        />
+        </div>
+
+        <div><label for='BalloonRepayment'>Balloon Repayment</label>
+        <input disabled="disabled"
+        id='BalloonRepayment' 
+        value='{{BalloonAmount()|number}}' 
+        />
+        </div>
+
+
+        <div><label for='MortgageDuty'>Mortgage Duty</label>
+        <input disabled="disabled"
+        id='MortgageDuty' 
+        value='{{MortgageDuty|number}}' 
+        />
+        </div>
+
+        <hr/>
+
+        <div><label for='LesseeRate'>Lessee Rate</label>
+        <input disabled="disabled"
+        id='LesseeRate' 
+        ng-model='LesseeRate' 
+        percent
+        />
+        </div>
+
+        <div><label for='LessorRate2'>Lessor Rate</label>
+        <input disabled="disabled"
+        id='LessorRate2' 
+        ng-model='LessorRate' 
+        percent
+        />
+        </div>
+
+
+        <div><label for='GST'>GST</label>
+        <input disabled="disabled"
+        id='GST' 
+        value='{{GST()}}' 
+        
+        />
+        </div>
+
+        <div><label for='LCT'>LCT</label>
+        <input disabled="disabled"
+        id='LCT' 
+        value='{{LCT()}}' 
+        />
+        </div>
+
+     </fieldset>
+     </div>
 
     
     <div class='amort' style='float: left'>
