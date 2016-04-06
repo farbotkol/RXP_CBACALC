@@ -405,9 +405,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         {
             if ($scope.IsAssetACar)
             {
-                return $scope.ITCLease();
+                return Math.round($scope.ITCLease() * 100) / 100;
+                
             }
-            return $scope.GST_HPEL();
+            return Math.round($scope.GST_HPEL() * 100) / 100;
+            //return $scope.GST_HPEL();
 
             //return $scope.ITC_HPEL; // ORIGINAL, CHNAGED BECAUSE ITC_HPEL SIMPLY CALLED GST_HPEL
         }
@@ -417,7 +419,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             {
                 return 0;
             }
-            return $scope.GST;
+            return $scope.GST();
         }
     }
 
