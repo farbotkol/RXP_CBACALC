@@ -38,7 +38,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.Amortizations = [];
     
     $scope.CalcTypeName = 'Equipment Loan';
-    $scope.CalcType = 3;
+    $scope.CalcType = 2;
     
     //Details 
     $scope.InAdvanced = 'false';
@@ -57,6 +57,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.TotalEquipmentCost = 0;
     $scope.LessorRate = 0.07;
     $scope.TermInMonths = 48;
+    $scope.DelayedPayment = 0;
 
     //Brokerage Details
     $scope.BrokageAmount = 0; 
@@ -86,7 +87,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.FrequencyPerPeriod = 0;
     $scope.FrequencyPerYear =  0;
     $scope.RentalPMT = 0;
-    $scope.DelayedPayment = 0;
+    //$scope.DelayedPayment = 0;
     $scope.IsIrregular = false;
 
 
@@ -156,7 +157,13 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.showHirePurchaseSummaryPart2 = false;
     $scope.showFinanceLeaseSummaryPart2 = false;
 
+
     $scope.showITC = false;
+
+    $scope.showDelayedPayment = false;
+    $scope.showAmountFinancedForHP = false;
+
+    $scope.showPurchasePriceOfgoods = false;
     
     ///////
     $scope.AdvancedPayments = [
@@ -219,6 +226,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showHirePurchaseSummaryPart2 = false;
             $scope.showFinanceLeaseSummaryPart2 = true;
             $scope.showITC = true;
+            $scope.showDelayedPayment = false;
+            $scope.showAmountFinancedForHP = false;
+            $scope.showPurchasePriceOfgoods = false;
             break;
           case 2:
             $scope.CalcTypeName  = 'Hire Purchase';
@@ -237,6 +247,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showHirePurchaseSummaryPart2 = false;
             $scope.showFinanceLeaseSummaryPart2 = false;
             $scope.showITC = false;
+            $scope.showDelayedPayment = false;
+            $scope.showAmountFinancedForHP = true;
+            $scope.showPurchasePriceOfgoods = true;
             break;
           case 3:
             $scope.CalcTypeName  = 'Equipment Loan';
@@ -255,6 +268,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showHirePurchaseSummaryPart2 = true;
             $scope.showFinanceLeaseSummaryPart2 = false;
             $scope.showITC = false;
+            $scope.showDelayedPayment = false;
+            $scope.showAmountFinancedForHP = false;
+            $scope.showPurchasePriceOfgoods = false;
             break;
           case 4:
             $scope.CalcTypeName  = 'Novated Lease';
@@ -273,6 +289,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showHirePurchaseSummaryPart2 = false;
             $scope.showFinanceLeaseSummaryPart2 = true;
             $scope.showITC = true;
+            $scope.showDelayedPayment = true;
+            $scope.showAmountFinancedForHP = false;
+            $scope.showPurchasePriceOfgoods = false;
             break;
           case 5:
             $scope.CalcTypeName  = 'Protected Lease';
@@ -291,6 +310,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showFinanceLeaseSummaryPart2 = true;
             $scope.showPayable = true;
             $scope.showITC = true;
+            $scope.showDelayedPayment = true;
+            $scope.showAmountFinancedForHP = false;
+            $scope.showPurchasePriceOfgoods = false;
             break;
           default:
             $scope.CalcTypeName  = '';
@@ -707,7 +729,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             }
             if ($scope.CalcType == 2)
             {
-                if ($scope.AmountFinancedHirePurchaseEquipmentLoan < 0.005)
+                if ($scope.AmountFinancedHirePurchaseEquipmentLoan() < 0.005)
                 {
                     $scope.AmountFinanced =  0;
                     return;
@@ -715,11 +737,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
                 AmtFinHireEqupLoanPlusBrokageAmount = $scope.AmountFinancedHirePurchaseEquipmentLoan() + $scope.BrokageAmount;
                 LessorRateDiv12 = $scope.LessorRate / 12;
                 NumberInstallments = $scope.NumberInstallments();
-                BalloonAmount = $scope.BalloonAmount;
-                BalloonPercent = $scope.BalloonPercent;
+                BalloonAmount = $scope.BalloonAmount();
+                BalloonPercent = $scope.BalloonPercent();
                 $scope._compoundGSTonCreditCharges = 0;
-                $scope._$scopeRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -AmtFinHireEqupLoanPlusBrokageAmount, $scope.ResidualAmount, $scope.InAdvanced);
-                $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
+                $scope._thisRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -AmtFinHireEqupLoanPlusBrokageAmount, $scope.ResidualAmount, JSON.parse($scope.InAdvanced));
+                $scope._TotalContractValue = $scope._thisRepayment * NumberInstallments + BalloonAmount;
                 $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
                 $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1 + $scope.BrokageAmount * 0.1;
                 $scope._compoundGSTonCreditCharges = $scope._GSTonCreditCharges;
@@ -728,13 +750,13 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
                     
                     AmtFinHireEqupLoanPlusBrokageAmount = $scope._GSTonCreditCharges;
                     BalloonAmount = 0;
-                    $scope._$scopeRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, - AmtFinHireEqupLoanPlusBrokageAmount, BalloonAmount, $scope.InAdvanced);
-                    $scope._TotalContractValue = $scope._$scopeRepayment * NumberInstallments + BalloonAmount;
+                    $scope._scopeRepayment = $scope.ComputePMT((Math.pow(1 + LessorRateDiv12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, - AmtFinHireEqupLoanPlusBrokageAmount, BalloonAmount, JSON.parse($scope.InAdvanced));
+                    $scope._TotalContractValue = $scope._scopeRepayment * NumberInstallments + BalloonAmount;
                     $scope._CreditCharges = $scope._TotalContractValue - AmtFinHireEqupLoanPlusBrokageAmount;
                     $scope._GSTonCreditCharges = $scope._CreditCharges * 0.1;
                     $scope._compoundGSTonCreditCharges = $scope._compoundGSTonCreditCharges + $scope._GSTonCreditCharges;
                 }
-                $scope.AmountFinanced =  Math.round($scope.AmountFinancedHirePurchaseEquipmentLoan() * 100) / 100 + $scope._compoundGSTonCreditCharges;
+                $scope.AmountFinanced =  Math.round(($scope.AmountFinancedHirePurchaseEquipmentLoan()+ $scope._compoundGSTonCreditCharges) * 100) / 100 ;
                 return;
             }
             else
