@@ -371,6 +371,48 @@
                 />
             </div>
 
+            <hr/>
+            <div >
+                <label for='NumberInstallments'>Number of Rental Payments</label>
+                <input disabled="disabled"
+                id='NumberInstallments' 
+                value='{{NumberInstallments()|number}}' 
+                />
+            </div>
+
+            <div>
+                <label for='Frequency'>Frequency</label>
+                <input disabled="disabled"
+                id='Frequency' 
+                value='{{Frequency}}' 
+                />
+            </div>
+
+            <div>
+                <label for='TotalInstallment'>Rental Payment Amount</label>
+                <input disabled="disabled"
+                id='TotalInstallment' 
+                value='{{TotalInstallment|number}}' 
+                />
+            </div>
+
+            <div>
+                <label for='CreditCharges'>Other Credit Charges</label>
+                <input disabled="disabled"
+                id='_CreditCharges' 
+                value='{{_CreditCharges|number}}' 
+                />
+            </div>
+
+            <div>
+                <label for='BalloonRepayment'>Balloon Repayment</label>
+                <input disabled="disabled"
+                id='BalloonRepayment' 
+                value='{{BalloonAmount()|number}}' 
+                />
+            </div>
+
+
         </div>      
 
 
