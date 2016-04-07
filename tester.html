@@ -1,0 +1,46 @@
+<html>
+ <head>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+  <script src="LoanProjection.js"></script>
+  <script src="LoanProjections.js"></script>	
+  <script src="tester.js"></script>	
+  <script type="text/javascript">
+  		
+
+  </script>
+ </head>
+
+
+	<body ng-controller="testerController" ng-app="testerApp">
+
+		Hello there
+		<table>
+		  <tr>
+		   <th>Term</th>
+		   <th>DDate</th>
+		   <th>OpeningBalance</th>
+		   <th>Residual</th>
+		   <th>Payment</th>
+		   <th>AdditionalPayment</th>
+		   <th>AutoAdditionalPayment</th>
+		   <th>InterestAmount</th>
+		   <th>PrincipalAmount</th>
+		   <th>ClosingBalance</th>
+		 </tr>
+		  <tr ng-repeat="x in loanProjection.loanProjections">
+		    <td>{{x.Term }}</td>
+		    <td>{{x.DDate }}</td>
+		    <td>{{x.OpeningBalance }}</td>
+		    <td>.</td>
+		    <td>{{x.Payment }}</td>
+		    <td>{{x.AdditionalPayment }}</td>
+		    <td>{{x.AutoAdditionalPayment }}</td>
+		    <td>{{x.InterestAmount }}</td>
+		    <td>{{x.PrincipalAmount }}</td>
+		    <td>{{x.ClosingBalance }}</td>
+		  </tr>
+		</table>
+
+
+ 	</body>
+</html>
