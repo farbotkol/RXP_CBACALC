@@ -77,8 +77,8 @@
         </div>
 
         <div><label for='LesseeRate'>Start Date</label>
-        <input type='date' ng-model='DDateText' ng-change='ComputeFromLesseeRate()'/></div>
-        <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromLesseeRate()'/></div>        
+        <input type='date' ng-model='DDateText' ng-change='ComputeFromAmountFinanced()'/></div>
+        <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromAmountFinanced()'/></div>        
         
 
         
@@ -372,7 +372,7 @@
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
                 id='TermInMonthsInstallment' 
-                value='{{TermInMonthsInstallment|number}}' 
+                value='{{NumberInstallmentsFromSchedule|number}}' 
                 />
             </div>
 

@@ -120,7 +120,7 @@
                 _loc_2 = this.loanProjections[(_loc_3 - 1)];
                 _loc_1.DDate = new Date(_loc_2.DDate);
                 _loc_1.DDate.setMonth(_loc_1.DDate.getMonth() + 1);
-                _loc_1.DDate.date = _loc_4;
+                _loc_1.DDate.setDate(_loc_4);
                 if ((_loc_2.DDate.getMonth() + 1) % 12 != _loc_1.DDate.getMonth())
                 {
                     _loc_1.DDate.setDate(1) ;
@@ -329,7 +329,8 @@
             }
             else if (_loc_1.Payment > 0 || _loc_1.AdditionalPayment > 0)
             {
-                _loc_3 = _loc_3 + 1;
+                //_loc_3 = _loc_3 + 1;
+                _loc_3 = _loc_1.Term;
             }
             _loc_2 = _loc_2 + 1;
         }

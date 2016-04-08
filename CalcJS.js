@@ -43,7 +43,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     //Details 
     $scope.InAdvanced = 'false';
     $scope.Frequency = 'Monthly';
-    $scope.DDate = new Date('Feb 28, 2013');
+    $scope.DDate = new Date();
     $scope.DDateText = $scope.DDate.yyyymmdd();
     $scope.AssetType =  'All Other Assets';
     $scope.EquipmentCost = 10000;
@@ -183,10 +183,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }*/
     
     $scope.ComputeFromAmountFinanced = function() {
+        $scope.DDate = new Date($scope.DDateText);
         $scope.ComputeTermInMonthsInstallment();
         $scope.ComputeDetailCosts();
         $scope.ComputeAmountFinanced(); //Needs to be after ComputeDetailCosts();
-        $scope.ComputeTotalAmountFinanced();
+        //$scope.ComputeTotalAmountFinanced();
         $scope.ComputeRentalPMT();
         $scope.ComputeLesseeRate();
 
@@ -856,9 +857,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.LesseeRateOverride = $scope.loanProjectionLesse.InterestRatePerPeriod * 12;
         $scope.TotalAmountInterestFromSchedule = $scope.loanProjectionLesse.TotalInterests();
         $scope.TotalAmountRepaymentsFromSchedule = $scope.loanProjectionLesse.TotalRepayments();
-        $scope.NumberInstallmentsFromSchedule = $scope.loanProjectionLesse.NumberOfInstallments;
+        $scope.NumberInstallmentsFromSchedule = $scope.loanProjectionLesse.NumberOfInstallments();
 
-        console.log('TotalAmountRepaymentsFromSchedule :' + $scope.TotalAmountRepaymentsFromSchedule);
+        console.log('NumberInstallmentsFromSchedule :' + $scope.NumberInstallmentsFromSchedule);
         //this.IsCalculating = false;
         /*this.RemapTable();
         this.SendDataXML();
@@ -870,13 +871,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
 
-    $scope.ComputeTotalAmountFinanced = function() {
-            
-            // Equipment Loan
-            if($scope.CalcType == 3){
-                $scope.TotalAmountFinanced = $scope.AmountFinanced;
-            }
-    };
+
     
     
     /*$scope.ComputeFromYears = function() {
