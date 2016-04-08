@@ -425,7 +425,7 @@
             <div ng-show='showTotalAmountFinanced'><label for='TotalAmountFinanced'>Loan Amount</label>
             <input disabled="disabled"
             id='TotalAmountFinanced' 
-            value='{{TotalAmountFinanced()}}' 
+            value='{{AmountFinanced}}' 
             
             />
             </div>
@@ -475,7 +475,7 @@
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
                 id='TermInMonthsInstallment' 
-                value='{{TermInMonthsInstallment|number}}' 
+                value='{{NumberInstallmentsFromSchedule|number}}' 
                 />
             </div>
                 

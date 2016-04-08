@@ -327,7 +327,7 @@
             if (_loc_1 == null)
             {
             }
-            else if (_loc_1.Payment > 0 || _loc_1.AdditionalPayment > 0)
+            else if (_loc_1.Payment > 0 || _loc_1.AdditionalPayment > 0 || _loc_1.OpeningBalance > 0)
             {
                 //_loc_3 = _loc_3 + 1;
                 _loc_3 = _loc_1.Term;

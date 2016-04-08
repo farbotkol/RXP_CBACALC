@@ -38,7 +38,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.Amortizations = [];
     
     $scope.CalcTypeName = 'Equipment Loan';
-    $scope.CalcType = 2;
+    $scope.CalcType = 3;
     
     //Details 
     $scope.InAdvanced = 'false';
@@ -46,7 +46,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.DDate = new Date();
     $scope.DDateText = $scope.DDate.yyyymmdd();
     $scope.AssetType =  'All Other Assets';
-    $scope.EquipmentCost = 10000;
+    $scope.EquipmentCost = 100000;
     $scope.TradeIn = 1000;
     $scope.MVRegoCost = 100;
     $scope.Options = 200;
@@ -60,12 +60,12 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.DelayedPayment = 0;
 
     //Brokerage Details
-    $scope.BrokageAmount = 0; 
+    $scope.BrokageAmount = 2000; 
     $scope.BrokagePercent = 0; 
     //$scope.BalloonAmount = 0; 
     //$scope.BalloonPercent = 0; 
 
-    $scope.ResidualAmount = 0; 
+    $scope.ResidualAmount = 100; 
     $scope.ResidualPercent = 0; 
  
     $scope.AmountFinanced = 0; 
