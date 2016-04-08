@@ -5,6 +5,8 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 <script src="CalcJS.js"></script>
+<script src="LoanProjection.js"></script>
+<script src="LoanProjections.js"></script>
 <link rel="stylesheet" type="text/css" href="CalcCss.css">
 
 </head>
@@ -351,14 +353,14 @@
                 <label for='TotalAmountInterest'>Total Amount of Interest (Payable under the contract)</label>
                 <input disabled="disabled"
                 id='TotalAmountInterest' 
-                value='{{TotalAmountInterest|number:2}}'        />
+                value='{{TotalAmountInterestFromSchedule|number:2}}'        />
             </div>
 
             <div>
                 <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
                 <input disabled="disabled"
                 id='TotalAmountRepayments' 
-                value='{{TotalAmountRepayments|number:2}}' 
+                value='{{TotalAmountRepaymentsFromSchedule|number:2}}' 
                 />
             </div>
 
@@ -392,7 +394,7 @@
                 <label for='TotalInstallment'>Rental Payment Amount</label>
                 <input disabled="disabled"
                 id='TotalInstallment' 
-                value='{{TotalInstallment|number}}' 
+                value='{{TotalInstallment()|number}}' 
                 />
             </div>
 
@@ -420,7 +422,7 @@
             <div ng-show='showTotalAmountFinanced'><label for='TotalAmountFinanced'>Loan Amount</label>
             <input disabled="disabled"
             id='TotalAmountFinanced' 
-            ng-model='TotalAmountFinanced' 
+            value='{{TotalAmountFinanced()}}' 
             
             />
             </div>
@@ -454,14 +456,14 @@
                 <label for='TotalAmountInterest'>Total Amount of Interest Payable</label>
                 <input disabled="disabled"
                 id='TotalAmountInterest' 
-                value='{{TotalAmountInterest|number:2}}'        />
+                value='{{TotalAmountInterestFromSchedule|number:2}}'        />
             </div>
 
             <div ng-show='showTotalAmountRepayments'>
                 <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
                 <input disabled="disabled"
                 id='TotalAmountRepayments' 
-                value='{{TotalAmountRepayments|number:2}}' 
+                value='{{TotalAmountRepaymentsFromSchedule|number:2}}' 
                 />
             </div>
 
@@ -501,7 +503,7 @@
                 <label for='TotalInstallment'>Installment Amount</label>
                 <input disabled="disabled"
                 id='TotalInstallment' 
-                value='{{TotalInstallment|number}}' 
+                value='{{TotalInstallment()|number}}' 
                 />
             </div>
             <!--ng-show='showNumberInstallments'-->
@@ -548,7 +550,7 @@
                 <label for='RentalAmount'>Rental Amount</label>
                 <input disabled="disabled"
                 id='RentalAmount' 
-                value='{{TotalInstallment|number}}'
+                value='{{TotalInstallment()|number}}'
                 />
             </div>
 
@@ -564,7 +566,7 @@
                 <label for='RentalInstallment'>Rental Installment</label>
                 <input disabled="disabled"
                 id='RentalInstallment' 
-                value='{{GSTRentalDuty() + TotalInstallment|number}}' 
+                value='{{GSTRentalDuty() + TotalInstallment()|number}}' 
                 />
             </div>
 
@@ -618,7 +620,7 @@
      </div>
 
     
-    <div class='amort' style='float: left'>
+    <div class='amort' style='float: left'><!--
     <fieldset>
         <legend>Amortization Schedule</legend>    
         
@@ -649,7 +651,56 @@
                 </tr>
             </tfooter>
         </table>    
+    </fieldset>-->
+
+    <fieldset>
+        <legend>Amortization Schedule New</legend>    
+
+        <table  class='table'>
+            <thead>
+                <tr class='header'>
+                   <th>Term</th>
+                   <th>DDate</th>
+                   <th>OpeningBalance</th>
+                   <th>Residual</th>
+                   <th>Payment</th>
+                   <th>AdditionalPayment</th>
+                   <th>AutoAdditionalPayment</th>
+                   <th>InterestAmount</th>
+                   <th>PrincipalAmount</th>
+                   <th>ClosingBalance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in loanProjectionLesse.loanProjections">
+                    <td>{{x.Term }}</td>
+                    <td>{{x.DDate }}</td>
+                    <td>{{x.OpeningBalance | number:2 }}</td>
+                    <td>.</td>
+                    <td>{{x.Payment  | number:2}}</td>
+                    <td>{{x.AdditionalPayment | number:2 }}</td>
+                    <td>{{x.AutoAdditionalPayment  | number:2}}</td>
+                    <td>{{x.InterestAmount  | number:2}}</td>
+                    <td>{{x.PrincipalAmount | number:2 }}</td>
+                    <td>{{x.ClosingBalance | number:2 }}</td>
+                </tr>
+            </tbody>
+            <tfooter>
+                <tr>
+                    <td>Total</td><td></td>
+                    <td>{{TotalInterest | number:2}}</td>
+                    <td>{{TotalPrincipal | number:2}}</td>
+                    <td>{{TotalAmortization | number:2}}</td>
+                    <td></td>
+                </tr>
+            </tfooter>
+        </table>    
     </fieldset>
+
+    </div>
+
+     <div class='amort' style='float: left'>
+    
     </div>
      
      <!--

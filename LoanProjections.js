@@ -186,6 +186,41 @@
     }
 
 
+    self.CalculateByInterest = function(){
+        this.IsOutstanding = false;
+        if (this.loanProjections == null)
+        {
+            return;
+        }
+        var _loc_1 = null; //:LoanProjection 
+        var _loc_2 = null; //:LoanProjection 
+        var _loc_3 = 0;//:uint 
+        var _loc_4 = -1;//:Number
+        var _loc_5 = 0;//:Number
+        var _loc_6 = 1;//:Number 
+        var _loc_7 = 0;//:Number 
+        while (_loc_5 < _loc_6)
+        {
+            
+            _loc_7 = _loc_5 + (_loc_6 - _loc_5) * 0.5;
+            this.InterestRatePerPeriod = _loc_7;
+            _loc_4 = this.CalculateProjectionByPayment();
+            if (Math.abs(_loc_4) < 0.01)
+            {
+                break;
+            }
+            if (_loc_4 < 0)
+            {
+                _loc_5 = _loc_7 + 1e-009;
+                continue;
+            }
+            _loc_6 = _loc_7 - 1e-009;
+        }
+        this.CalculateRounded();
+        return;
+    }
+
+
 
     self.CalculateRounded = function(){
         var _loc_1 = 0; //number 
@@ -213,12 +248,12 @@
                     if (_loc_3 == null)
                     {
                     }
-                    _loc_2.OpeningBalanceRounded = _loc_3.ClosingBalanceRounded;
+                    _loc_2.OpeningBalanceRounded = _loc_3.ClosingBalanceRounded();
                 }
                 _loc_2.PrincipalRounded = Math.round(_loc_2.PrincipalAmount * 100) / 100;
                 if (Math.abs(_loc_2.ClosingBalance) < 0.01)
                 {
-                    _loc_2.PrincipalRounded = _loc_2.ClosingBalanceRounded + _loc_2.PrincipalRounded;
+                    _loc_2.PrincipalRounded = _loc_2.ClosingBalanceRounded() + _loc_2.PrincipalRounded;
                 }
                 if (_loc_2.AdditionalPayment > 0)
                 {
@@ -232,6 +267,73 @@
             this.IsIrregular = true;
         }
         return;
+    }
+
+
+
+    self.TotalInterests = function(){
+        var _loc_1 = null;//:LoanProjection
+        var _loc_2 = null;//:LoanProjection
+        var _loc_3 = 0;//:uint
+        var _loc_4 = 0;//:Number
+        _loc_3 = 0;
+        while (_loc_3 < this.loanProjections.length)
+        {
+            
+            _loc_1 = this.loanProjections[_loc_3];
+            if (_loc_1 == null)
+            {
+            }
+            else
+            {
+                _loc_4 = _loc_4 + _loc_1.InterestRounded();
+            }
+            _loc_3 = _loc_3 + 1;
+        }
+        return _loc_4;
+    }
+
+    self.TotalRepayments = function(){
+        var _loc_1 = null;//:LoanProjection
+        var _loc_2 = null;//:LoanProjection 
+        var _loc_3 = 0;//:uint
+        var _loc_4 = 0;//:Number
+        _loc_3 = 0;
+        while (_loc_3 < this.loanProjections.length)
+        {
+            
+            _loc_1 = this.loanProjections[_loc_3];
+            if (_loc_1 == null)
+            {
+            }
+            else
+            {
+                _loc_4 = _loc_4 + _loc_1.TotalPaymentRounded();
+            }
+            _loc_3 = _loc_3 + 1;
+        }
+        return _loc_4;
+    }
+
+    self.NumberOfInstallments = function(){
+        var _loc_1 = null;//:LoanProjection
+        var _loc_2 = 0;//:uint
+        var _loc_3 = 0;//:Number
+        _loc_2 = 0;
+        while (_loc_2 < this.loanProjections.length)
+        {
+            
+            _loc_1 = this.loanProjections[_loc_2];
+            if (_loc_1 == null)
+            {
+            }
+            else if (_loc_1.Payment > 0 || _loc_1.AdditionalPayment > 0)
+            {
+                _loc_3 = _loc_3 + 1;
+            }
+            _loc_2 = _loc_2 + 1;
+        }
+        return _loc_3;
     }
 
  };

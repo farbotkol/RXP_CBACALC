@@ -34,11 +34,11 @@ var LoanProjection = function(){
     }
 
     self.TotalPaymentRounded = function() {
-        return this.PaymentRounded + this.AutoAdditionalPayment + this.AdditionalPayment;
+        return this.PaymentRounded() + this.AutoAdditionalPayment + this.AdditionalPayment;
     }
 
     self.InterestRounded = function() {
-        return Math.round((this.TotalPaymentRounded - this.PrincipalRounded) * 100) / 100;
+        return Math.round((this.TotalPaymentRounded() - this.PrincipalRounded) * 100) / 100;
     }
 
     self.ClosingBalanceRounded = function() {

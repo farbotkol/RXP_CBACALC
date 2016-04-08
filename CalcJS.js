@@ -89,6 +89,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.RentalPMT = 0;
     //$scope.DelayedPayment = 0;
     $scope.IsIrregular = false;
+    $scope.IsSeasonal = false;
+
+    $scope.Seasonal = null; // need ui
+    $scope.RegularPaymentOverride = 0;
+
 
 
 
@@ -190,9 +195,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.ComputeMorgageDuty (); // must be after the amount is calculated
         
 
-        $scope.ComputeDownPayment();
-        $scope.ComputeInstallmentPrincipal();
-        $scope.ComputeAmortizationFactor();
+        //$scope.ComputeDownPayment();
+        //$scope.ComputeInstallmentPrincipal();
+        //$scope.ComputeAmortizationFactor();
+
+        $scope.ProjectionCalculate();
 
     }
 
@@ -780,7 +787,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
         //SARentalDuty in flash version siply returned 0 anyway so removing 
 
-        return Math.round(this.TotalInstallment * this.GSTPercentRate * 100) / 100;
+        return Math.round($scope.TotalInstallment() * $scope.GSTPercentRate * 100) / 100;
     }
 
 
@@ -807,6 +814,62 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         return Math.round($scope.LCTCarLimit / $scope.GSTreciprocal * 100) / 100;
     }
 
+
+    $scope.TotalInstallment = function() {
+
+        return $scope.RegularPaymentOverride;
+    }
+
+
+    $scope.TotalAmountFinanced = function() {
+
+        return this.AmountFinanced + this.BrokageAmount;
+    }
+
+    $scope.ProjectionCalculate = function() { 
+        //this.IsCalculating = true;
+        //this.UpdateSeasonalPaymentsButtons();
+        $scope.loanProjection = new LoanProjections();
+        //previously UpdateSeasonalPaymentsButtons(); in flash app
+        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        $scope.loanProjection.Calculate();
+        $scope.IsIrregular = $scope.loanProjection.IsIrregular;
+        $scope.NumberInstallmentsFromSchedule = $scope.loanProjection.NumberOfInstallments;
+        //
+        
+
+        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        $scope.loanProjection.Calculate();
+        $scope.RegularPaymentOverride = $scope.loanProjection.ScheduledPaymentPerFreq;
+        
+        $scope.loanProjectionLesse = new LoanProjections();
+        $scope.loanProjectionLesse.Initialise($scope.DDate, $scope.AmountFinanced, $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        if ($scope.BrokageAmount > 0.01)
+        {
+            $scope.loanProjectionLesse.CalculateByInterest();
+        }
+        else
+        {
+            $scope.loanProjectionLesse.Calculate();
+        }
+        $scope.IsIrregular = $scope.loanProjectionLesse.IsIrregular;
+        $scope.LesseeRateOverride = $scope.loanProjectionLesse.InterestRatePerPeriod * 12;
+        $scope.TotalAmountInterestFromSchedule = $scope.loanProjectionLesse.TotalInterests();
+        $scope.TotalAmountRepaymentsFromSchedule = $scope.loanProjectionLesse.TotalRepayments();
+        $scope.NumberInstallmentsFromSchedule = $scope.loanProjectionLesse.NumberOfInstallments;
+
+        console.log('TotalAmountRepaymentsFromSchedule :' + $scope.TotalAmountRepaymentsFromSchedule);
+        //this.IsCalculating = false;
+        /*this.RemapTable();
+        this.SendDataXML();
+        if (this.taLog != null)
+        {
+            this.taLog.text = this._logger.log;
+        }*/
+        return;
+    }
+
+
     $scope.ComputeTotalAmountFinanced = function() {
             
             // Equipment Loan
@@ -822,6 +885,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.ComputeAmortizationFactor();
     };*/
     
+    /*
     $scope.ComputeFromMonths = function() {
          $scope.ComputeYears();
          
@@ -878,8 +942,8 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.ComputeAmortizationFactor();        
     };
     
-    
-    $scope.ComputeAmortizationFactor = function() {
+    */
+    /*$scope.ComputeAmortizationFactor = function() {
         
         $scope.DDate = new Date($scope.DDateText);
         
@@ -929,9 +993,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         }
         
         $scope.CreateAmortizationSchedule();
-    };
+    };*/
     
-    
+    /*
     $scope.ComputeFromLesseeRate = function() {
         $scope.ComputeAmortizationFactor();
     };
@@ -971,7 +1035,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.CreateAmortizationSchedule();            
         }
         
-    };
+    };*/
     
     
     $scope.EvaluatePaymentTerms = function() {
@@ -995,7 +1059,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.CreateAmortizationSchedule();
     };
     
-    $scope.CreateAmortizationSchedule = function() {
+    /*$scope.CreateAmortizationSchedule = function() {
         
         var amort = $scope.Amortizations = [];
         
@@ -1082,7 +1146,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             amort
             .map(function(a) { return a.Amortization })
             .reduce(function(prev,current) { return prev + current; });
-    };
+    };*/
     
     $scope.round = function(number,X) {
         // rounds number to X decimal places, defaults to 2
@@ -1091,9 +1155,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
     
             
-    $scope.ComputeFromDownPaymentPercent();
+    //$scope.ComputeFromDownPaymentPercent();
     //$scope.ComputeFromYears();
-    $scope.ComputeAmortizationFactor();  
+    //$scope.ComputeAmortizationFactor();  
     $scope.ComputeFromAmountFinanced();
     $scope.TypeChanged();
     
