@@ -13,23 +13,26 @@
 
 <body ng-controller="RealEstateController" ng-app="RealEstateApp">
 
+    <div style='float: left' class='calctype'>
+        <fieldset>
+            <div><label for='CalcType'>Calculation Type</label>
+                <select id='CalcType'  name="singleSelect" ng-model="CalcType"
+                                ng-change='TypeChanged()'
+                                ng-disabled='DeterminePaymentTerms'>
+                      <option value="1">Finance Lease</option>
+                      <option value="2">Hire Purchase</option>
+                      <option value="3">Equipment Loan</option>
+                      <option value="4">Novated Finance Lease</option>
+                      <option value="5">Protected Lease</option>
+                </select>
+                <input ng-model="CalcType" type='number'/>
+            </div>
+        </fieldset>
+    </div>
 
     <div style='float: left' class='input'>
 
-    <fieldset>
-        <div><label for='CalcType'>Calculation Type</label>
-            <select id='CalcType'  name="singleSelect" ng-model="CalcType"
-                            ng-change='TypeChanged()'
-                            ng-disabled='DeterminePaymentTerms'>
-                  <option value="1">Finance Lease</option>
-                  <option value="2">Hire Purchase</option>
-                  <option value="3">Equipment Loan</option>
-                  <option value="4">Novated Finance Lease</option>
-                  <option value="5">Protected Lease</option>
-            </select>
-            <input ng-model="CalcType" type='number'/>
-        </div>
-    </fieldset>
+   
 
     <fieldset>
         <legend>Details</legend>
@@ -287,7 +290,7 @@
     </fieldset>    
         
     </div>
-    <div class='amort' style='float: left'>
+    <div class='summary' style='float: left'>
     <fieldset>
         <legend>{{CalcTypeName}} Summary</legend>
         <div ng-show='showAmountFinancedForHP' >
@@ -620,7 +623,7 @@
      </div>
 
     
-    <div class='amort' style='float: left'><!--
+    <div class='amort' ><!--
     <fieldset>
         <legend>Amortization Schedule</legend>    
         
@@ -660,28 +663,26 @@
             <thead>
                 <tr class='header'>
                    <th>Term</th>
-                   <th>DDate</th>
-                   <th>OpeningBalance</th>
+                   <th>Date</th>
+                   <th>Opening Balance</th>
                    <th>Residual</th>
                    <th>Payment</th>
-                   <th>AdditionalPayment</th>
-                   <th>AutoAdditionalPayment</th>
-                   <th>InterestAmount</th>
-                   <th>PrincipalAmount</th>
-                   <th>ClosingBalance</th>
+                   <th>Add Payment</th>
+                   <th>Principal Amount</th>
+                   <th>Interest Amount</th>
+                   <th>Closing Balance</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in loanProjectionLesse.loanProjections">
                     <td>{{x.Term }}</td>
-                    <td>{{x.DDate }}</td>
+                    <td>{{x.DDate | date : 'mediumDate'}}</td>
                     <td>{{x.OpeningBalance | number:2 }}</td>
-                    <td>.</td>
+                    <td>{{x.AutoAdditionalPayment  | number:2}}</td>
                     <td>{{x.Payment  | number:2}}</td>
                     <td>{{x.AdditionalPayment | number:2 }}</td>
-                    <td>{{x.AutoAdditionalPayment  | number:2}}</td>
-                    <td>{{x.InterestAmount  | number:2}}</td>
                     <td>{{x.PrincipalAmount | number:2 }}</td>
+                    <td>{{x.InterestAmount  | number:2}}</td>
                     <td>{{x.ClosingBalance | number:2 }}</td>
                 </tr>
             </tbody>
@@ -699,9 +700,6 @@
 
     </div>
 
-     <div class='amort' style='float: left'>
-    
-    </div>
      
      <!--
     <fieldset>

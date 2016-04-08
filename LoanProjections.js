@@ -104,7 +104,7 @@
         var _loc_4 = 0; // type date
         if (this.loanProjections.length > 0)
         {
-            _loc_4 = this.loanProjections[0].DDate.date;
+            _loc_4 = this.loanProjections[0].DDate.getDate();
         }
         _loc_3 = 0;
         while (_loc_3 < this.loanProjections.length)
@@ -119,12 +119,12 @@
             {
                 _loc_2 = this.loanProjections[(_loc_3 - 1)];
                 _loc_1.DDate = new Date(_loc_2.DDate);
-                (_loc_1.DDate.month + 1);
+                _loc_1.DDate.setMonth(_loc_1.DDate.getMonth() + 1);
                 _loc_1.DDate.date = _loc_4;
-                if ((_loc_2.DDate.month + 1) % 12 != _loc_1.DDate.month)
+                if ((_loc_2.DDate.getMonth() + 1) % 12 != _loc_1.DDate.getMonth())
                 {
-                    _loc_1.DDate.date = 1;
-                    _loc_1.DDate.hours = _loc_1.DDate.hours - 24;
+                    _loc_1.DDate.setDate(1) ;
+                    _loc_1.DDate.setHours(_loc_1.DDate.getHours() - 24);
                 }
                 _loc_1.OpeningBalance = _loc_2.ClosingBalance;
             }
@@ -163,7 +163,7 @@
             _loc_6 = _loc_3 % this.ScheduledPaymentFrequencyPerPeriod == 0;
             if (this.Seasonal != null)
             {
-                _loc_6 = this.Seasonal[_loc_1.DDate.month];
+                _loc_6 = this.Seasonal[_loc_1.DDate.getMonth()];
             }
             _loc_6 = _loc_6 && (_loc_3 != 0 || this.InAdvanced) && (!this.InAdvanced || _loc_3 != (this.loanProjections.length - 1));
             if (_loc_3 < this.numOfDelayedMonth)

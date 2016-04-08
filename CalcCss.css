@@ -1,6 +1,8 @@
 fieldset { font-size: 13px; font-family : 'Calibri'}
-div.input { width: auto; }
-div.amort { width: auto; }
+div.calctype { width: auto; }
+div.input { width: auto; clear:both;}
+div.summary { width: auto; }
+div.amort { width: auto; clear:both;}
 table, th, td { font-size: 13px; font-family : 'Calibri'; }
 
 
