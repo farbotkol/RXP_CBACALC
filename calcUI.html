@@ -28,6 +28,98 @@
                 <input ng-model="CalcType" type='number'/>
             </div>
         </fieldset>
+
+
+            <fieldset>
+        <legend>Seasonal</legend>
+
+        <div>
+
+            <label>
+                <input type="checkbox" 
+                    ng-model="IsSeasonal"
+                    ng-change="ProjectionCalculate()"/>
+                    Seasonal Payments
+                </label>
+                <br/>
+                {{IsSeasonal}}
+                {{!IsSeasonal}}
+                <br/>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[0]"
+                ng-change="ProjectionCalculate()"/>
+                Jan
+            </label>
+            <label>
+                <input type="checkbox"  ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[1]"
+                ng-change="ProjectionCalculate()"/>
+                Feb
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[2]"
+                ng-change="ProjectionCalculate()"/>
+                Mar
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[3]"
+                ng-change="ProjectionCalculate()"/>
+                Apr
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[4]"
+                ng-change="ProjectionCalculate()"/>
+                May
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[5]"
+                ng-change="ProjectionCalculate()"/>
+                Jun
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[6]"
+                ng-change="ProjectionCalculate()"/>
+                Jul
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[7]"
+                ng-change="ProjectionCalculate()"/>
+                Aug
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[8]"
+                ng-change="ProjectionCalculate()"/>
+                Sep
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[9]"
+                ng-change="ProjectionCalculate()"/>
+                Oct
+            </label>
+            <label>
+                <input type="checkbox" ng-disabled="!IsSeasonal"
+                ng-model="Seasonal[10]"
+                ng-change="ProjectionCalculate()"/>
+                Nev
+            </label>
+            <label>
+                <input type="checkbox"
+                ng-model="Seasonal[11]" ng-disabled="!IsSeasonal"
+                ng-change="ProjectionCalculate()"/>
+                Dec
+            </label>
+
+        </div>
+    </fieldset>    
     </div>
 
     <div style='float: left' class='input'>
@@ -275,21 +367,9 @@
 
     </fieldset>
 
-    
 
-   <!--     
-    <fieldset>
-        <legend>Extra Payments<button ng-click="AddAdvancedPayment()">+</button></legend>
-        <div ng-repeat="adv in AdvancedPayments">
-            
-            <input ng-model="adv.MonthNumber" placeholder="Month Number" ng-change="CreateAmortizationSchedule()" type='number'>
-            <input ng-model="adv.Payment" placeholder="Payment" ng-change="CreateAmortizationSchedule()" type='number'>
-                <button ng-click="RemoveAdvancedPayment($index)">-</button>
-            
-        </div>
-    </fieldset>    
 
-    -->
+
         
     </div>
     <div class='summary' style='float: left'>

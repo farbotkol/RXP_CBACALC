@@ -62,6 +62,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     $scope.AddPayments = [];
 
+    $scope.IsSeasonal = false;
+
+
     //Brokerage Details
     $scope.BrokageAmount = 2000; 
     $scope.BrokagePercent = 0; 
@@ -94,7 +97,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.IsIrregular = false;
     $scope.IsSeasonal = false;
 
-    $scope.Seasonal = null; // need ui
+    $scope.Seasonal = [false,false,false,false,false,false,false,false,false,false,false,false]; // need ui
     $scope.RegularPaymentOverride = 0;
 
 
@@ -642,11 +645,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.NumberInstallments = function() {
         if ($scope.IsIrregular)
         {
-            //return $scope.NumberInstallmentsFromSchedule;
+            return $scope.NumberInstallmentsFromSchedule / $scope.FrequencyPerPeriod;
 
             //temp 
 
-            return  $scope.TermInMostnths / $scope.FrequencyPerPeriod;
+            //return  $scope.TermInMonths / $scope.FrequencyPerPeriod;
         }
         return $scope.TermInMonths / $scope.FrequencyPerPeriod;
     }
