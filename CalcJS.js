@@ -59,6 +59,9 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.TermInMonths = 48;
     $scope.DelayedPayment = 0;
 
+
+    $scope.AddPayments = [];
+
     //Brokerage Details
     $scope.BrokageAmount = 2000; 
     $scope.BrokagePercent = 0; 
@@ -202,6 +205,24 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
         $scope.ProjectionCalculate();
 
+    }
+
+
+    $scope.ComputeAddPaymentChange = function(){
+        $scope.AddPayments = [];
+        var cnt = 0;
+        var len = $scope.loanProjectionLesse.loanProjections.length;
+
+        while (cnt < len)
+        {
+             var baseItem = {"AdditionalPayment":0};
+             baseItem.AdditionalPayment = $scope.loanProjectionLesse.loanProjections[cnt].AdditionalPayment;
+             $scope.AddPayments.push(baseItem);
+             cnt++;    
+        }
+
+        $scope.ProjectionCalculate();
+            
     }
 
     /*$scope.InAdvanceChanged = function() {
@@ -832,19 +853,19 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         //this.UpdateSeasonalPaymentsButtons();
         $scope.loanProjection = new LoanProjections();
         //previously UpdateSeasonalPaymentsButtons(); in flash app
-        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.AddPayments, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
         $scope.loanProjection.Calculate();
         $scope.IsIrregular = $scope.loanProjection.IsIrregular;
         $scope.NumberInstallmentsFromSchedule = $scope.loanProjection.NumberOfInstallments;
         //
         
 
-        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        $scope.loanProjection.Initialise($scope.DDate, $scope.TotalAmountFinanced(), $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.AddPayments, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
         $scope.loanProjection.Calculate();
         $scope.RegularPaymentOverride = $scope.loanProjection.ScheduledPaymentPerFreq;
         
         $scope.loanProjectionLesse = new LoanProjections();
-        $scope.loanProjectionLesse.Initialise($scope.DDate, $scope.AmountFinanced, $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.TableLessee, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
+        $scope.loanProjectionLesse.Initialise($scope.DDate, $scope.AmountFinanced, $scope.RegularPaymentOverride, $scope.FrequencyPerPeriod, $scope.LessorRate / 12, $scope.TermInMonths, JSON.parse($scope.InAdvanced), $scope.ResidualAmount, $scope.AddPayments, !$scope.IsSeasonal ? (null) : ($scope.Seasonal), $scope.DelayedPayment);
         if ($scope.BrokageAmount > 0.01)
         {
             $scope.loanProjectionLesse.CalculateByInterest();

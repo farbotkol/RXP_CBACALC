@@ -3,7 +3,7 @@
 <head>
 <title>CBA Calc</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
 <script src="CalcJS.js"></script>
 <script src="LoanProjection.js"></script>
 <script src="LoanProjections.js"></script>
@@ -277,7 +277,7 @@
 
     
 
-        
+   <!--     
     <fieldset>
         <legend>Extra Payments<button ng-click="AddAdvancedPayment()">+</button></legend>
         <div ng-repeat="adv in AdvancedPayments">
@@ -288,6 +288,8 @@
             
         </div>
     </fieldset>    
+
+    -->
         
     </div>
     <div class='summary' style='float: left'>
@@ -680,13 +682,18 @@
                     <td>{{x.OpeningBalance | number:2 }}</td>
                     <td>{{x.AutoAdditionalPayment  | number:2}}</td>
                     <td>{{x.Payment  | number:2}}</td>
-                    <td>{{x.AdditionalPayment | number:2 }}</td>
+                    <td>
+                          <input ng-blur='ComputeAddPaymentChange()'
+                            id='AdditionalPayment' 
+                             ng-model='x.AdditionalPayment' type='number'/>
+                            <!--{{x.AdditionalPayment | number:2 }}-->
+                    </td>
                     <td>{{x.PrincipalAmount | number:2 }}</td>
                     <td>{{x.InterestAmount  | number:2}}</td>
                     <td>{{x.ClosingBalance | number:2 }}</td>
                 </tr>
             </tbody>
-            <tfooter>
+            <!--<tfooter>
                 <tr>
                     <td>Total</td><td></td>
                     <td>{{TotalInterest | number:2}}</td>
@@ -694,7 +701,7 @@
                     <td>{{TotalAmortization | number:2}}</td>
                     <td></td>
                 </tr>
-            </tfooter>
+            </tfooter>->
         </table>    
     </fieldset>
 
