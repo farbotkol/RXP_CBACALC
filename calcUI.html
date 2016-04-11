@@ -243,7 +243,7 @@
             From Tax Invoice
         </div>
 
-        <div><label for='FeesAndChargesFinanced'>Fees & Charges Financed</label>
+        <div><label for='FeesAndChargesFinanced'>Fees &amp; Charges Financed</label>
             <input 
             id='FeesAndChargesFinanced' 
             ng-model='FeesAndChargesFinanced' 
@@ -393,7 +393,7 @@
             </div>
 
             <div  >
-                <label for='VehicleRegistration'>Vehicle Registration (inc. Stamp Duty & CTP)</label>
+                <label for='VehicleRegistration'>Vehicle Registration (inc. Stamp Duty &amp; CTP)</label>
                 <input disabled="disabled"
                 id='VehicleRegistration' 
                 ng-model='MVRegoCost' 
@@ -521,7 +521,7 @@
                 />
             </div>
 
-            <div ng-show='showPlusFeesAndChargesFinanced'><label for='PlusFeesAndChargesFinanced'>Plus Fees & Charges Financed</label>
+            <div ng-show='showPlusFeesAndChargesFinanced'><label for='PlusFeesAndChargesFinanced'>Plus Fees &amp; Charges Financed</label>
                 <input disabled="disabled"
                 id='PlusFeesAndChargesFinanced' 
                 ng-model='FeesAndChargesFinanced' 
@@ -773,104 +773,12 @@
                     <td>{{x.ClosingBalance | number:2 }}</td>
                 </tr>
             </tbody>
-            <!--<tfooter>
-                <tr>
-                    <td>Total</td><td></td>
-                    <td>{{TotalInterest | number:2}}</td>
-                    <td>{{TotalPrincipal | number:2}}</td>
-                    <td>{{TotalAmortization | number:2}}</td>
-                    <td></td>
-                </tr>
-            </tfooter>->
+       
         </table>    
     </fieldset>
 
     </div>
 
-     
-     <!--
-    <fieldset>
-        <legend>Old</legend>
-
-       RentalPMT = {{RentalPMT}} <br/>
-       CarGST = {{CarGST()}}<br/>
-       GST =  {{GST()}}
-
-        <div><label for='DownPaymentPercent'>Downpayment %</label></div>
-        <div><input 
-        id='DownpaymentPercent' ng-model='DownPaymentPercent' ng-change='ComputeFromDownPaymentPercent()' 
-        ng-disabled='DeterminePaymentTerms'
-        percent/></div>
-        
-        <div><label for='DownPayment'>Downpayment</label></div>
-        <div><input id='DownPayment' ng-model='DownPayment' ng-change='ComputeFromDownPayment()' ng-disabled='DeterminePaymentTerms' type='number'/></div>
-        
-        <div><label for='InstallmentPrincipal'>Installment Principal</label></div>
-        <div><input id='InstallmentPrincipal' ng-model='InstallmentPrincipal' ng-change='ComputeFromInstallmentPrincipal()' ng-disabled='DeterminePaymentTerms'/></div>
-    </fieldset>
-
-    <fieldset>
-
-        <legend>Payment Terms</legend>
     
-        <div><label for='NumberOfYearsToPay'>Number of years to pay</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='NumberOfYearsToPay' ng-model='NumberOfYearsToPay' ng-change='ComputeFromYears()' type='number'/></div>
-    
-        
-        <div><label for='NumberInstallments '>Number of months to pay</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='NumberInstallments ' ng-model='NumberInstallments ' ng-change='ComputeFromMonths()' type='number'/></div>
-        
-        <div><label for='FrequencyPerPeriod'>Payment Mode(1 = Monthly, 3 = Quarterly, ..., 12 = Yearly)</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='FrequencyPerPeriod' ng-model='FrequencyPerPeriod' ng-change='ComputeFromFrequencyPerPeriod()' type='number'/></div>
-        
-        <div><label for='LesseeRate'>Interest Rate Per Annum</label></div>
-        <div><input ng-disabled='DeterminePaymentTerms' id='LesseeRate' ng-model='LesseeRate' ng-change='ComputeFromLesseeRate()' percent/></div>
-        
-        
-              
-    </fieldset>
-
-    
-    <fieldset>
-        
-        <legend>Amortization</legend>
-
-
-        
-        <div><label for='AmortizationFactor'>Amortization Factor</label></div>
-        <div><b>{{AmortizationFactor}}</b></div>
-        
-        
-        <div><label for='AmortizationAmount'>Amortization Amount</label></div>
-        <div><b>{{AmortizationAmount | number:2}}</b></div>
-        
-
-        
-        <hr/>
-        <div><input type='checkbox' ng-model='DeterminePaymentTerms' ng-change='EvaluatePaymentTerms()'/>Determine Payment Terms based on your budget</div>
-        <div ng-show='DeterminePaymentTerms'>
-            <div><input ng-show='DeterminePaymentTerms' id='Budget' ng-model='Budget' ng-change='ComputeFromAmortizationAmount()'/></div>
-            <div ng-show='IsBudgetLessThanTheFirstInterest()'>Budget should be more than the first interest({{FirstInterest() | number:2}}). Significantly higher if possible, otherwise you are just wasting your money on the interest ({{LesseeRate * 100}}%)</div>
-        </div>
-            
-        
-    </fieldset>
-    
-    
-    <fieldset><legend>Totals</legend>
-        <div style='float: left; margin-right: 5px'>Total Interest: </div>
-        <div><b>{{TotalInterest | number:2}}</b></div>
-        
-        <div style='float: left; margin-right: 5px'>Total Principal: </div>
-        <div><b>{{InstallmentPrincipal | number:2}} (aka Installment Principal)</b></div>        
-        
-        <div style='float: left; margin-right: 5px'>Total Amortization: </div>
-        <div><b>{{TotalAmortization | number:2}}</b></div>        
-
-        <div style='float: left; margin-right: 5px'>Total Amortization + Downpayment: </div>
-        <div><b>{{TotalAmortization + DownPayment | number:2}}</b></div>                        
-    </fieldset>
-    -->   
-</body>
 </body>
 </html>
