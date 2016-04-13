@@ -7,11 +7,14 @@
 <script src="CalcJS.js"></script>
 <script src="LoanProjection.js"></script>
 <script src="LoanProjections.js"></script>
+<script src="xml2json.js"></script>
+<script src="ObjTree.js"></script>
 <link rel="stylesheet" type="text/css" href="CalcCss.css">
 
 </head>
 
 <body ng-controller="RealEstateController" ng-app="RealEstateApp">
+ <!--<button ng-click='CreateSaveObject()'></button>-->
  <div style='float: left' class='calctype'>
             <fieldset>
                 <div><label for='CalcType'>Calculation Type</label>
@@ -451,7 +454,7 @@
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
                 id='TermInMonthsInstallment' 
-                value='{{NumberInstallmentsFromSchedule|number}}' 
+                value='{{TermInMonthsInstallment()|number}}' 
                 />
             </div>
 
@@ -526,7 +529,7 @@
             </div>
 
             <div ng-show='showResidualValueIncGST'>
-                <label for='ResidualValueIncGST) '>Residual Value (Inc. GST) </label>
+                <label for='ResidualValueIncGST '>Residual Value (Inc. GST) </label>
                 <input disabled="disabled"
                 id='ResidualValueIncGST' 
                 value='{{BalloonAmount()}}'
@@ -554,7 +557,7 @@
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
                 id='TermInMonthsInstallment' 
-                value='{{NumberInstallmentsFromSchedule|number}}' 
+                value='{{TermInMonthsInstallment()|number}}' 
                 />
             </div>
                 

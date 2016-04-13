@@ -9,6 +9,15 @@ Date.prototype.yyyymmdd = function() {
     return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
 };  
 
+Date.prototype.ddmmyyyy = function() {         
+    
+    var yyyy = this.getFullYear().toString();                                    
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+    var dd  = this.getDate().toString();             
+    
+    return  (dd[1]?dd:"0"+dd[0])  + '/' + (mm[1]?mm:"0"+mm[0]) + '/' + yyyy;
+}; 
+
 
 myApp.directive("percent", function($filter){
     var p = function(viewValue){
@@ -33,6 +42,8 @@ myApp.directive("percent", function($filter){
 
 myApp.controller('RealEstateController',['$scope', function($scope) {
  // ------- MODELS --------
+
+    $scope.VERSION = "v2.00";
     
     // Month number, amortization date, interest, principal, principal balance
     $scope.Amortizations = [];
@@ -90,7 +101,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     //$scope.ITC = 0;
       
     //hidden stuff from XML- Luke 
-    $scope.FrequencyPerPeriod = 0;
+    //$scope.FrequencyPerPeriod = 0;
     $scope.FrequencyPerYear =  0;
     $scope.RentalPMT = 0;
     //$scope.DelayedPayment = 0;
@@ -104,7 +115,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
 
     //CBACalculatorFacts salesforce config settings
-    $scope.LCTLimit = 75375;// Doesnt seem to be used
+    $scope.LCTLimit_ = 75375;// Doesnt seem to be used
     $scope.LCTLimitFuelEfficient = 75375;
     $scope.GSTPercentRate = 0.1;
     $scope.MortgageDutyBaseNSW = 5;
@@ -116,7 +127,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.MortgageDutyRateSA = 0;
     $scope.MortgageDutyCeilFactorSA = 100;
 
-    $scope.LCTCarLimit = 57466;//maybe should be added to CBACalculatorFacts 
+    $scope.LCTCarLimit = 57466;//maybe should be added to CBACalculatorFacts    LCTLimitLuxury__c ( LCT Limit Luxury Car)
     $scope.threshouldIteration = 5000; //maybe should be added to CBACalculatorFacts
     $scope.thresholdDistance = 0.001; //maybe should be added to CBACalculatorFacts
     $scope.LCTRate = 0.33;//maybe should be added to CBACalculatorFacts 
@@ -180,17 +191,278 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.AdvancedPayments = [
         { MonthNumber: null, Payment: null }
     ];
+
+
+    $scope.calcJSON = null;
     
-    
+
     // ------- CONTROLLER's ACTIONS -----------
     
     /*$scope.ComputeYears = function() {
         $scope.NumberOfYearsToPay = $scope.InAdvanced / 12;
     }*/
+
+    $scope.CondenseJSONScheduleForSF = function(schedule){
+        var newschedule = [];
+
+        var originalLen = schedule.length;
+        var index = 1 ; 
+        var futureSched; 
+
+
+        if (originalLen > 1 ){
+
+            var prevSched = schedule[0]  
+            var currSched = schedule[1] 
+            var startDate = prevSched["-DDate"];
+            var futureSched;    
+            var paymentsCnt = 1; 
+            while (index < originalLen){
+
+                currSched = schedule[index];     
+
+                //do something 
+                if (prevSched["-TotalPayment"]  == currSched["-TotalPayment"] ) 
+                {
+                    paymentsCnt++; 
+
+                    if (index == originalLen-1)
+                    {
+                        futureSched = prevSched; 
+                        futureSched["-No_of_Payments"] = paymentsCnt;
+                        newschedule.push(futureSched);
+                    }
+                }
+                else 
+                {
+                   
+                    futureSched = prevSched; 
+                    futureSched["-DDate"] = startDate;
+                    futureSched["-No_of_Payments"] = paymentsCnt;
+                    newschedule.push(futureSched);
+
+
+                    startDate = currSched["-DDate"];
+                    paymentsCnt=1
+
+                    if (index == originalLen-1)
+                    {
+                        newschedule.push(currSched);
+                    }
+                }
+
+                prevSched = currSched;
+
+                index++;
+            }   
+
+        }
+
+        return newschedule;
+
+
+
+    }
+
+    $scope.CreateJSONScheduleForSF = function(){
+
+        var schedule = [];
+
+        if ($scope.loanProjectionLesse.loanProjections != null && $scope.loanProjectionLesse.loanProjections.length > 0)
+        {
+            var lpBefore = $scope.loanProjectionLesse.loanProjections[0];
+            var numberofpayment = 0 ;
+            var LstInstallmentDate = lpBefore.DDate;
+            var startInstallmentDate = lpBefore.DDate
+            var lpCurrent;
+            var x = 0;
+            while (x <= $scope.loanProjectionLesse.loanProjections.length)
+            {
+                
+                if (x < $scope.loanProjectionLesse.loanProjections.length)
+                {
+                    lpCurrent = $scope.loanProjectionLesse.loanProjections[x];
+
+                    if (Math.ceil(lpCurrent.TotalPayment() * 100) == Math.ceil(lpBefore.TotalPayment() * 100) && $scope.IsSeasonal == false && Math.abs(lpCurrent.AdditionalPayment) < 0.005)
+                    {
+                        numberofpayment++;
+                        LastInstallmentDate = lpBefore.DDate;
+
+                    }
+                    else
+                    {
+
+                        if (lpBefore.TotalPayment() > 0 )
+                        {
+                            numberofpayment++;
+                            var scheduleItem = {
+                                            "-DDate": startInstallmentDate.ddmmyyyy(),
+                                            "-LastInstallmentDate": LastInstallmentDate.ddmmyyyy(),
+                                            "-Payment": lpBefore.PaymentRounded(),
+                                            "-AutoAdditionalPayment": lpBefore.AutoAdditionalPayment,
+                                            "-AdditionalPayment": lpBefore.AdditionalPayment,
+                                            "-TotalPayment": lpBefore.TotalPaymentRounded(),
+                                            "-No_of_Payments": numberofpayment,
+                                            "-Payment_Frequency": ($scope.IsSeasonal === true) ? "Monthly" : $scope.Frequency
+                            };
+
+                            schedule.push(scheduleItem);
+                        }
+                        if(x == $scope.loanProjectionLesse.loanProjections.length -1  && lpCurrent.TotalPayment() > 0)
+                        {
+
+                            numberofpayment = 1;
+                            var scheduleItem = {
+                                            "-DDate": lpCurrent.DDate.ddmmyyyy(),
+                                            "-LastInstallmentDate": lpCurrent.DDate.ddmmyyyy(),
+                                            "-Payment": lpCurrent.PaymentRounded(),
+                                            "-AutoAdditionalPayment": lpCurrent.AutoAdditionalPayment,
+                                            "-AdditionalPayment": lpCurrent.AdditionalPayment,
+                                            "-TotalPayment": lpCurrent.TotalPaymentRounded(),
+                                            "-No_of_Payments": numberofpayment,
+                                            "-Payment_Frequency": ($scope.IsSeasonal === true) ? "Monthly" : $scope.Frequency
+                            };
+
+                            schedule.push(scheduleItem);
+
+                        }
+                        startInstallmentDate = lpCurrent.DDate;
+                        numberofpayment =  0;
+                    }
+
+                }
+                
+                lpBefore = lpCurrent;
+                LastInstallmentDate = lpCurrent.DDate;
+                x++;
+            }
+        }
+
+        if ( $scope.Frequency != "Monthly")
+        {
+
+            schedule = $scope.CondenseJSONScheduleForSF(schedule);
+        }
+
+        return schedule;
+    }
+
+    $scope.CreateSaveObject = function(){
+
+      
+        var CBACalculatorTools = {
+                                  "CBACalculatorTools": {
+                                    "CBACalculatorForm": {
+                                      "CalcTypeName": $scope.CalcTypeName ,
+                                      "CalcType": $scope.CalcType,
+                                      "InAdvanced": $scope.InAdvanced,
+                                      "Frequency": $scope.Frequency,
+                                      "State": $scope.State,
+                                      "DDate": $scope.DDate.ddmmyyyy(),
+                                      "AssetType": $scope.AssetType,
+                                      "EquipmentCost": $scope.EquipmentCost,
+                                      "TradeIn": $scope.TradeIn,
+                                      "MVRegoCost": $scope.MVRegoCost,
+                                      "Options": $scope.Options,
+                                      "SupplierDelivery": $scope.SupplierDelivery,
+                                      "SupplierDiscount": $scope.SupplierDiscount,
+                                      "FeesAndChargesFinanced": $scope.FeesAndChargesFinanced,
+                                      "LessorRate": $scope.LessorRate,
+                                      "TermInMonths": $scope.TermInMonths,
+                                      "BrokageAmount": $scope.BrokageAmount,
+                                      "BrokagePercent": $scope.BrokagePercent,
+                                      "ResidualAmount": $scope.ResidualAmount,
+                                      "ResidualPercent": $scope.ResidualPercent,
+                                      "BalloonAmount": $scope.BalloonAmount(),
+                                      "BalloonPercent": $scope.BalloonPercent(),
+                                      "DelayedPayment": $scope.DelayedPayment,
+                                      "BalloonAmountExclGST": $scope.ResidualAmount,
+                                      "FrequencyPerPeriod": $scope.FrequencyPerPeriod,
+                                      "AmountFinanced": $scope.AmountFinanced,
+                                      "TotalAmountFinanced": $scope.TotalAmountFinanced(),
+                                      "FrequencyPerYear": $scope.FrequencyPerYear,
+                                      "EquipmentCostExclRego": $scope.EquipmentCostExclRego,
+                                      "TotalEquipmentCost": $scope.TotalEquipmentCost,
+                                      "TermInMonthsInstallment": $scope.TermInMonthsInstallment(),
+                                      "TotalGST": $scope.TotalGST(),
+                                      "GST": $scope.GST(),
+                                      "LCT": $scope.LCT(),
+                                      "ITC": $scope.ITC(),
+                                      "BrokeragePercentHPEL": $scope.BrokagePercent,
+                                      "AssetFinancedLease": $scope.AssetFinancedLease(),
+                                      "AmountFinancedHirePurchaseEquipmentLoan": $scope.AmountFinancedHirePurchaseEquipmentLoan(),
+                                      "ITCLease": $scope.ITCLease(),
+                                      "ITC_HPEL": $scope.GST_HPEL(),
+                                      "HPEL_Installment": $scope.HPEL_Installment(),
+                                      "RentalDuty": 0,
+                                      "TotalInstallment": $scope.TotalInstallment(),
+                                      "RentalPMT": $scope.RentalPMT,
+                                      "RentalInAdvanceLease": $scope.RegularPaymentOverride,
+                                      "TotalLeaseRental": $scope.TotalLeaseRental(),
+                                      "ResidualValueInclGST": $scope.BalloonAmount(),
+                                      "LesseeRate": $scope.LesseeRate,
+                                      "LCTLimit": $scope.LCTLimit(),
+                                      "CarLuxuryTaxValue": $scope.CarLuxuryTaxValue(),
+                                      "RentalInstallment": $scope.GSTRentalDuty() + $scope.TotalInstallment(),
+                                      "GSTOnResidual": $scope.GSTOnResidual(),
+                                      "GST_HPEL": $scope.GST_HPEL(),
+                                      "GSTRentalDuty": $scope.GSTRentalDuty(),
+                                      "MaxITCOnLease": $scope.MaxITCOnLease(),
+                                      "CarCostExclGSTAndLCT": $scope.CarCostExclGSTAndLCT(),
+                                      "NumberInstallments": $scope.NumberInstallmentsFromSchedule,
+                                      "TotalAmountRepayments": $scope.TotalAmountRepaymentsFromSchedule,
+                                      "TotalAmountInterest": $scope.TotalAmountInterestFromSchedule,
+                                      "MortgageDuty": $scope.MortgageDuty,
+                                      "VERSION": $scope.VERSION
+                                    },
+                                    "CBACalculatorFacts": {
+                                      "LCTLimit": $scope.LCTLimit(),
+                                      "LCTLimitFuelEfficient": $scope.LCTLimitFuelEfficient,
+                                      "GSTPercentRate": $scope.GSTPercentRate,
+                                      "MortgageDutyBaseNSW": $scope.MortgageDutyBaseNSW,
+                                      "MortgageDutyLimitNSW": $scope.MortgageDutyLimitNSW,
+                                      "MortgageDutyRateNSW": $scope.MortgageDutyRateNSW,
+                                      "MortgageDutyCeilFactorNSW": $scope.MortgageDutyCeilFactorNSW,
+                                      "MortgageDutyBaseSA": $scope.MortgageDutyBaseSA,
+                                      "MortgageDutyLimitSA": $scope.MortgageDutyLimitSA,
+                                      "MortgageDutyRateSA": $scope.MortgageDutyRateSA,
+                                      "MortgageDutyCeilFactorSA": $scope.MortgageDutyCeilFactorSA,
+                                      "LCTRate": $scope.LCTRate,
+                                      "LCTLuxuryThreshold" : $scope.LCTLuxuryThreshold,
+                                      "LCTCarLimit": $scope.LCTCarLimit
+                                    },
+                                    "CBACalculatorSchedule": {
+                                      "CBACalculatorAddPayments": {
+                                        "AdditionalPayment": $scope.getAddPaymentArray()
+                                      },
+                                      "Seasonal": ($scope.IsSeasonal === true) ? $scope.Seasonal.toString() :null,
+                                      "ScheduledPaymentPerFreq": $scope.RegularPaymentOverride,
+                                      "Schedules": {
+                                        "Schedule": $scope.CreateJSONScheduleForSF()
+                                      }
+                                    }
+                                  }
+                                };
+                                          
+
+        return CBACalculatorTools;
+
+
+        //console.log(CBACalculatorTools) ;     
+
+        //console.log(JSON.stringify(CBACalculatorTools));                    
+
+
+    }
+
+
+    $scope.TotalLeaseRental= function() {
+        return $scope.RegularPaymentOverride  + $scope.GSTRentalDuty();
+    }
     
     $scope.ComputeFromAmountFinanced = function() {
         $scope.DDate = new Date($scope.DDateText);
-        $scope.ComputeTermInMonthsInstallment();
+        //$scope.ComputeTermInMonthsInstallment();
         $scope.ComputeDetailCosts();
         $scope.ComputeAmountFinanced(); //Needs to be after ComputeDetailCosts();
         //$scope.ComputeTotalAmountFinanced();
@@ -210,6 +482,21 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     }
 
+
+    $scope.getAddPaymentArray = function(){
+        var addPayments = [];
+        var cnt = 0;
+        var len = $scope.loanProjectionLesse.loanProjections.length;
+
+        while (cnt < len)
+        {
+            addPayments.push($scope.loanProjectionLesse.loanProjections[cnt].AdditionalPayment);
+            cnt++;    
+        }
+
+        return addPayments;
+            
+    }
 
     $scope.ComputeAddPaymentChange = function(){
         $scope.AddPayments = [];
@@ -357,6 +644,10 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
          $scope.CalculateResidualPercent();
     }
 
+    $scope.HPEL_Installment = function() {
+        return $scope.ComputePMT((Math.pow(1 + $scope.LessorRate / 12, $scope.FrequencyPerPeriod) - 1), $scope.TermInMonths, $scope.FrequencyPerPeriod, $scope.DelayedPayment, -($scope.AmountFinancedHirePurchaseEquipmentLoan() + $scope.BrokageAmount), $scope.ResidualAmount, JSON.parse($scope.InAdvanced));
+    }
+
     $scope.TotalGST = function() {
         if ($scope.CalcType == 2)
         {
@@ -408,7 +699,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         return $scope.LCTLimitFuelEfficient;
     }
 
-    $scope.GSTOnResidual= function(){
+    $scope.GSTOnResidual = function(){
     
             return Math.round($scope.ResidualAmount * $scope.GSTPercentRate * 100) / 100;
     }
@@ -654,7 +945,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         return $scope.TermInMonths / $scope.FrequencyPerPeriod;
     }
 
-    $scope.ComputeTermInMonthsInstallment = function() {
+    /*$scope.ComputeTermInMonthsInstallment = function() {
             
             // Equipment Loan
             
@@ -674,7 +965,26 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             //calculate NumberInstallments
             //$scope.NumberInstallments = $scope.TermInMonthsInstallment / $scope.FrequencyPerPeriod;
             console.log('$scope.NumberInstallments: ' + $scope.NumberInstallments());
-    };
+    };*/
+
+
+    $scope.TermInMonthsInstallment = function() {
+        if ($scope.FrequencyPerPeriod == 0 ){
+                $scope.FrequencyChanged();
+        }
+        if ($scope.InAdvanced && $scope.ResidualAmount == 0)
+        {
+            if ($scope.TermInMonths == 0)
+            {
+                return this.TermInMonths;
+            }
+            return ($scope.TermInMonths - 1);
+        }
+        else
+        {
+            return $scope.TermInMonths;
+        }
+    }
 
 
 
@@ -822,7 +1132,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITCLease();
         }
         //return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.ITC_HPEL; // ORIGINAL, CHANGED BECAUSE ITC_HPEL JUST RETURNED GST_HPEL
-        return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.GST_HPEL;
+        return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced - $scope.GST_HPEL();
         
     }
 
@@ -883,7 +1193,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         $scope.TotalAmountRepaymentsFromSchedule = $scope.loanProjectionLesse.TotalRepayments();
         $scope.NumberInstallmentsFromSchedule = $scope.loanProjectionLesse.NumberOfInstallments();
 
-        console.log('NumberInstallmentsFromSchedule :' + $scope.NumberInstallmentsFromSchedule);
+        //console.log('NumberInstallmentsFromSchedule :' + $scope.NumberInstallmentsFromSchedule);
         //this.IsCalculating = false;
         /*this.RemapTable();
         this.SendDataXML();
@@ -891,6 +1201,18 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         {
             this.taLog.text = this._logger.log;
         }*/
+
+        $scope.jsonOut = $scope.CreateSaveObject();
+        //console.log($scope.jsonOut);
+        //var x2js = new X2JS();
+        //$scope.xmlOut = x2js.json2xml_str($scope.jsonOut);
+
+        var xotree = new XML.ObjTree();
+        //var myjson = eval('(' + JSON.stringify($scope.jsonOut) + ')');
+        $scope.xmlOut = xotree.writeXML($scope.jsonOut);
+
+        //console.log($scope.xmlOut);
+
         return;
     }
 
