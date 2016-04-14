@@ -1,7 +1,7 @@
 fieldset { font-size: 13px; font-family : 'Calibri'}
 div.calctype { width: auto; }
-div.input { width: 50%; clear:both;}
-div.summary { width: 50%; }
+div.input { width: 55%; clear:both;}
+div.summary { width: 45%; }
 div.amort { width: auto; clear:both;}
 table, th, td { font-size: 13px; font-family : 'Calibri'; }
 
@@ -10,6 +10,27 @@ input {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 5px;
+    text-align: right;
+}
+
+input[type=number]{
+    width: 150px;
+}
+
+input[type=text]{
+    width: 150px;
+}
+
+select{
+    width: 150px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button{
+    
+    -webkit-appearance: none; 
+    margin: 0;
+
 }
 
 

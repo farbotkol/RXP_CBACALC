@@ -27,7 +27,7 @@
                           <option value="4">Novated Finance Lease</option>
                           <option value="5">Protected Lease</option>
                     </select>
-                    <input ng-model="CalcType" type='number'/>
+                    <input ng-model="CalcType" type='hidden'/>
                 </div>
             </fieldset>
        
@@ -41,7 +41,7 @@
                     ng-model="IsSeasonal"
                     ng-change="ProjectionCalculate()"/>
                     Seasonal Payments
-                </label>
+            </label><br/>
             <label>
                 <input type="checkbox" ng-disabled="!IsSeasonal"
                 ng-model="Seasonal[0]"
@@ -106,7 +106,7 @@
                 <input type="checkbox" ng-disabled="!IsSeasonal"
                 ng-model="Seasonal[10]"
                 ng-change="ProjectionCalculate()"/>
-                Nev
+                Nov
             </label>
             <label>
                 <input type="checkbox"
@@ -137,7 +137,7 @@
                   <option value="true">In Advanced</option>
                   <option value="false">In Arears</option>
             </select>
-            <input ng-model="InAdvanced"/>
+            <input ng-model="InAdvanced" type='hidden'/>
             </div>
 
             <div><label for='Frequency'>Frequency</label>
@@ -149,7 +149,7 @@
                       <option value="Half Yearly">Half Yearly</option>
                       <option value="Yearly">Yearly</option>
                 </select>
-                <input ng-model="Frequency" type='Text'/>
+                <input ng-model="Frequency" type='hidden'/>
             </div>
 
             <div><label for='State'>State</label>
@@ -166,12 +166,12 @@
                       <option value="NT">NT</option>
 
                 </select>
-                <input ng-model="State" type='Text'/>
+                <input ng-model='State' type='hidden'/>
             </div>
 
             <div><label for='LesseeRate'>Start Date</label>
             <input type='date' ng-model='DDateText' ng-change='ComputeFromAmountFinanced()'/></div>
-            <div><input style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromAmountFinanced()'/></div>        
+            <div><input  type="hidden" style='width: 300px' ng-disabled='true' id='DDate' ng-model='DDate' ng-change='ComputeFromAmountFinanced()'/></div>        
             
 
             
@@ -183,7 +183,7 @@
                       <option value="Car-Fuel Efficient">Car-Fuel Efficient</option>
                       <option value="All Other Assets">All Other Assets</option>
                 </select>
-                <input ng-model="AssetType" type='Text'/>
+                <input ng-model="AssetType"  type='hidden'/>
             </div>        
 
 
@@ -193,7 +193,7 @@
                 id='EquipmentCost' 
                 ng-model='EquipmentCost' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' type='number' step="0.01"/>
                 From Tax Invoice
             </div>
 
@@ -251,20 +251,19 @@
                 ng-change='ComputeFromAmountFinanced()'
                 ng-disabled='DeterminePaymentTerms' type='number'/>
             </div>
-
             <div><label for='EquipmentCostExclRego'>Equip Cost excl MV Rego Cost</label>
                 <input disabled="disabled"
                 id='EquipmentCostExclRego' 
-                ng-model='EquipmentCostExclRego' 
-                ng-change='ComputeFromAmountFinanced()' type='number'
+                type='text'
+                value='{{EquipmentCostExclRego| currency}}'
                 />
             </div>
-
+            <!--                ng-model='EquipmentCostExclRego' -->
             <div><label for='TotalEquipmentCost'>Total Equipment Cost</label>
                 <input disabled="disabled"
                 id='TotalEquipmentCost' 
-                ng-model='TotalEquipmentCost' 
-                ng-change='ComputeFromAmountFinanced()' type='number'
+                type='text'
+                value='{{TotalEquipmentCost| currency}}'
                 />
             </div>
 
@@ -272,6 +271,7 @@
             <input 
             id='LessorRate' 
             ng-model='LessorRate' 
+            type='number'
             ng-change='ComputeFromAmountFinanced()' percent='percent'
             />
             </div>
@@ -308,7 +308,7 @@
         <div><label for='BrokagePercent'>Brokerage %</label>
             <input 
             id='BrokagePercent' 
-            ng-model='BrokagePercent' 
+            ng-model='BrokagePercent'  type='number'
             ng-change='CalculateBrokageAmount()' percent='percent'
             />
         </div>
@@ -328,7 +328,7 @@
         <div><label for='BalloonPercent'>Balloon %</label>
             <input 
             id='BalloonPercent' 
-            ng-model='ResidualPercent' 
+            ng-model='ResidualPercent' type='number'
             ng-change='CalculateResidualAmount()' percent='percent'
             />
         </div>
@@ -338,6 +338,7 @@
             <label for='GSTOnResidual'>GST On Residual</label>
             <input disabled="disabled"
             id='GSTOnResidual' 
+            type='text'
             value='{{GSTOnResidual()}}'
         
             />
@@ -347,21 +348,22 @@
             <label for='ResidualAmountIncGST'>Residual Amount($) (Inc. GST)</label>
             <input disabled="disabled"
             id='ResidualAmountIncGST' 
+            type='text'
             value='{{BalloonAmount()}}' 
             />
         </div>
 
         <div ng-show='!showAmountFinancedForHP'><label for='AmountFinanced'>Amount Financed</label>
         <input disabled="disabled"
-        id='AmountFinanced' 
-        ng-model='AmountFinanced' 
+        id='AmountFinanced' type='text'
+        value='{{AmountFinanced| currency}}'
         />
         </div>
 
         <div ng-show='showAmountFinancedForHP'><label for='AmountFinanced'>Amount to be Financed</label>
         <input disabled="disabled"
-        id='AmountFinanced' 
-        value='{{AmountFinancedHirePurchaseEquipmentLoan()}}' 
+        id='AmountFinanced'   type='text'
+        value='{{AmountFinancedHirePurchaseEquipmentLoan()| currency}}' 
         />
         </div>
 
@@ -380,15 +382,17 @@
                 <label for='AmountFinancedForHP'>Amount Financed</label>
                 <input disabled="disabled"
                 id='AmountFinancedForHP' 
-                ng-model='AmountFinanced' 
+                type='text'
+                value='{{AmountFinanced| currency}}' 
                 />
             </div>
 
             <div  >
                 <label for='PurchasePriceOfgoods'>Purchase price of goods (Inc. GST)</label>
                 <input disabled="disabled"
-                id='PurchasePriceOfgoods' 
-                ng-model='EquipmentCostExclRego' 
+                id='PurchasePriceOfgoods'  
+                type='text'
+                value='{{EquipmentCostExclRego| currency}}'
                 />
             </div>
 
@@ -396,7 +400,8 @@
                 <label for='VehicleRegistration'>Vehicle Registration (inc. Stamp &amp; Duty  CTP)</label>
                 <input disabled="disabled"
                 id='VehicleRegistration' 
-                ng-model='MVRegoCost' 
+                type='text'
+                value='{{MVRegoCost| currency}}'
                 />
             </div>
 
@@ -404,7 +409,8 @@
                 <label for='FeeAndOther'>Fees &amp; other amounts financed</label>
                 <input disabled="disabled"
                 id='FeeAndOther' 
-                ng-model='FeesAndChargesFinanced' 
+                type='text'
+                value='{{FeesAndChargesFinanced| currency}}' 
                 />
             </div>
 
@@ -412,7 +418,8 @@
                 <label for='TaxOnTheContract'>Tax on the Contract</label>
                 <input disabled="disabled"
                 id='TaxOnTheContract' 
-                value='{{TotalGST()}}' 
+                type='text'
+                value='{{TotalGST()| currency}}' 
                 />
             </div>
 
@@ -420,7 +427,8 @@
                 <label for='InputTaxCridit'>Input Tax Cridit on purchase</label>
                 <input disabled="disabled"
                 id='InputTaxCridit' 
-                value='{{GST()}}' 
+                type='text'
+                value='{{GST()| currency}}' 
                 />
             </div>
 
@@ -428,7 +436,8 @@
                 <label for='Deposit'>Deposit (if applicable)</label>
                 <input disabled="disabled"
                 id='Deposit' 
-                value='{{TradeIn}}' 
+                type='text'
+                value='{{TradeIn| currency}}' 
                 />
             </div>
 
@@ -438,14 +447,16 @@
                 <label for='TotalAmountInterest'>Total Amount of Interest (Payable under the contract)</label>
                 <input disabled="disabled"
                 id='TotalAmountInterest' 
-                value='{{TotalAmountInterestFromSchedule|number:2}}'        />
+                type='text'
+                value='{{TotalAmountInterestFromSchedule|currency}}'        />
             </div>
 
             <div>
                 <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
                 <input disabled="disabled"
-                id='TotalAmountRepayments' 
-                value='{{TotalAmountRepaymentsFromSchedule|number:2}}' 
+                id='TotalAmountRepayments'
+                type='text' 
+                value='{{TotalAmountRepaymentsFromSchedule|currency}}' 
                 />
             </div>
 
@@ -453,7 +464,7 @@
             <div>
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
-                id='TermInMonthsInstallment' 
+                id='TermInMonthsInstallment' type='text'
                 value='{{TermInMonthsInstallment()|number}}' 
                 />
             </div>
@@ -462,7 +473,7 @@
             <div >
                 <label for='NumberInstallments'>Number of Rental Payments</label>
                 <input disabled="disabled"
-                id='NumberInstallments' 
+                id='NumberInstallments' type='text'
                 value='{{NumberInstallments()|number}}' 
                 />
             </div>
@@ -470,32 +481,33 @@
             <div>
                 <label for='Frequency'>Frequency</label>
                 <input disabled="disabled"
-                id='Frequency' 
+                id='Frequency' type='text'
                 value='{{Frequency}}' 
+
                 />
             </div>
 
             <div>
                 <label for='TotalInstallment'>Rental Payment Amount</label>
                 <input disabled="disabled"
-                id='TotalInstallment' 
-                value='{{TotalInstallment()|number}}' 
+                id='TotalInstallment' type='text'
+                value='{{TotalInstallment()|currency}}' 
                 />
             </div>
 
             <div>
                 <label for='CreditCharges'>Other Credit Charges</label>
                 <input disabled="disabled"
-                id='_CreditCharges' 
-                value='{{_CreditCharges|number}}' 
+                id='_CreditCharges' type='text'
+                value='{{_CreditCharges|currency}}' 
                 />
             </div>
 
             <div>
                 <label for='BalloonRepayment'>Balloon Repayment</label>
                 <input disabled="disabled"
-                id='BalloonRepayment' 
-                value='{{BalloonAmount()|number}}' 
+                id='BalloonRepayment' type='text'
+                value='{{BalloonAmount()|currency}}' 
                 />
             </div>
 
@@ -506,8 +518,8 @@
         <div ng-show='!showAmountFinancedForHP' >
             <div ng-show='showTotalAmountFinanced'><label for='TotalAmountFinanced'>Loan Amount</label>
             <input disabled="disabled"
-            id='TotalAmountFinanced' 
-            value='{{AmountFinanced}}' 
+            id='TotalAmountFinanced' type='text'
+            value='{{AmountFinanced|currency}}' 
             
             />
             </div>
@@ -515,16 +527,17 @@
             <div ng-show='showCostOfGoods'>
                 <label for='CostOfGoods'>Cost Of Goods  (Inc GST)</label>
                 <input disabled="disabled"
-                id='CostOfGoods' 
-                ng-model='TotalEquipmentCost' 
-                
+                id='CostOfGoods'
+                type='text' 
+                value='{{TotalEquipmentCost|currency}}' 
                 />
             </div>
 
             <div ng-show='showPlusFeesAndChargesFinanced'><label for='PlusFeesAndChargesFinanced'>Plus Fees &amp; Charges Financed</label>
                 <input disabled="disabled"
                 id='PlusFeesAndChargesFinanced' 
-                ng-model='FeesAndChargesFinanced' 
+                type='text'
+                value='{{FeesAndChargesFinanced|currency}}'
                 />
             </div>
 
@@ -532,7 +545,8 @@
                 <label for='ResidualValueIncGST '>Residual Value (Inc. GST) </label>
                 <input disabled="disabled"
                 id='ResidualValueIncGST' 
-                value='{{BalloonAmount()}}'
+                type='text'
+                value='{{BalloonAmount()|currency}}'
                 />
             </div>
 
@@ -541,14 +555,16 @@
                 <label for='TotalAmountInterest'>Total Amount of Interest Payable</label>
                 <input disabled="disabled"
                 id='TotalAmountInterest' 
-                value='{{TotalAmountInterestFromSchedule|number:2}}'        />
+                type='text'
+                value='{{TotalAmountInterestFromSchedule|currency}}'        />
             </div>
 
             <div ng-show='showTotalAmountRepayments'>
                 <label for='TotalAmountRepayments'>Total Amount of Repayments</label>
                 <input disabled="disabled"
                 id='TotalAmountRepayments' 
-                value='{{TotalAmountRepaymentsFromSchedule|number:2}}' 
+                type='text'
+                value='{{TotalAmountRepaymentsFromSchedule|currency}}' 
                 />
             </div>
 
@@ -557,6 +573,7 @@
                 <label for='TermInMonthsInstallment'>Term (Months)</label>
                 <input disabled="disabled"
                 id='TermInMonthsInstallment' 
+                type='text'
                 value='{{TermInMonthsInstallment()|number}}' 
                 />
             </div>
@@ -567,6 +584,7 @@
                 <label for='NumberOfRentals'>Number Of Rentals</label>
                 <input disabled="disabled"
                 id='NumberOfRentals' 
+                type='text'
                 value='{{NumberInstallments()}}'
                 />
             </div>
@@ -575,6 +593,7 @@
                 <label for='Payable'>Payable</label>
                 <input disabled="disabled"
                 id='Payable' 
+                type='text'
                 value='{{Frequency}}'
                 />
             </div>
@@ -588,7 +607,8 @@
                 <label for='TotalInstallment'>Installment Amount</label>
                 <input disabled="disabled"
                 id='TotalInstallment' 
-                value='{{TotalInstallment()|number}}' 
+                type='text'
+                value='{{TotalInstallment()|currency}}' 
                 />
             </div>
             <!--ng-show='showNumberInstallments'-->
@@ -596,6 +616,7 @@
                 <label for='NumberInstallments'>Number of Installments</label>
                 <input disabled="disabled"
                 id='NumberInstallments' 
+                type='text'
                 value='{{NumberInstallments()|number}}' 
                 />
             </div>
@@ -605,6 +626,7 @@
                 <label for='Frequency'>Frequency</label>
                 <input disabled="disabled"
                 id='Frequency' 
+                type='text'
                 value='{{Frequency}}' 
                 />
             </div>
@@ -613,7 +635,8 @@
                 <label for='BalloonRepayment'>Balloon Repayment</label>
                 <input disabled="disabled"
                 id='BalloonRepayment' 
-                value='{{BalloonAmount()|number}}' 
+                type='text'
+                value='{{BalloonAmount()|currency}}' 
                 />
             </div>
 
@@ -622,7 +645,8 @@
                 <label for='MortgageDuty'>Mortgage Duty</label>
                 <input disabled="disabled"
                 id='MortgageDuty' 
-                value='{{MortgageDuty|number}}' 
+                type='text'
+                value='{{MortgageDuty|currency}}' 
                 />
             </div>
 
@@ -635,7 +659,8 @@
                 <label for='RentalAmount'>Rental Amount</label>
                 <input disabled="disabled"
                 id='RentalAmount' 
-                value='{{TotalInstallment()|number}}'
+                type='text'
+                value='{{TotalInstallment()|currency}}'
                 />
             </div>
 
@@ -643,7 +668,8 @@
                 <label for='GSTOnRental'>GST On Rental</label>
                 <input disabled="disabled"
                 id='GSTOnRental' 
-                value='{{GSTRentalDuty()|number}}' 
+                type='text'
+                value='{{GSTRentalDuty()|currency}}' 
                 />
             </div>
 
@@ -651,7 +677,8 @@
                 <label for='RentalInstallment'>Rental Installment</label>
                 <input disabled="disabled"
                 id='RentalInstallment' 
-                value='{{GSTRentalDuty() + TotalInstallment()|number}}' 
+                type='text'
+                value='{{GSTRentalDuty() + TotalInstallment()|currency}}' 
                 />
             </div>
 
@@ -665,6 +692,7 @@
             id='LesseeRate' 
             ng-model='LesseeRate' 
             percent='percent'
+            type='text'
             />
             </div>
 
@@ -673,30 +701,31 @@
             id='LessorRate2' 
             ng-model='LessorRate' 
             percent='percent'
+            type='text'
             />
             </div>
 
 
             <div><label for='GST'>GST</label>
             <input disabled="disabled"
-            id='GST' 
-            value='{{GST()}}' 
+            id='GST' type='text'
+            value='{{GST()|currency}}' 
             
             />
             </div>
 
             <div><label for='LCT'>LCT</label>
             <input disabled="disabled"
-            id='LCT' 
-            value='{{LCT()}}' 
+            id='LCT' type='text'
+            value='{{LCT()|currency}}' 
             />
             </div>
 
 
             <div ng-show='showITC'><label for='LCT'>ITC</label>
             <input disabled="disabled"
-            id='ITC' 
-            value='{{ITC()}}' 
+            id='ITC' type='text'
+            value='{{ITC()|currency}}' 
             />
             </div>
         </div>
