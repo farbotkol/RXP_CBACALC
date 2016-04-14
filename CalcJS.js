@@ -52,18 +52,18 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.CalcType = 3;
     
     //Details 
-    $scope.InAdvanced = 'false';
+    $scope.InAdvanced = 'true';
     $scope.Frequency = 'Monthly';
     $scope.DDate = new Date();
     $scope.DDateText = $scope.DDate.yyyymmdd();
     $scope.AssetType =  'All Other Assets';
-    $scope.EquipmentCost = 100000;
-    $scope.TradeIn = 1000;
-    $scope.MVRegoCost = 100;
-    $scope.Options = 200;
-    $scope.SupplierDelivery = 300;
-    $scope.SupplierDiscount = 500;
-    $scope.FeesAndChargesFinanced = 500;
+    $scope.EquipmentCost = 1000;
+    $scope.TradeIn = 0;
+    $scope.MVRegoCost = 0;
+    $scope.Options = 0;
+    $scope.SupplierDelivery = 0;
+    $scope.SupplierDiscount = 0;
+    $scope.FeesAndChargesFinanced = 0;
     $scope.EquipmentCostExclRego = 0;
     $scope.TotalEquipmentCost = 0;
     $scope.LessorRate = 0.07;
@@ -77,12 +77,12 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
 
     //Brokerage Details
-    $scope.BrokageAmount = 2000; 
+    $scope.BrokageAmount = 0; 
     $scope.BrokagePercent = 0; 
     //$scope.BalloonAmount = 0; 
     //$scope.BalloonPercent = 0; 
 
-    $scope.ResidualAmount = 100; 
+    $scope.ResidualAmount = 0; 
     $scope.ResidualPercent = 0; 
  
     $scope.AmountFinanced = 0; 
@@ -495,6 +495,23 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         }
 
         return addPayments;
+            
+    }
+
+    $scope.setAddPaymentArray = function(payments){
+        $scope.AddPayments = [];
+        var cnt = 0;
+        var len = payments.AdditionalPayment.length;
+
+        while (cnt < len)
+        {
+             var baseItem = {"AdditionalPayment":0};
+             baseItem.AdditionalPayment = Number(payments.AdditionalPayment[cnt]);
+             $scope.AddPayments.push(baseItem);
+             cnt++;    
+        }
+
+        //$scope.ProjectionCalculate();
             
     }
 
