@@ -44,6 +44,12 @@
         width: 50px !important;
     }
     
+    table.table  {            
+        page-break-after: always;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    tr    { page-break-inside:auto; page-break-after:auto }
     thead {display: table-header-group;} 
     tfoot {display: table-footer-group;}
 
@@ -69,6 +75,46 @@
         -webkit-padding-end: 2px;
         font-weight: bold;
     }
+
+    div#AppBodyHeader {
+        display: none  !important;
+    }
+
+    #sidebarCell {
+        display: none  !important;
+    }
+
+    .bodyDiv {
+        /* background-color: #fff; */
+        border-top: 0px none  !important; 
+    }
+
+
+    div[id$="quoteform:quoteEdit:detail"] {
+        display: none;
+    }
+
+    div[id$="quoteform:quoteEdit:additionalStuff"] {
+        display: none;
+    }
+
+    .pbHeader {
+        
+        display: none;
+    }
+
+    .pbBottomButtons {
+        
+        display: none;
+    }
+
+    .bPageFooter.noTableFooter{
+        
+        display: none;
+    }
+
+
+    
 
 }
 

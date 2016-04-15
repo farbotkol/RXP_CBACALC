@@ -55,7 +55,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.InAdvanced = 'true';
     $scope.Frequency = 'Monthly';
     $scope.DDate = new Date();
-    $scope.DDateText = $scope.DDate.yyyymmdd();
+    $scope.DDateText = $scope.DDate;//$scope.DDate.yyyymmdd();
     $scope.AssetType =  'All Other Assets';
     $scope.EquipmentCost = 1000;
     $scope.TradeIn = 0;
