@@ -1,9 +1,86 @@
+
+@media print{
+    @page {size: portrait}
+    fieldset { 
+        font-size: 13px; 
+        font-family : 'Calibri';
+        border-width: 0px 0 0 0px !important;
+    }
+   input[type=number]{
+        width: 85px !important;
+         font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+    }
+
+    input[type=text]{
+        
+        width: 85px !important;
+        font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+    }
+
+    input[type=date]{
+        
+        width: 150px !important;
+        font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+        text-align: left;
+    }
+
+    select{
+        font-size: 13px !important;
+        font-family : 'Calibri' !important;
+        width: 170px !important; 
+    }
+
+    input, textarea, select{
+        border:  0 !important;
+        border-style: none  !important;
+
+        
+    }
+
+    input#AdditionalPayment{
+        width: 50px !important;
+    }
+    
+    thead {display: table-header-group;} 
+    tfoot {display: table-footer-group;}
+
+    .seasonal{
+        display: none;
+    }
+
+    .ui-select{width: 100%}
+    /* This is to remove the arrow of select element in IE */
+    select::-ms-expand {    display: none; }
+    select{
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    @-moz-document url-prefix(){
+        .ui-select{border: 1px solid #CCC; border-radius: 4px; box-sizing: border-box; position: relative; overflow: hidden;}
+      .ui-select select { width: 110%; background-position: right 30px center !important; border: none !important;}
+    }
+
+
+    legend{
+        -webkit-padding-start: 0px;
+        -webkit-padding-end: 2px;
+        font-weight: bold;
+    }
+
+}
+
 fieldset { font-size: 13px; font-family : 'Calibri'}
 div.calctype { width: auto; }
 div.input { width: 55%; clear:both;}
 div.summary { width: 45%; }
 div.amort { width: auto; clear:both;}
-table, th, td { font-size: 13px; font-family : 'Calibri'; }
+
+
+/*table, th, td { font-size: 13px; font-family : 'Calibri'; }*/
+
 
 
 input {
@@ -42,10 +119,11 @@ fieldset {
 }
 
 label {
-    width: 200px; 
+    width: 185px; 
     display:inline-block;
 
 }
+thead {display: table-header-group;}
 
 table.table {
     margin: 5px;
@@ -61,6 +139,7 @@ table.table {
     box-shadow: 0 1px 2px #d1d1d1;
     font-family: Arial, Helvetica, sans-serif;
     text-shadow: 1px 1px 0px #fff;
+    table-layout: fixed;
 }
 
 table.table tr.even td {
@@ -102,7 +181,7 @@ table.table a:link {
 
 table.table tr {
     padding-left: 10px;
-    text-align: center
+    text-align: right
 }
 
 table.table tr:first-child th:first-child {
@@ -138,7 +217,7 @@ table.table tr:hover td {
 }
 
 table.table tr td {
-    padding: 18px;
+    padding: 3px;
     border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #ffffff;
     background: #fafafa;
     background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));

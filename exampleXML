@@ -1,3 +1,35 @@
+
+@media print{
+    @page {size: portrait}
+    fieldset { 
+        font-size: 13px; 
+        font-family : 'Calibri';
+        border-width: 0px 0 0 0px !important;
+    }
+   input[type=number]{
+        width: 85px !important;
+         font-size: 13px; 
+        font-family : 'Calibri';
+    }
+
+    input[type=text]{
+        width: 85px !important;
+        font-size: 13px; 
+        font-family : 'Calibri';
+    }
+
+    input, textarea {
+        border:  0 !important;
+        border-style: none  !important;
+    }
+
+    input#AdditionalPayment{
+        width: 50px !important;
+    }
+
+
+
+}
 <CBACalculatorTools>
   <CBACalculatorForm>
     <CalcTypeName>Equipment Loan</CalcTypeName>

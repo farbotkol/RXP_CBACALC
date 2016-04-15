@@ -35,7 +35,7 @@
                 </div>
             </fieldset>
        
-        <fieldset>
+        <fieldset class='seasonal'>
         <legend>Seasonal</legend>
 
         <div>
@@ -736,8 +736,8 @@
 
      </fieldset>
      </div>
-
-         <div class='amort' >
+     <div style='page-break-after: always;'></div>
+    <div class='amort' >
     <fieldset>
         <legend>Amortization Schedule New</legend>    
 
@@ -758,7 +758,7 @@
             <tbody>
                 <tr ng-repeat="x in loanProjectionLesse.loanProjections">
                     <td>{{x.Term }}</td>
-                    <td>{{x.DDate | date : 'mediumDate'}}</td>
+                    <td>{{x.DDate | date : 'dd/MM/yyyy'}}</td>
                     <td>{{x.OpeningBalance | currency}}</td>
                     <td>{{x.AutoAdditionalPayment  | currency}}</td>
                     <td>{{x.Payment  | currency}}</td>
