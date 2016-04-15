@@ -4,11 +4,15 @@
 <title>CBA Calc</title>
 
 <script src="angular.min.js"></script>
+<!--<script src="https://code.angularjs.org/1.4.3/angular.js"></script>-->
 <script src="CalcJS.js"></script>
 <script src="LoanProjection.js"></script>
 <script src="LoanProjections.js"></script>
 <script src="xml2json.js"></script>
 <script src="ObjTree.js"></script>
+<script src="ng-currency.js"></script>
+
+
 <link rel="stylesheet" type="text/css" href="CalcCss.css">
 
 </head>
@@ -193,7 +197,7 @@
                 id='EquipmentCost' 
                 ng-model='EquipmentCost' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number' step="0.01"/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  type="text" step="0.01"/>
                 From Tax Invoice
             </div>
 
@@ -203,7 +207,7 @@
                 id='TradeIn' 
                 ng-model='TradeIn' 
                 ng-change='ComputeFromAmountFinanced()'
-                type='number'
+                ng-currency="ng-currency"  type="text"
                 />
                 From Tax Invoice
             </div>
@@ -213,7 +217,7 @@
                 id='MVRegoCost' 
                 ng-model='MVRegoCost' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  type="text"/>
                 From Tax Invoice
             </div>
 
@@ -222,7 +226,7 @@
                 id='Options' 
                 ng-model='Options' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  ng-currency="ng-currency"  type="text"/>
                 From Tax Invoice
             </div>
 
@@ -231,7 +235,7 @@
                 id='SupplierDelivery' 
                 ng-model='SupplierDelivery' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  type="text"/>
                 From Tax Invoice
             </div>
 
@@ -240,7 +244,7 @@
                 id='SupplierDiscount' 
                 ng-model='SupplierDiscount' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  type="text"/>
                 From Tax Invoice
             </div>
 
@@ -249,7 +253,7 @@
                 id='FeesAndChargesFinanced' 
                 ng-model='FeesAndChargesFinanced' 
                 ng-change='ComputeFromAmountFinanced()'
-                ng-disabled='DeterminePaymentTerms' type='number'/>
+                ng-disabled='DeterminePaymentTerms' ng-currency="ng-currency"  type="text"/>
             </div>
             <div><label for='EquipmentCostExclRego'>Equip Cost excl MV Rego Cost</label>
                 <input disabled="disabled"
@@ -301,7 +305,7 @@
             <input 
             id='BrokageAmount' 
             ng-model='BrokageAmount' 
-            ng-change='CalculateBrokagePercent()' type='number'
+            ng-change='CalculateBrokagePercent()' ng-currency="ng-currency"  type="text"
             />
         </div>
 
@@ -317,7 +321,7 @@
             <input 
             id='BalloonAmount' 
             ng-model='ResidualAmount' 
-            ng-change='CalculateResidualPercent()' type='number'
+            ng-change='CalculateResidualPercent()' ng-currency="ng-currency"  type="text"
             />
         </div>
 
@@ -755,18 +759,18 @@
                 <tr ng-repeat="x in loanProjectionLesse.loanProjections">
                     <td>{{x.Term }}</td>
                     <td>{{x.DDate | date : 'mediumDate'}}</td>
-                    <td>{{x.OpeningBalance | number:2 }}</td>
-                    <td>{{x.AutoAdditionalPayment  | number:2}}</td>
-                    <td>{{x.Payment  | number:2}}</td>
+                    <td>{{x.OpeningBalance | currency}}</td>
+                    <td>{{x.AutoAdditionalPayment  | currency}}</td>
+                    <td>{{x.Payment  | currency}}</td>
                     <td>
                           <input ng-blur='ComputeAddPaymentChange()'
                             id='AdditionalPayment' 
-                             ng-model='x.AdditionalPayment' type='number'/>
+                             ng-model='x.AdditionalPayment' type='text' ng-currency />
                             <!--{{x.AdditionalPayment | number:2 }}-->
                     </td>
-                    <td>{{x.PrincipalAmount | number:2 }}</td>
-                    <td>{{x.InterestAmount  | number:2}}</td>
-                    <td>{{x.ClosingBalance | number:2 }}</td>
+                    <td>{{x.PrincipalAmount | currency }}</td>
+                    <td>{{x.InterestAmount | currency}}</td>
+                    <td>{{x.ClosingBalance | currency }}</td>
                 </tr>
             </tbody>
        

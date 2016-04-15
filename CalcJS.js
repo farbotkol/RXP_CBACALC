@@ -1,4 +1,4 @@
-var myApp = angular.module('RealEstateApp', []);
+var myApp = angular.module('RealEstateApp', ['ng-currency']);
 
 Date.prototype.yyyymmdd = function() {         
     
@@ -49,7 +49,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     $scope.Amortizations = [];
     
     $scope.CalcTypeName = 'Equipment Loan';
-    $scope.CalcType = 3;
+    $scope.CalcType = '3';
     
     //Details 
     $scope.InAdvanced = 'true';
@@ -541,11 +541,11 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
      $scope.TypeChanged = function() {
         
 
-        $scope.CalcType =  parseInt($scope.CalcType);
+        //$scope.CalcType =  parseInt($scope.CalcType);
 
 
         switch ($scope.CalcType) {
-          case 1:
+          case '1':
             $scope.CalcTypeName  = 'Finance Lease';
             $scope.showTradeIn =  false;
             $scope.showTotalAmountFinanced = false ;
@@ -566,7 +566,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showAmountFinancedForHP = false;
             $scope.showPurchasePriceOfgoods = false;
             break;
-          case 2:
+          case '2':
             $scope.CalcTypeName  = 'Hire Purchase';
             $scope.showTradeIn =  true;
             $scope.showTotalAmountFinanced = true ;
@@ -587,7 +587,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showAmountFinancedForHP = true;
             $scope.showPurchasePriceOfgoods = true;
             break;
-          case 3:
+          case '3':
             $scope.CalcTypeName  = 'Equipment Loan';
             $scope.showTradeIn =  true;
             $scope.showTotalAmountFinanced = true ;
@@ -608,7 +608,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showAmountFinancedForHP = false;
             $scope.showPurchasePriceOfgoods = false;
             break;
-          case 4:
+          case '4':
             $scope.CalcTypeName  = 'Novated Lease';
             $scope.showTotalAmountFinanced = false ;
             $scope.showTradeIn =  false;
@@ -629,7 +629,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             $scope.showAmountFinancedForHP = false;
             $scope.showPurchasePriceOfgoods = false;
             break;
-          case 5:
+          case '5':
             $scope.CalcTypeName  = 'Protected Lease';
             $scope.showTradeIn =  false;
             $scope.showTotalAmountFinanced = false ;
@@ -666,7 +666,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.TotalGST = function() {
-        if ($scope.CalcType == 2)
+        if (parseInt($scope.CalcType) == 2)
         {
             return $scope.GST() + $scope._compoundGSTonCreditCharges;
         }
@@ -754,7 +754,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.BalloonAmount = function(){
-        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
         {
             return $scope.ResidualAmount + $scope.GSTOnResidual();
         }
@@ -771,7 +771,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.ITC = function() {
-        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
         {
             if ($scope.IsAssetACar)
             {
@@ -785,7 +785,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         }
         else
         {
-            if ($scope.CalcType == 3)
+            if (parseInt($scope.CalcType) == 3)
             {
                 return 0;
             }
@@ -883,7 +883,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
         {
             return 0;
         }
-        if ($scope.CalcType == 2)
+        if (parseInt($scope.CalcType) == 2)
         {
             $scope.BrokagePercent = Math.round($scope.BrokageAmount * 10000 / $scope.AmountFinancedHirePurchaseEquipmentLoan()) / 10000;
         }
@@ -895,7 +895,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.CalculateBrokageAmount = function() {
-        if ($scope.CalcType == 2)
+        if (parseInt($scope.CalcType) == 2)
         {
             $scope.BrokageAmount = $scope.BrokagePercent * $scope.AmountFinancedHirePurchaseEquipmentLoan() * 10000 / 10000;
         }
@@ -910,7 +910,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     $scope.CalculateResidualPercent = function() {
         var _loc_1;
-        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
         {
             _loc_1 = $scope.AmountFinanced - $scope.FeesAndChargesFinanced - $scope.MVRegoCost;
         }
@@ -929,7 +929,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
     $scope.CalculateResidualAmount = function() {
         var _loc_2;
-        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
         {
             _loc_2 = $scope.AmountFinanced - $scope.FeesAndChargesFinanced - $scope.MVRegoCost;
         }
@@ -943,7 +943,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
      $scope.AmountFinancedHirePurchaseEquipmentLoan = function() {
-        if ($scope.CalcType == 1 || $scope.CalcType == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
         {
             return $scope.TotalEquipmentCost + $scope.FeesAndChargesFinanced;
         }
@@ -966,8 +966,8 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             
             // Equipment Loan
             
-            if($scope.CalcType == 3){
-                console.log('ComputeTermInMonthsInstallment $scope.CalcType :' + $scope.CalcType )
+            if(parseInt($scope.CalcType) == 3){
+                console.log('ComputeTermInMonthsInstallment parseInt($scope.CalcType) :' + $scope.CalcType )
                 $scope.TermInMonthsInstallment = $scope.TermInMonths;
             }
             else 
