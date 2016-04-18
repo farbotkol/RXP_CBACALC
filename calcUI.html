@@ -18,7 +18,7 @@
 </head>
 
 <body ng-controller="RealEstateController" ng-app="RealEstateApp">
- <div style='float: left' class='calctype'>
+    <div style='float: left' class='calctype'>
             <fieldset>
                 <div><label for='CalcType'>Calculation Type</label>
                     <select id='CalcType'  name="singleSelect" ng-model="CalcType"
@@ -311,7 +311,7 @@
         <div><label for='BrokagePercent'>Brokerage %</label>
             <input 
             id='BrokagePercent' 
-            ng-model='BrokagePercent'  type='number'
+            ng-model='BrokagePercent'  type='number' step='0.01'
             ng-change='CalculateBrokageAmount()' percent='percent'
             />
         </div>
@@ -331,7 +331,7 @@
         <div><label for='BalloonPercent'>Balloon %</label>
             <input 
             id='BalloonPercent' 
-            ng-model='ResidualPercent' type='number'
+            ng-model='ResidualPercent' type='number' step='0.01'
             ng-change='CalculateResidualAmount()' percent='percent'
             />
         </div>
@@ -735,12 +735,42 @@
 
      </fieldset>
      </div>
-     <div style='page-break-after: always;'></div>
+     <!--<div style='page-break-after: always;'></div>-->
+    
+     <!--<div class="page-break"></div>-->
     <div class='amort' >
     <fieldset>
-        
-
+       
         <table  class='table'>
+           <caption>
+                 <div id='tableHeaderInfo'>
+                     <div>
+                        <label for='clientName'>Client Name</label>
+                        <input disabled="disabled"
+                        id='clientName' 
+                        type='text'
+                        value='{{clientName}}' 
+                        />
+                    </div>
+                    <div>
+                        <label for='itemType'>Item Type</label>
+                        <input disabled="disabled"
+                        id='itemType' 
+                        type='text'
+                        value='{{itemType}}' 
+                        />
+                    </div>
+                    <div>
+                        <label for='startDate'>Start Date</label>
+                        <input disabled="disabled"
+                        id='startDate' 
+                        type='text'
+                        value='{{startDate}}' 
+                        />
+                    </div>
+
+               </div>
+            </caption>
             <thead>
                 <tr class='header'>
                    <th>Term</th>
@@ -778,6 +808,8 @@
 
     </div>
 
+    
+        
     
 </body>
 </html>

@@ -12,6 +12,8 @@
         font-family : 'Calibri' !important;
     }
 
+
+
     input[type=text]{
         
         width: 85px !important;
@@ -44,14 +46,27 @@
         width: 50px !important;
     }
     
-    table.table  {            
+
+
+    table.table caption {
+        text-align: left;
+        page-break-after: avoid;
+        page-break-before: avoid;
+    }
+
+    table.table  {    
+    
         page-break-after: always;
         page-break-inside: avoid;
         break-inside: avoid;
     }
+
+
+
     tr    { page-break-inside:auto; page-break-after:auto }
     thead {display: table-header-group;} 
     tfoot {display: table-footer-group;}
+
 
     .seasonal{
         display: none;
@@ -71,9 +86,9 @@
 
 
     legend{
-        -webkit-padding-start: 0px;
-        -webkit-padding-end: 2px;
-        font-weight: bold;
+        -webkit-padding-start: 0px !important;
+        -webkit-padding-end: 2px !important;
+        font-weight: bold !important;
     }
 
     div#AppBodyHeader {
@@ -91,31 +106,80 @@
 
 
     div[id$="quoteform:quoteEdit:detail"] {
-        display: none;
+        display: none !important;
     }
 
     div[id$="quoteform:quoteEdit:additionalStuff"] {
-        display: none;
+        display: none !important;
     }
 
     .pbHeader {
         
-        display: none;
+        display: none !important
     }
 
     .pbBottomButtons {
         
-        display: none;
+        display: none !important;
     }
 
     .bPageFooter.noTableFooter{
         
-        display: none;
+        display: none !important;
     }
 
 
-    
+    body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+        border-top: 0px none  !important;
+        border-bottom: 0px none !important;
+        border-left: 0px none  !important;
+        border-right: 0px none  !important;
+      
+    }
 
+    .bodyDiv {
+       
+        border-top: 0px none !important;
+        -moz-border-radius-bottomleft: 0px !important;
+        -moz-border-radius-bottomright: 0px !important;
+        border-bottom-right-radius: 0px !important; 
+        border-bottom-left-radius: 0px !important; 
+        -moz-box-shadow: 0 0px 0px hsla(0,0%,0%,0) !important;
+        -webkit-box-shadow: 0 0px 10px hsla(0,0%,0%,0) !important;
+        box-shadow: 0 0px 0px hsla(0,0%,0%,0)  !important; 
+
+
+    }
+
+    uter td.oRight {
+        padding: 0  !important;
+    }
+
+    .hasMotif {s
+        margin: 0 0px  !important;
+    }
+
+    #editPage .pbSubsection, .editPage .pbSubsection {
+        margin-top: 0px  !important;
+        padding: 0 0px  !important; 
+    }
+
+    #tableHeaderInfo{
+        display: block !important;
+    }
+
+
+    div.amort { display: none !important; }
+    div.amortPrint { display : block !important; }
+
+}
+
+div.amortPrint { display: none; clear:both;}
+
+.page-break { display: none; }
+
+#tableHeaderInfo{
+    display: none;
 }
 
 fieldset { font-size: 13px; font-family : 'Calibri'}
@@ -172,7 +236,7 @@ label {
 thead {display: table-header-group;}
 
 table.table {
-    margin: 5px;
+    /*margin: 5px;*/
     color: 666;
     font-size: 12px;
     -moz-border-radius: 3px;
