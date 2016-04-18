@@ -18,7 +18,79 @@
 </head>
 
 <body ng-controller="RealEstateController" ng-app="RealEstateApp">
-    <div style='float: left' class='calctype'>
+
+    <div class='amortPrint' >
+    <fieldset>
+       
+        <table  class='table'>
+           <caption>
+                 <div id='tableHeaderInfo'>
+                     <div>
+                        <label for='clientName'>Client Name</label>
+                        <input disabled="disabled"
+                        id='clientName' 
+                        type='text'
+                        value='{{clientName}}' 
+                        />
+                    </div>
+                    <div>
+                        <label for='itemType'>Item Type</label>
+                        <input disabled="disabled"
+                        id='itemType' 
+                        type='text'
+                        value='{{itemType}}' 
+                        />
+                    </div>
+                    <div>
+                        <label for='startDate'>Start Date</label>
+                        <input disabled="disabled"
+                        id='startDate' 
+                        type='text'
+                        value='{{startDate}}' 
+                        />
+                    </div>
+
+               </div>
+            </caption>
+            <thead>
+                <tr class='header'>
+                   <th>Term</th>
+                   <th>Date</th>
+                   <th>Opening Balance</th>
+                   <th>Residual</th>
+                   <th>Payment</th>
+                   <th>Add Payment</th>
+                   <th>Principal Amount</th>
+                   <th>Interest Amount</th>
+                   <th>Closing Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in loanProjectionLesse.loanProjections">
+                    <td>{{x.Term }}</td>
+                    <td>{{x.DDate | date : 'dd/MM/yyyy'}}</td>
+                    <td>{{x.OpeningBalance | currency}}</td>
+                    <td>{{x.AutoAdditionalPayment  | currency}}</td>
+                    <td>{{x.Payment  | currency}}</td>
+                    <td>
+                          <input ng-blur='ComputeAddPaymentChange()'
+                            id='AdditionalPayment' 
+                             ng-model='x.AdditionalPayment' type='text' ng-currency='ng-currency' />
+                            <!--{{x.AdditionalPayment | number:2 }}-->
+                    </td>
+                    <td>{{x.PrincipalAmount | currency }}</td>
+                    <td>{{x.InterestAmount | currency}}</td>
+                    <td>{{x.ClosingBalance | currency }}</td>
+                </tr>
+            </tbody>
+       
+        </table>    
+    </fieldset>
+
+    </div>
+    <div style="page-break-after: always;"></div>
+<div></div>
+     <div style='float: left' class='calctype'>
             <fieldset>
                 <div><label for='CalcType'>Calculation Type</label>
                     <select id='CalcType'  name="singleSelect" ng-model="CalcType"
@@ -808,8 +880,7 @@
 
     </div>
 
-    
-        
+            
     
 </body>
 </html>

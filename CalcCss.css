@@ -50,20 +50,23 @@
 
     table.table caption {
         text-align: left;
-        page-break-after: avoid;
-        page-break-before: avoid;
     }
 
-    table.table  {    
+   /* table.table  {    
     
         page-break-after: always;
-        page-break-inside: avoid;
-        break-inside: avoid;
+        page-break-inside: always;
     }
 
+    table  {    
+    
+        page-break-after: always;
+        page-break-inside: auto;
+    }
 
+*/
 
-    tr    { page-break-inside:auto; page-break-after:auto }
+    tr    { page-break-inside:always; page-break-after:auto; }
     thead {display: table-header-group;} 
     tfoot {display: table-footer-group;}
 
