@@ -164,6 +164,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
 
 
     //UI SHOW HIDE VARS.
+    $scope.showFacts = false;
     $scope.showTradeIn = false;
     $scope.showTotalAmountFinanced = false ;
     $scope.showCostOfGoods = false;

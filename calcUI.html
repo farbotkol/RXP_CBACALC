@@ -18,40 +18,114 @@
 </head>
 
 <body ng-controller="RealEstateController" ng-app="RealEstateApp">
+<div class="holder">     
+    <div id="popup" class="popup" ng-show="showFacts">  
+            <fieldset>          
+                <legend>Facts</legend>
+                 <div><label for='LCTLuxuryThreshold'>LCT Threshold</label>
+                    <input disabled="disabled"
+                    id='LCTLuxuryThreshold' 
+                    ng-model='LCTLuxuryThreshold' 
+                    ng-change='LCTLuxuryThreshold' type='number'
+                    />
+                </div>
+                <div><label for='LCTLimitFuelEfficient'>Fuel Car Efficient Limit</label>
+                    <input disabled="disabled"
+                    id='LCTLimitFuelEfficient' 
+                    ng-model='LCTLimitFuelEfficient' 
+                    ng-change='LCTLimitFuelEfficient' type='number'
+                    />
+                </div>
+                <div><label for='LCTCarLimit'>LCT Car  Limit</label>
+                    <input disabled="disabled"
+                    id='LCTCarLimit' 
+                    ng-model='LCTCarLimit' 
+                    ng-change='LCTCarLimit' type='number'
+                    />
+                </div>
+                <div><label for='LCTRate'>LCT Rate</label>
+                    <input disabled="disabled"
+                    id='LCTRate' 
+                    ng-model='LCTRate' 
+                    ng-change='LCTRate' type='number'
+                    />
+                </div>
+                <div><label for='GSTPercentRate'>GST Rate</label>
+                    <input disabled="disabled"
+                    id='GSTPercentRate' 
+                    ng-model='GSTPercentRate' 
+                    ng-change='GSTPercentRate' type='number'
+                    />
+                </div>
 
+                <hr/>
+                <p>Formular: IF(AmountFinanced &lt;= MorgageDutyLimit, MorgageDutyBase, (CEILING(AmountFinanced,1000)-MorgageDutyLimit)/100*MorgageDutyRate+MorgageDutyLimit)</p> 
+
+                <div><label for='MortgageDutyRateNSW'>Mortgage Duty Rate (NSW)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyRateNSW' 
+                    ng-model='MortgageDutyRateNSW' 
+                    ng-change='MortgageDutyRateNSW' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyRateSA'>Mortgage Duty Rate (SA)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyRateSA' 
+                    ng-model='MortgageDutyRateSA' 
+                    ng-change='MortgageDutyRateSA' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyLimitNSW'>Mortgage Duty Limit (NSW)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyLimitNSW' 
+                    ng-model='MortgageDutyLimitNSW' 
+                    ng-change='MortgageDutyLimitNSW' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyLimitSA'>Mortgage Duty Limit (SA)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyLimitSA' 
+                    ng-model='MortgageDutyLimitSA' 
+                    ng-change='MortgageDutyLimitSA' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyBaseNSW'>Mortgage Duty Base (NSW)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyBaseNSW' 
+                    ng-model='MortgageDutyBaseNSW' 
+                    ng-change='MortgageDutyBaseNSW' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyBaseSA'>Mortgage Duty Base (SA)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyBaseSA' 
+                    ng-model='MortgageDutyBaseSA' 
+                    ng-change='MortgageDutyBaseSA' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyCeilFactorNSW'>Mortgage Duty Ceil Factor (NSW)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyCeilFactorNSW' 
+                    ng-model='MortgageDutyCeilFactorNSW' 
+                    ng-change='MortgageDutyCeilFactorNSW' type='number'
+                    />
+                </div>
+                <div><label for='MortgageDutyCeilFactorSA'>Mortgage Duty Ceil Factor (SA)</label>
+                    <input disabled="disabled"
+                    id='MortgageDutyCeilFactorSA' 
+                    ng-model='MortgageDutyCeilFactorSA' 
+                    ng-change='MortgageDutyCeilFactorSA' type='number'
+                    />
+                </div>
+
+
+            </fieldset>
+            <button type="button" ng-click="showFacts = false;" style="float:right;">Close</button>
+    </div>
     <div class='amortPrint' >
     <fieldset>
        
         <table  class='table'>
-           <caption>
-                 <div id='tableHeaderInfo'>
-                     <div>
-                        <label for='clientName'>Client Name</label>
-                        <input disabled="disabled"
-                        id='clientName' 
-                        type='text'
-                        value='{{clientName}}' 
-                        />
-                    </div>
-                    <div>
-                        <label for='itemType'>Item Type</label>
-                        <input disabled="disabled"
-                        id='itemType' 
-                        type='text'
-                        value='{{itemType}}' 
-                        />
-                    </div>
-                    <div>
-                        <label for='startDate'>Start Date</label>
-                        <input disabled="disabled"
-                        id='startDate' 
-                        type='text'
-                        value='{{startDate}}' 
-                        />
-                    </div>
-
-               </div>
-            </caption>
             <thead>
                 <tr class='header'>
                    <th>Term</th>
@@ -87,25 +161,33 @@
         </table>    
     </fieldset>
 
+
     </div>
     <div style="page-break-after: always;"></div>
-<div></div>
+    <div></div>
      <div style='float: left' class='calctype'>
             <fieldset>
-                <div><label for='CalcType'>Calculation Type</label>
-                    <select id='CalcType'  name="singleSelect" ng-model="CalcType"
-                                    ng-change='TypeChanged()'
-                                    ng-disabled='DeterminePaymentTerms'>
-                          <option value="1">Finance Lease</option>
-                          <option value="2">Hire Purchase</option>
-                          <option value="3">Equipment Loan</option>
-                          <option value="4">Novated Finance Lease</option>
-                          <option value="5">Protected Lease</option>
-                    </select>
-                    <input ng-model="CalcType" type='hidden'/>
+                <div style="display: flex;">
+                    <div style="width: 400px;"><label for='CalcType'>Calculation Type</label>
+                        <select id='CalcType'  name="singleSelect" ng-model="CalcType"
+                                        ng-change='TypeChanged()'
+                                        ng-disabled='DeterminePaymentTerms'>
+                              <option value="1">Finance Lease</option>
+                              <option value="2">Hire Purchase</option>
+                              <option value="3">Equipment Loan</option>
+                              <option value="4">Novated Finance Lease</option>
+                              <option value="5">Protected Lease</option>
+                        </select>
+                        <input ng-model="CalcType" type='hidden'/>
+                    </div>
+                    <div style="float: right; ">
+                        <button type="button" ng-click="showFacts = true;">View Facts</button>
+                    </div>
                 </div>
+                   
             </fieldset>
-       
+
+        
         <fieldset class='seasonal'>
         <legend>Seasonal</legend>
 
@@ -117,79 +199,80 @@
                     ng-change="ProjectionCalculate()"/>
                     Seasonal Payments
             </label><br/>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[0]"
-                ng-change="ProjectionCalculate()"/>
-                Jan
-            </label>
-            <label>
-                <input type="checkbox"  ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[1]"
-                ng-change="ProjectionCalculate()"/>
-                Feb
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[2]"
-                ng-change="ProjectionCalculate()"/>
-                Mar
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[3]"
-                ng-change="ProjectionCalculate()"/>
-                Apr
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[4]"
-                ng-change="ProjectionCalculate()"/>
-                May
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[5]"
-                ng-change="ProjectionCalculate()"/>
-                Jun
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[6]"
-                ng-change="ProjectionCalculate()"/>
-                Jul
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[7]"
-                ng-change="ProjectionCalculate()"/>
-                Aug
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[8]"
-                ng-change="ProjectionCalculate()"/>
-                Sep
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[9]"
-                ng-change="ProjectionCalculate()"/>
-                Oct
-            </label>
-            <label>
-                <input type="checkbox" ng-disabled="!IsSeasonal"
-                ng-model="Seasonal[10]"
-                ng-change="ProjectionCalculate()"/>
-                Nov
-            </label>
-            <label>
-                <input type="checkbox"
-                ng-model="Seasonal[11]" ng-disabled="!IsSeasonal"
-                ng-change="ProjectionCalculate()"/>
-                Dec
-            </label>
-
+                <div ng-show="IsSeasonal">
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[0]"
+                        ng-change="ProjectionCalculate()"/>
+                        Jan
+                    </label>
+                    <label>
+                        <input type="checkbox"  ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[1]"
+                        ng-change="ProjectionCalculate()"/>
+                        Feb
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[2]"
+                        ng-change="ProjectionCalculate()"/>
+                        Mar
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[3]"
+                        ng-change="ProjectionCalculate()"/>
+                        Apr
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[4]"
+                        ng-change="ProjectionCalculate()"/>
+                        May
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[5]"
+                        ng-change="ProjectionCalculate()"/>
+                        Jun
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[6]"
+                        ng-change="ProjectionCalculate()"/>
+                        Jul
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[7]"
+                        ng-change="ProjectionCalculate()"/>
+                        Aug
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[8]"
+                        ng-change="ProjectionCalculate()"/>
+                        Sep
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[9]"
+                        ng-change="ProjectionCalculate()"/>
+                        Oct
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-disabled="!IsSeasonal"
+                        ng-model="Seasonal[10]"
+                        ng-change="ProjectionCalculate()"/>
+                        Nov
+                    </label>
+                    <label>
+                        <input type="checkbox"
+                        ng-model="Seasonal[11]" ng-disabled="!IsSeasonal"
+                        ng-change="ProjectionCalculate()"/>
+                        Dec
+                    </label>
+                </div>
             </div>
         </fieldset>
 
@@ -879,8 +962,6 @@
     </fieldset>
 
     </div>
-
-            
-    
+</div>
 </body>
 </html>

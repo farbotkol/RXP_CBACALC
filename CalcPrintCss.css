@@ -1,10 +1,23 @@
 
-@media print{
+/*@media print{*/
+   @media print{
+
+         input[id$=":backToQuote"] {
+            display: none !important;
+        }
+
+        button{
+            display: none !important;
+        }
+    
+   }
+
     @page {size: portrait}
     fieldset { 
         font-size: 13px; 
         font-family : 'Calibri';
         border-width: 0px 0 0 0px !important;
+        padding-left: 0px; 
     }
    input[type=number]{
         width: 85px !important;
@@ -43,7 +56,7 @@
     }
 
     input#AdditionalPayment{
-        width: 50px !important;
+        width: 70px !important;
     }
     
 
@@ -175,29 +188,7 @@
     div.amort { display: none !important; }
     div.amortPrint { display : block !important; }
 
-}
-
-.holder{        
-    width:100%;
-    display:block;
-}
-
-.content{
-    background:#fff;
-    padding: 28px 26px 33px 25px;
-}
-.popup{
-
-    top: 25%;
-    left: 25%;
-    width: 50%;
-    padding: 16px;
-    border: 2px solid;
-    background-color: white;
-    z-index:1002;
-    overflow: auto;
-    position:fixed;
-}
+/*}*/
 
 div.amortPrint { display: none; clear:both;}
 
@@ -207,8 +198,8 @@ div.amortPrint { display: none; clear:both;}
     display: none;
 }
 
-fieldset { font-size: 13px; font-family : 'Calibri'}
-div.calctype { width: 100%; }
+fieldset { font-size: 13px; font-family : 'Calibri'; -webkit-padding-start: 0;}
+div.calctype { width: auto; }
 div.input { width: 55%; clear:both;}
 div.summary { width: 45%; }
 div.amort { width: auto; clear:both;}
