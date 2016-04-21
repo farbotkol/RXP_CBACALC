@@ -462,7 +462,19 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
     
     $scope.ComputeFromAmountFinanced = function() {
-        $scope.DDate = new Date($scope.DDateText);
+        if ($scope.DDateText == null)
+        {
+            // type date not suported by browser
+            $scope.dateformat = 'Invalid Date use YYYY-MM-DD'
+
+        }
+        else
+        {
+            $scope.dateformat = $scope.dateformatcopy;
+            $scope.DDate = new Date($scope.DDateText);
+        }
+        
+        
         //$scope.ComputeTermInMonthsInstallment();
         $scope.ComputeDetailCosts();
         $scope.ComputeAmountFinanced(); //Needs to be after ComputeDetailCosts();
@@ -1519,5 +1531,20 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     //$scope.ComputeAmortizationFactor();  
     $scope.ComputeFromAmountFinanced();
     $scope.TypeChanged();
+
+
+      var i = document.createElement("input");
+      i.setAttribute("type", "date");
+      if (i.type == "text") {
+        $scope.dateformat = ' (YYYY-MM-DD)';
+        $scope.dateformatcopy = $scope.dateformat ;
+
+        // No native date picker support :(
+        // Use Dojo/jQueryUI/YUI/Closure to create one,
+        // then dynamically replace that <input> element.
+      }
+        //var dataElement = angular.element(document.querySelector('#CBA_CALC')).scope();
+        
+        
     
 }]);
