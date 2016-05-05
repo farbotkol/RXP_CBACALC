@@ -123,7 +123,7 @@
             <button type="button" ng-click="showFacts = false;" style="float:right;">Close</button>
     </div>
     <div class='amortPrint' >
-    <fieldset>
+
        
         <table  class='table'>
             <thead>
@@ -146,20 +146,22 @@
                     <td>{{x.OpeningBalance | currency}}</td>
                     <td>{{x.AutoAdditionalPayment  | currency}}</td>
                     <td>{{x.Payment  | currency}}</td>
-                    <td>
-                          <input ng-blur='ComputeAddPaymentChange()'
-                            id='AdditionalPayment' 
-                             ng-model='x.AdditionalPayment' type='text' ng-currency='ng-currency' />
-                            <!--{{x.AdditionalPayment | number:2 }}-->
+                    <td> {{x.AdditionalPayment  | currency}}
                     </td>
                     <td>{{x.PrincipalAmount | currency }}</td>
                     <td>{{x.InterestAmount | currency}}</td>
                     <td>{{x.ClosingBalanceRounded() | currency }}</td>
                 </tr>
             </tbody>
-       
+              <tfoot>
+                <tr>
+                     <td colspan="9">
+                         *The schedule shows the principal and interest content of each instalment in terms of Division 240D of the Tax and is not indicative of the amount required to repay the contract in the event of early termination
+                     </td>
+                </tr>
+            </tfoot>
         </table>    
-    </fieldset>
+
 
 
     </div>

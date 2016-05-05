@@ -1,0 +1,362 @@
+
+/*@media print{*/
+   @media print{
+
+         input[id$=":backToQuote"] {
+            display: none !important;
+        }
+
+        button{
+            display: none !important;
+        }
+    
+   }
+
+    @page {size: portrait}
+    fieldset { 
+        font-size: 13px; 
+        font-family : 'Calibri';
+        border-width: 0px 0 0 0px !important;
+        padding-left: 0px; 
+    }
+   input[type=number]{
+        width: 85px !important;
+         font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+    }
+
+
+
+    input[type=text]{
+        
+        width: 85px !important;
+        font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+    }
+
+    input[type=date]{
+        
+        width: 150px !important;
+        font-size: 13px !important; 
+        font-family : 'Calibri' !important;
+        text-align: left;
+    }
+
+    select{
+        font-size: 13px !important;
+        font-family : 'Calibri' !important;
+        width: 170px !important; 
+    }
+
+    input, textarea, select{
+        border:  0 !important;
+        border-style: none  !important;
+
+        
+    }
+
+    input#AdditionalPayment{
+        width: 70px !important;
+    }
+    
+
+
+    table.table caption {
+        text-align: left;
+    }
+
+   /* table.table  {    
+    
+        page-break-after: always;
+        page-break-inside: always;
+    }
+
+    table  {    
+    
+        page-break-after: always;
+        page-break-inside: auto;
+    }
+
+*/
+
+    tr    { page-break-inside:always; page-break-after:auto; }
+    thead {display: table-header-group;} 
+    tfoot {display: table-footer-group;}
+
+
+    .seasonal{
+        display: none;
+    }
+
+    .ui-select{width: 100%}
+    /* This is to remove the arrow of select element in IE */
+    select::-ms-expand {    display: none; }
+    select{
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    @-moz-document url-prefix(){
+        .ui-select{border: 1px solid #CCC; border-radius: 4px; box-sizing: border-box; position: relative; overflow: hidden;}
+      .ui-select select { width: 110%; background-position: right 30px center !important; border: none !important;}
+    }
+
+
+    legend{
+        -webkit-padding-start: 0px !important;
+        -webkit-padding-end: 2px !important;
+        font-weight: bold !important;
+    }
+
+    div#AppBodyHeader {
+        display: none  !important;
+    }
+
+    #sidebarCell {
+        display: none  !important;
+    }
+
+    .bodyDiv {
+        /* background-color: #fff; */
+        border-top: 0px none  !important; 
+    }
+
+
+    div[id$="quoteform:quoteEdit:detail"] {
+        display: none !important;
+    }
+
+    div[id$="quoteform:quoteEdit:additionalStuff"] {
+        display: none !important;
+    }
+
+    .pbHeader {
+        
+        display: none !important
+    }
+
+    .pbBottomButtons {
+        
+        display: none !important;
+    }
+
+    .bPageFooter.noTableFooter{
+        
+        display: none !important;
+    }
+
+
+    body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+        border-top: 0px none  !important;
+        border-bottom: 0px none !important;
+        border-left: 0px none  !important;
+        border-right: 0px none  !important;
+      
+    }
+
+    .bodyDiv {
+       
+        border-top: 0px none !important;
+        -moz-border-radius-bottomleft: 0px !important;
+        -moz-border-radius-bottomright: 0px !important;
+        border-bottom-right-radius: 0px !important; 
+        border-bottom-left-radius: 0px !important; 
+        -moz-box-shadow: 0 0px 0px hsla(0,0%,0%,0) !important;
+        -webkit-box-shadow: 0 0px 10px hsla(0,0%,0%,0) !important;
+        box-shadow: 0 0px 0px hsla(0,0%,0%,0)  !important; 
+
+
+    }
+
+    uter td.oRight {
+        padding: 0  !important;
+    }
+
+    .hasMotif {s
+        margin: 0 0px  !important;
+    }
+
+    #editPage .pbSubsection, .editPage .pbSubsection {
+        margin-top: 0px  !important;
+        padding: 0 0px  !important; 
+    }
+
+    #tableHeaderInfo{
+        display: block !important;
+    }
+
+
+    div.amort { display: none !important; }
+    div.amortPrint { display : block !important; }
+
+/*}*/
+
+div.amortPrint { display: none; clear:both;}
+
+.page-break { display: none; }
+
+#tableHeaderInfo{
+    display: none;
+}
+
+fieldset { font-size: 13px; font-family : 'Calibri'; -webkit-padding-start: 0;}
+div.calctype { width: auto; }
+div.input { width: 55%; clear:both;}
+div.summary { width: 45%; }
+div.amort { width: auto; clear:both;}
+
+
+/*table, th, td { font-size: 13px; font-family : 'Calibri'; }*/
+
+
+
+input {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 5px;
+    text-align: right;
+}
+
+input[type=number]{
+    width: 150px;
+    -moz-appearance:textfield;
+}
+
+input[type=text]{
+    width: 150px;
+}
+
+select{
+    width: 150px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button{
+    
+    -webkit-appearance: none; 
+    margin: 0;
+
+}
+
+
+fieldset {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+label {
+    width: 185px; 
+    display:inline-block;
+
+}
+thead {display: table-header-group;}
+
+table.table {
+    /*margin: 5px;*/
+    color: 666;
+    font-size: 12px;
+    -moz-border-radius: 3px;
+    -moz-box-shadow: 0 1px 2px #d1d1d1;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: 0 1px 2px #d1d1d1;
+    background: #eaebec;
+    border: #ccc 1px solid;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px #d1d1d1;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 1px 1px 0px #fff;
+    table-layout: fixed;
+}
+
+table.table tr.even td {
+    background: #f6f6f6;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+    background: -moz-linear-gradient(top, #f8f8f8, #f6f6f6);
+}
+
+table.table th {
+    padding: 11px 15px 12px 15px;
+    border-bottom: 1px solid #e0e0e0; border-top: 1px solid #fafafa;
+    background: #ededed;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+    background: -moz-linear-gradient(top, #ededed, #ebebeb);
+}
+
+table.table th:first-child {
+    padding-left: 10px;
+    text-align: left
+}
+
+table.table a:visited {
+    color: #999999;
+    font-weight: bold;
+    text-decoration: none
+}
+
+table.table a:active,
+table.table a:hover {
+    color: #bd5a35;
+    text-decoration: underline
+}
+
+table.table a:link {
+    color: #666;
+    font-weight: bold;
+    text-decoration: none
+}
+
+table.table tr {
+    padding-left: 10px;
+    text-align: right
+}
+
+table.table tr:first-child th:first-child {
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+table.table tr:first-child th:last-child {
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+table.table tr:last-child td {    border-bottom: 0 }
+
+table.table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+table.table tr:last-child td:last-child {
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+table.table tr:hover td {
+    background: #f2f2f2;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+    background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
+}
+
+table.table tr td {
+    padding: 3px;
+    border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #ffffff;
+    background: #fafafa;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+    background: -moz-linear-gradient(top, #fbfbfb, #fafafa);
+}
+
+table.table tr td:first-child {
+    padding-left: 20px;
+    border-left: 0;
+    text-align: left
+}
+
+
+
+
+
