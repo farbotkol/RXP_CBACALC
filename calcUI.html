@@ -869,7 +869,7 @@
             </div>
 
 
-            <div><label for='GST'>GST</label>
+            <div><label for='GST'><i ng-show='showAmountFinancedForHP'>Verify from tax invoice</i> GST</label>
             <input disabled="disabled"
             id='GST' type='text'
             value='{{GST()|currency}}' 
@@ -877,7 +877,7 @@
             />
             </div>
 
-            <div><label for='LCT'>LCT</label>
+            <div><label for='LCT'><i ng-show='showAmountFinancedForHP'>Verify from tax invoice</i> LCT</label>
             <input disabled="disabled"
             id='LCT' type='text'
             value='{{LCT()|currency}}' 

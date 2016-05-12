@@ -767,7 +767,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
     }
 
     $scope.BalloonAmount = function(){
-        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4)
+        if (parseInt($scope.CalcType) == 1 || parseInt($scope.CalcType) == 4 || parseInt($scope.CalcType) == 5)
         {
             return $scope.ResidualAmount + $scope.GSTOnResidual();
         }
@@ -1102,7 +1102,7 @@ myApp.controller('RealEstateController',['$scope', function($scope) {
             var NumberInstallments;
             var BalloonAmount;
             var BalloonPercent;
-            if ($scope.CalcType == 1 || $scope.CalcType == 4)
+            if ($scope.CalcType == 1 || $scope.CalcType == 4 || $scope.CalcType == 5)
             {
                 $scope.AmountFinanced = Math.round($scope.AssetFinancedLease() * 10000) / 10000;
                 return;
